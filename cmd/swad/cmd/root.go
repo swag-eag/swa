@@ -42,7 +42,7 @@ import (
 
 	memiavlcfg "github.com/crypto-org-chain/cronos/store/config"
 	"github.com/crypto-org-chain/cronos/v2/app"
-	"github.com/crypto-org-chain/cronos/v2/cmd/swad/opendb"
+	"github.com/swag-eag/swa/v2/cmd/swad/opendb"
 	"github.com/crypto-org-chain/cronos/v2/x/cronos"
 	// this line is used by starport scaffolding # stargate/root/import
 )
