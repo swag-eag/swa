@@ -260,7 +260,7 @@ func GenModuleBasics() module.BasicManager {
 		feemarket.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 		gravity.AppModuleBasic{},
-		cronos.AppModuleBasic{},
+		swa.AppModuleBasic{},
 	}
 	return module.NewBasicManager(basicModules...)
 }
@@ -572,7 +572,7 @@ func New(
 		app.AccountKeeper,
 		authAddr,
 	)
-	cronosModule := cronos.NewAppModule(app.CronosKeeper, app.AccountKeeper, app.BankKeeper, app.GetSubspace(cronostypes.ModuleName))
+	cronosModule := swa.NewAppModule(app.CronosKeeper, app.AccountKeeper, app.BankKeeper, app.GetSubspace(cronostypes.ModuleName))
 
 	// register the proposal types
 	govRouter := govv1beta1.NewRouter()
@@ -580,7 +580,7 @@ func New(
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(app.ParamsKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(app.UpgradeKeeper)).
 		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
-		AddRoute(cronostypes.RouterKey, cronos.NewTokenMappingChangeProposalHandler(app.CronosKeeper))
+		AddRoute(cronostypes.RouterKey, swa.NewTokenMappingChangeProposalHandler(app.CronosKeeper))
 
 	govConfig := govtypes.DefaultConfig()
 	/*
