@@ -2,13 +2,13 @@ pragma solidity ^0.6.8;
 
 import "ds-test/test.sol";
 
-import "./ModuleCRC20.sol";
+import "./ModuleSWAC20.sol";
 
-contract ModuleCRC20Test is DSTest {
-    ModuleCRC20 token;
+contract ModuleSWAC20Test is DSTest {
+    ModuleSWAC20 token;
 
     function setUp() public {
-        token = new ModuleCRC20("gravity0x0", 0);
+        token = new ModuleSWAC20("gravity0x0", 0);
     }
 
     function test_basic_sanity() public {

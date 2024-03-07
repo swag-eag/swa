@@ -115,7 +115,7 @@ func (suite *KeeperTestSuite) TestConvertVouchersToEvmCoins() {
 				// Verify CRC20 balance post operation
 				contract, found := suite.app.CronosKeeper.GetContractByDenom(suite.ctx, CorrectIbcDenom)
 				suite.Require().True(found)
-				ret, err := suite.app.CronosKeeper.CallModuleCRC21(suite.ctx, contract, "balanceOf", common.BytesToAddress(address.Bytes()))
+				ret, err := suite.app.CronosKeeper.CallModuleSWAC21(suite.ctx, contract, "balanceOf", common.BytesToAddress(address.Bytes()))
 				suite.Require().NoError(err)
 				suite.Require().Equal(big.NewInt(123), big.NewInt(0).SetBytes(ret))
 			},

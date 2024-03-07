@@ -14,7 +14,7 @@ func (suite *KeeperTestSuite) TestDeployContract() {
 	suite.SetupTest()
 	keeper := suite.app.CronosKeeper
 
-	_, err := keeper.DeployModuleCRC21(suite.ctx, "test")
+	_, err := keeper.DeployModuleSWAC21(suite.ctx, "test")
 	suite.Require().NoError(err)
 }
 
@@ -44,11 +44,11 @@ func (suite *KeeperTestSuite) TestTokenConversion() {
 	contract, found := keeper.GetContractByDenom(suite.ctx, denom)
 	suite.Require().True(found)
 
-	ret, err := keeper.CallModuleCRC21(suite.ctx, contract, "balanceOf", address)
+	ret, err := keeper.CallModuleSWAC21(suite.ctx, contract, "balanceOf", address)
 	suite.Require().NoError(err)
 	suite.Require().Equal(amount, big.NewInt(0).SetBytes(ret))
 
-	ret, err = keeper.CallModuleCRC21(suite.ctx, contract, "totalSupply")
+	ret, err = keeper.CallModuleSWAC21(suite.ctx, contract, "totalSupply")
 	suite.Require().NoError(err)
 	suite.Require().Equal(amount, big.NewInt(0).SetBytes(ret))
 
@@ -56,11 +56,11 @@ func (suite *KeeperTestSuite) TestTokenConversion() {
 	err = keeper.ConvertCoinFromCRC21ToNative(suite.ctx, contract, address, coins[0].Amount)
 	suite.Require().NoError(err)
 
-	ret, err = keeper.CallModuleCRC21(suite.ctx, contract, "balanceOf", address)
+	ret, err = keeper.CallModuleSWAC21(suite.ctx, contract, "balanceOf", address)
 	suite.Require().NoError(err)
 	suite.Require().Equal(0, big.NewInt(0).Cmp(big.NewInt(0).SetBytes(ret)))
 
-	ret, err = keeper.CallModuleCRC21(suite.ctx, contract, "totalSupply")
+	ret, err = keeper.CallModuleSWAC21(suite.ctx, contract, "totalSupply")
 	suite.Require().NoError(err)
 	suite.Require().Equal(0, big.NewInt(0).Cmp(big.NewInt(0).SetBytes(ret)))
 
@@ -80,7 +80,7 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 	cosmosAddress := sdk.AccAddress(address.Bytes())
 
 	// Deploy CRC21 token
-	contractAddress, err := keeper.DeployModuleCRC21(suite.ctx, "Test")
+	contractAddress, err := keeper.DeployModuleSWAC21(suite.ctx, "Test")
 	suite.Require().NoError(err)
 
 	// Register the token
@@ -97,7 +97,7 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 
 	// Mint some CRC21 token
 	amount := big.NewInt(100)
-	_, err = suite.app.CronosKeeper.CallModuleCRC21(suite.ctx, contractAddress, "mint_by_cronos_module", address, amount)
+	_, err = suite.app.CronosKeeper.CallModuleSWAC21(suite.ctx, contractAddress, "mint_by_cronos_module", address, amount)
 	suite.Require().NoError(err)
 
 	// Convert CRC21 to native
@@ -116,7 +116,7 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 	// check balance
 	coin = suite.app.BankKeeper.GetBalance(suite.ctx, cosmosAddress, denom)
 	suite.Require().Equal(big.NewInt(0), coin.Amount.BigInt())
-	ret, err := keeper.CallModuleCRC21(suite.ctx, contractAddress, "balanceOf", address)
+	ret, err := keeper.CallModuleSWAC21(suite.ctx, contractAddress, "balanceOf", address)
 	suite.Require().NoError(err)
 	suite.Require().Equal(0, big.NewInt(100).Cmp(big.NewInt(0).SetBytes(ret)))
 }

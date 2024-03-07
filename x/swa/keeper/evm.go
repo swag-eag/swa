@@ -50,9 +50,9 @@ func (k Keeper) CallEVM(ctx sdk.Context, to *common.Address, data []byte, value 
 	return &msg, ret, nil
 }
 
-// CallModuleCRC21 call a method of ModuleCRC21 contract
-func (k Keeper) CallModuleCRC21(ctx sdk.Context, contract common.Address, method string, args ...interface{}) ([]byte, error) {
-	data, err := types.ModuleCRC21Contract.ABI.Pack(method, args...)
+// CallModuleSWAC21 call a method of ModuleSWAC21 contract
+func (k Keeper) CallModuleSWAC21(ctx sdk.Context, contract common.Address, method string, args ...interface{}) ([]byte, error) {
+	data, err := types.ModuleSWAC21Contract.ABI.Pack(method, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,13 +66,13 @@ func (k Keeper) CallModuleCRC21(ctx sdk.Context, contract common.Address, method
 	return res.Ret, nil
 }
 
-// DeployModuleCRC21 deploy an embed crc21 contract
-func (k Keeper) DeployModuleCRC21(ctx sdk.Context, denom string) (common.Address, error) {
-	ctor, err := types.ModuleCRC21Contract.ABI.Pack("", denom, uint8(0), false)
+// DeployModuleSWAC21 deploy an embed crc21 contract
+func (k Keeper) DeployModuleSWAC21(ctx sdk.Context, denom string) (common.Address, error) {
+	ctor, err := types.ModuleSWAC21Contract.ABI.Pack("", denom, uint8(0), false)
 	if err != nil {
 		return common.Address{}, err
 	}
-	data := types.ModuleCRC21Contract.Bin
+	data := types.ModuleSWAC21Contract.Bin
 	data = append(data, ctor...)
 
 	msg, res, err := k.CallEVM(ctx, nil, data, big.NewInt(0), DefaultGasCap)
@@ -98,7 +98,7 @@ func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Addr
 		if !autoDeploy {
 			return fmt.Errorf("no contract found for the denom %s", coin.Denom)
 		}
-		contract, err = k.DeployModuleCRC21(ctx, coin.Denom)
+		contract, err = k.DeployModuleSWAC21(ctx, coin.Denom)
 		if err != nil {
 			return err
 		}
@@ -120,7 +120,7 @@ func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Addr
 			return err
 		}
 		// unlock crc tokens
-		_, err = k.CallModuleCRC21(ctx, contract, "transfer_from_cronos_module", sender, coin.Amount.BigInt())
+		_, err = k.CallModuleSWAC21(ctx, contract, "transfer_from_cronos_module", sender, coin.Amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -131,7 +131,7 @@ func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Addr
 			return err
 		}
 		// mint crc tokens
-		_, err = k.CallModuleCRC21(ctx, contract, "mint_by_cronos_module", sender, coin.Amount.BigInt())
+		_, err = k.CallModuleSWAC21(ctx, contract, "mint_by_cronos_module", sender, coin.Amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -151,7 +151,7 @@ func (k Keeper) ConvertCoinFromCRC21ToNative(ctx sdk.Context, contract common.Ad
 	coins := sdk.NewCoins(sdk.NewCoin(denom, amount))
 
 	if isSource {
-		_, err := k.CallModuleCRC21(ctx, contract, "transfer_by_cronos_module", receiver, amount.BigInt())
+		_, err := k.CallModuleSWAC21(ctx, contract, "transfer_by_cronos_module", receiver, amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -172,7 +172,7 @@ func (k Keeper) ConvertCoinFromCRC21ToNative(ctx sdk.Context, contract common.Ad
 			return err
 		}
 
-		_, err = k.CallModuleCRC21(ctx, contract, "burn_by_cronos_module", receiver, amount.BigInt())
+		_, err = k.CallModuleSWAC21(ctx, contract, "burn_by_cronos_module", receiver, amount.BigInt())
 		if err != nil {
 			return err
 		}

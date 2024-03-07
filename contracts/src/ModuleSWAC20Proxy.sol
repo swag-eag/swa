@@ -1,12 +1,12 @@
 pragma solidity ^0.6.8;
 
 import "ds-math/math.sol";
-import "./ModuleCRC20.sol";
+import "./ModuleSWAC20.sol";
 
-contract ModuleCRC20Proxy is DSMath {
+contract ModuleSWAC20Proxy is DSMath {
     // sha256('cronos-evm')[:20]
     address constant module_address = 0x89A7EF2F08B1c018D5Cc88836249b84Dd5392905;
-    ModuleCRC20 crc20Contract;
+    ModuleSWAC20 crc20Contract;
     bool isSource;
 
     event __CronosSendToIbc(address indexed sender, uint256 indexed channel_id, string recipient, uint256 amount, bytes extraData);
@@ -14,12 +14,12 @@ contract ModuleCRC20Proxy is DSMath {
     event __CronosCancelSendToEvmChain(address indexed sender, uint256 id);
 
     /**
-        Instantiate a ModuleCRC20Proxy contract. Need to set manually the crc20 contract authority to be the proxy
+        Instantiate a ModuleSWAC20Proxy contract. Need to set manually the crc20 contract authority to be the proxy
         like the following call:
-        crc20Contract.setAuthority(DSAuthority(address(new ModuleCRC20ProxyAuthority(address(this)))));
+        crc20Contract.setAuthority(DSAuthority(address(new ModuleSWAC20ProxyAuthority(address(this)))));
     **/
     constructor(address crc20Contract_, bool isSource_) public {
-        crc20Contract = ModuleCRC20(crc20Contract_);
+        crc20Contract = ModuleSWAC20(crc20Contract_);
         isSource = isSource_;
     }
 

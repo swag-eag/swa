@@ -36,7 +36,7 @@ Account.enable_unaudited_hdwallet_features()
 
 
 def cronos_crc21_abi():
-    path = CONTRACTS["ModuleCRC21"]
+    path = CONTRACTS["ModuleSWAC21"]
     return json.load(path.open())["abi"]
 
 

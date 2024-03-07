@@ -2,7 +2,7 @@ pragma solidity ^0.6.1;
 
 import "ds-token/token.sol";
 
-contract ModuleCRC21 is DSToken {
+contract ModuleSWAC21 is DSToken {
     // sha256('cronos-evm')[:20]
     address constant module_address = 0x89A7EF2F08B1c018D5Cc88836249b84Dd5392905;
     string denom;

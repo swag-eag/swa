@@ -72,12 +72,12 @@ def contract_path(name, filename):
 
 
 CONTRACTS = {
-    "ModuleCRC20": Path(__file__).parent.parent
-    / "x/cronos/types/contracts/ModuleCRC20.json",
-    "ModuleCRC21": Path(__file__).parent.parent
-    / "x/cronos/types/contracts/ModuleCRC21.json",
-    "ModuleCRC20Proxy": Path(__file__).parent.parent
-    / "x/cronos/types/contracts/ModuleCRC20Proxy.json",
+    "ModuleSWAC20": Path(__file__).parent.parent
+    / "x/cronos/types/contracts/ModuleSWAC20.json",
+    "ModuleSWAC21": Path(__file__).parent.parent
+    / "x/cronos/types/contracts/ModuleSWAC21.json",
+    "ModuleSWAC20Proxy": Path(__file__).parent.parent
+    / "x/cronos/types/contracts/ModuleSWAC20Proxy.json",
     **{
         name: contract_path(name, filename) for name, filename in TEST_CONTRACTS.items()
     },

@@ -111,16 +111,16 @@ func benchmarkERC20Transfer(b *testing.B, db dbm.DB) {
 
 	// deploy contract
 	ctx := app.GetContextForDeliverTx(nil)
-	contractAddr, err := app.CronosKeeper.DeployModuleCRC21(ctx, "test")
+	contractAddr, err := app.CronosKeeper.DeployModuleSWAC21(ctx, "test")
 	require.NoError(b, err)
 
 	// mint to sender
 	amount := int64(100000000)
-	_, err = app.CronosKeeper.CallModuleCRC21(ctx, contractAddr, "mint_by_cronos_module", address, big.NewInt(amount))
+	_, err = app.CronosKeeper.CallModuleSWAC21(ctx, contractAddr, "mint_by_cronos_module", address, big.NewInt(amount))
 	require.NoError(b, err)
 
 	// check balance
-	ret, err := app.CronosKeeper.CallModuleCRC21(ctx, contractAddr, "balanceOf", address)
+	ret, err := app.CronosKeeper.CallModuleSWAC21(ctx, contractAddr, "balanceOf", address)
 	require.NoError(b, err)
 	require.Equal(b, uint64(amount), binary.BigEndian.Uint64(ret[32-8:]))
 
@@ -133,7 +133,7 @@ func benchmarkERC20Transfer(b *testing.B, db dbm.DB) {
 		for j := 0; j < txsPerBlock; j++ {
 			idx := int64(i*txsPerBlock + j)
 			recipient := common.BigToAddress(big.NewInt(idx))
-			data, err := types.ModuleCRC21Contract.ABI.Pack("transfer", recipient, big.NewInt(1))
+			data, err := types.ModuleSWAC21Contract.ABI.Pack("transfer", recipient, big.NewInt(1))
 			require.NoError(b, err)
 			bz, err := signTx(evmtypes.NewTx(chainID, uint64(idx), &contractAddr, big.NewInt(0), 210000, gasPrice, nil, nil, data, nil))
 			require.NoError(b, err)
@@ -160,7 +160,7 @@ func benchmarkERC20Transfer(b *testing.B, db dbm.DB) {
 
 		// check remaining balance
 		ctx := app.GetContextForDeliverTx(nil)
-		ret, err = app.CronosKeeper.CallModuleCRC21(ctx, contractAddr, "balanceOf", address)
+		ret, err = app.CronosKeeper.CallModuleSWAC21(ctx, contractAddr, "balanceOf", address)
 		require.NoError(b, err)
 		require.Equal(b, uint64(amount)-uint64((i+1)*txsPerBlock), binary.BigEndian.Uint64(ret[32-8:]))
 

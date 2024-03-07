@@ -1,6 +1,6 @@
 pragma solidity ^0.6.8;
 
-contract ModuleCRC20ProxyAuthority {
+contract ModuleSWAC20ProxyAuthority {
     address proxyAddress;
 
     constructor(address _proxyAddress) public {
