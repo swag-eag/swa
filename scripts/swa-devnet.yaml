@@ -1,6 +1,6 @@
 dotenv: .env
-cronos_331110-1:
-  cmd: cronosd
+swa_331110-1:
+  cmd: swad
   start-flags: "--trace"
   app-config:
     minimum-gas-prices: 0swa
