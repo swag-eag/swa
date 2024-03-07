@@ -20,7 +20,7 @@ import (
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	ibcexported "github.com/cosmos/ibc-go/v7/modules/core/exported"
-	cronosprecompiles "github.com/swag-eag/swa/v2/x/swa/keeper/precompiles"
+	swaprecompiles "github.com/swag-eag/swa/v2/x/swa/keeper/precompiles"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
 	// this line is used by starport scaffolding # ibc/keeper/import
@@ -107,7 +107,7 @@ func (k Keeper) getAutoContractByDenom(ctx sdk.Context, denom string) (common.Ad
 	return common.BytesToAddress(bz), true
 }
 
-// GetAuthority returns the x/cronos module's authority.
+// GetAuthority returns the x/swa module's authority.
 func (k Keeper) GetAuthority() string {
 	return k.authority
 }
@@ -300,7 +300,7 @@ func (k Keeper) onPacketResult(
 	if senderAddr != contractAddr {
 		return fmt.Errorf("sender is not authenticated: expected %s, got %s", senderAddr, contractAddr)
 	}
-	data, err := cronosprecompiles.OnPacketResultCallback(packet.SourceChannel, packet.Sequence, acknowledgement)
+	data, err := swaprecompiles.OnPacketResultCallback(packet.SourceChannel, packet.Sequence, acknowledgement)
 	if err != nil {
 		return err
 	}

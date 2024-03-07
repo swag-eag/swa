@@ -163,7 +163,7 @@
           "type": "uint256"
         }
       ],
-      "name": "__CronosCancelSendToEvmChain",
+      "name": "__SwaCancelSendToEvmChain",
       "type": "event"
     },
     {
@@ -206,7 +206,7 @@
           "type": "bytes"
         }
       ],
-      "name": "__CronosSendToEvmChain",
+      "name": "__SwaSendToEvmChain",
       "type": "event"
     },
     {
@@ -243,7 +243,7 @@
           "type": "bytes"
         }
       ],
-      "name": "__CronosSendToIbc",
+      "name": "__SwaSendToIbc",
       "type": "event"
     },
     {
@@ -389,7 +389,7 @@
           "type": "uint256"
         }
       ],
-      "name": "burn_by_cronos_module",
+      "name": "burn_by_swa_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -477,7 +477,7 @@
           "type": "uint256"
         }
       ],
-      "name": "mint_by_cronos_module",
+      "name": "mint_by_swa_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -799,7 +799,7 @@
           "type": "uint256"
         }
       ],
-      "name": "transfer_by_cronos_module",
+      "name": "transfer_by_swa_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -817,7 +817,7 @@
           "type": "uint256"
         }
       ],
-      "name": "transfer_from_cronos_module",
+      "name": "transfer_from_swa_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

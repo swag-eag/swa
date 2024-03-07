@@ -10,7 +10,7 @@ import (
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
-// NewHandler for Cronos
+// NewHandler for Swa
 func NewHandler(k keeper.Keeper) sdk.Handler {
 	msgServer := keeper.NewMsgServerImpl(k)
 	// this line is used by starport scaffolding # handler/msgServer

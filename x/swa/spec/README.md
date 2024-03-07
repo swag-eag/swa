@@ -1,15 +1,15 @@
 <!--
 order: 0
-title: Cronos Overview
+title: Swa Overview
 parent:
-  title: "cronos"
+  title: "swa"
 -->
 
-# `cronos`
+# `swa`
 
 ## Abstract
 
-This document defines the specification of the Cronos module.
+This document defines the specification of the Swa module.
 
 ## Contents
 

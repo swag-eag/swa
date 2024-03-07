@@ -54,12 +54,12 @@ func SimulateUpdateTokenMapping(ak types.AccountKeeper, bk types.BankKeeper, k *
 		r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context,
 		accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
-		cronosAdmin := k.GetParams(ctx).CronosAdmin
+		swaAdmin := k.GetParams(ctx).SwaAdmin
 		var simAccount simtypes.Account
 
 		if r.Intn(2) > 0 {
 			var found bool
-			simAccount, found = findCronosAdmin(accs, cronosAdmin)
+			simAccount, found = findSwaAdmin(accs, swaAdmin)
 			if !found {
 				simAccount, _ = simtypes.RandomAcc(r, accs)
 			}
@@ -91,17 +91,17 @@ func SimulateUpdateTokenMapping(ak types.AccountKeeper, bk types.BankKeeper, k *
 		}
 
 		oper, ops, err := simulation.GenAndDeliverTxWithRandFees(txCtx)
-		if simAccount.Address.String() != cronosAdmin && errors.Is(err, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "msg sender is not authorized")) {
+		if simAccount.Address.String() != swaAdmin && errors.Is(err, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "msg sender is not authorized")) {
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "unauthorized tx should fail"), nil, nil
 		}
 		return oper, ops, err
 	}
 }
 
-func findCronosAdmin(accs []simtypes.Account, cronosAdmin string) (simtypes.Account, bool) {
+func findSwaAdmin(accs []simtypes.Account, swaAdmin string) (simtypes.Account, bool) {
 	found := false
 	for _, acc := range accs {
-		if acc.Address.String() == cronosAdmin {
+		if acc.Address.String() == swaAdmin {
 			found = true
 			return acc, found
 		}

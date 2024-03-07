@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'cronos_777-1'+: {
+  'swa_777-1'+: {
     'start-flags': '--trace --inv-check-period 5',
     'app-config'+: {
       'minimum-gas-prices':: super['minimum-gas-prices'],
@@ -47,7 +47,7 @@ config {
             },
           ],
         },
-        cronos+: {
+        swa+: {
           params: {
             enable_auto_deployment: true,
           },
@@ -69,7 +69,7 @@ config {
             {
               '@type': '/ethermint.types.v1.EthAccount',
               base_account: {
-                address: 'crc1dp2zh5ftg86a28tzstk8mywh6rtcu3gr08l7s9',
+                address: 'swac1dp2zh5ftg86a28tzstk8mywh6rtcu3gr08l7s9',
                 sequence: '1',
               },
               code_hash: '0x02729233449ce9cb69aa3b872baba2b5b2257e179efe2f3365b4cf443ebde102',

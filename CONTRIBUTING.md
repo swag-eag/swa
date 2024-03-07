@@ -1,8 +1,8 @@
 # Contributing
 
-Thank you for your interest in contributing to Cronos! The goal of this repository is to develop the implementation of Cronos. 
-Cronos is the first Ethereum-compatible blockchain network built on Cosmos SDK technology. An open-source and permission-less 
-Layer 1 chain, Cronos aims to massively scale the DeFi, GameFi, and overall Web3 user community by providing builders with the 
+Thank you for your interest in contributing to Swa! The goal of this repository is to develop the implementation of Swa. 
+Swa is the first Ethereum-compatible blockchain network built on Cosmos SDK technology. An open-source and permission-less 
+Layer 1 chain, Swa aims to massively scale the DeFi, GameFi, and overall Web3 user community by providing builders with the 
 ability to instantly port apps and crypto assets from other chains while benefiting from low transaction fees, high throughput, 
 and fast finality. If you have any questions, feel free to ask on [Discord](https://discord.gg/pahqHz26q4).
 
@@ -31,7 +31,7 @@ When the issue is well understood but the solution leads to a consensus-breaking
 ([ADR](https://github.com/swag-eag/swa/blob/master/docs/architecture/README.md)). The ADR will help build consensus on an overall strategy to ensure the code base maintains coherence in the larger context. If you are not comfortable with writing an ADR, you can open a less-formal issue and the maintainers will help you turn it into an ADR.
 
 ## Working on issues
-There are several ways to identify an area where you can contribute to Cronos:
+There are several ways to identify an area where you can contribute to Swa:
 
 * You can reach out by sending a message in the developer community communication channel, either with a specific contribution in mind or in general by saying "I want to help!".
 * Occasionally, some issues on GitHub may be labelled with `help wanted` or `good first issue` tags.
@@ -59,7 +59,7 @@ Once you identified an issue to work on, this is the summary of your basic steps
 
 * If your changes are of interest to other developers, please make corresponding changes in the official documentation and the changelog.
 
-* Push your changes to your fork's branch and open the pull request to Cronos's repository main branch.
+* Push your changes to your fork's branch and open the pull request to Swa's repository main branch.
 
 * In the pull request, complete its checklist, add a clear description of the problem your changes solve, and add the following statement to confirm that your contribution is your own original work: "I hereby certify that my contribution is in accordance with the Developer Certificate of Origin (https://developercertificate.org/)."
 

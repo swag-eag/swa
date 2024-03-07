@@ -10,24 +10,24 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swakeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 var _ types.EvmLogHandler = SendToEvmChainHandler{}
 
 const (
-	SendToEvmChainEventName         = "__CronosSendToEvmChain"
-	SendToEvmChainResponseEventName = "__CronosSendToEvmChainResponse"
+	SendToEvmChainEventName         = "__SwaSendToEvmChain"
+	SendToEvmChainResponseEventName = "__SwaSendToEvmChainResponse"
 )
 
 var (
 	// SendToEvmChainEvent represent the signature of
-	// `event __CronosSendToEvmChain(address indexed sender, address indexed recipient, uint256 indexed chain_id, uint256 amount, uint256 bridge_fee, bytes extraData)`
+	// `event __SwaSendToEvmChain(address indexed sender, address indexed recipient, uint256 indexed chain_id, uint256 amount, uint256 bridge_fee, bytes extraData)`
 	SendToEvmChainEvent abi.Event
 
 	// SendToEvmChainResponseEvent represent the signature of
-	// `event __CronosSendToChainResponse(uint256 id)`
+	// `event __SwaSendToChainResponse(uint256 id)`
 	SendToEvmChainResponseEvent abi.Event
 )
 
@@ -78,18 +78,18 @@ func init() {
 	)
 }
 
-// SendToEvmChainHandler handles `__CronosSendToEvmChain` log
+// SendToEvmChainHandler handles `__SwaSendToEvmChain` log
 type SendToEvmChainHandler struct {
 	gravitySrv   gravitytypes.MsgServer
 	bankKeeper   types.BankKeeper
-	cronosKeeper cronoskeeper.Keeper
+	swaKeeper swakeeper.Keeper
 }
 
-func NewSendToEvmChainHandler(gravitySrv gravitytypes.MsgServer, bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendToEvmChainHandler {
+func NewSendToEvmChainHandler(gravitySrv gravitytypes.MsgServer, bankKeeper types.BankKeeper, swaKeeper swakeeper.Keeper) *SendToEvmChainHandler {
 	return &SendToEvmChainHandler{
 		gravitySrv:   gravitySrv,
 		bankKeeper:   bankKeeper,
-		cronosKeeper: cronosKeeper,
+		swaKeeper: swaKeeper,
 	}
 }
 
@@ -97,7 +97,7 @@ func (h SendToEvmChainHandler) EventID() common.Hash {
 	return SendToEvmChainEvent.ID
 }
 
-// Handle `__CronosSendToChain` log only if gravity is activated.
+// Handle `__SwaSendToChain` log only if gravity is activated.
 func (h SendToEvmChainHandler) Handle(
 	ctx sdk.Context,
 	contract common.Address,
@@ -111,9 +111,9 @@ func (h SendToEvmChainHandler) Handle(
 
 	if len(topics) != 4 {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Info("log signature matches but wrong number of indexed events")
+		h.swaKeeper.Logger(ctx).Info("log signature matches but wrong number of indexed events")
 		for i, topic := range topics {
-			h.cronosKeeper.Logger(ctx).Debug(fmt.Sprintf("topic index: %d value: %s", i, topic.TerminalString()))
+			h.swaKeeper.Logger(ctx).Debug(fmt.Sprintf("topic index: %d value: %s", i, topic.TerminalString()))
 		}
 		return nil
 	}
@@ -121,17 +121,17 @@ func (h SendToEvmChainHandler) Handle(
 	unpacked, err := SendToEvmChainEvent.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.swaKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 
-	denom, found := h.cronosKeeper.GetDenomByContract(ctx, contract)
+	denom, found := h.swaKeeper.GetDenomByContract(ctx, contract)
 	if !found {
 		return fmt.Errorf("contract %s is not connected to native token", contract)
 	}
 
-	if !types.IsValidGravityDenom(denom) && !types.IsValidCronosDenom(denom) {
-		return fmt.Errorf("the native token associated with the contract %s is neither a gravity voucher or a cronos token", contract)
+	if !types.IsValidGravityDenom(denom) && !types.IsValidSwaDenom(denom) {
+		return fmt.Errorf("the native token associated with the contract %s is neither a gravity voucher or a swa token", contract)
 	}
 
 	contractCosmosAddr := sdk.AccAddress(contract.Bytes())

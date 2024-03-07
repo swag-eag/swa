@@ -112,7 +112,7 @@ func (k Keeper) ReplayBlock(goCtx context.Context, req *types.ReplayBlockRequest
 	}, nil
 }
 
-// Params returns parameters of cronos module
+// Params returns parameters of swa module
 func (k Keeper) Params(goCtx context.Context, req *types.QueryParamsRequest) (*types.QueryParamsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "empty request")
@@ -133,7 +133,7 @@ func (k Keeper) Permissions(goCtx context.Context, req *types.QueryPermissionsRe
 	if err != nil {
 		return nil, err
 	}
-	admin := k.GetParams(ctx).CronosAdmin
+	admin := k.GetParams(ctx).SwaAdmin
 	if admin == acc.String() {
 		return &types.QueryPermissionsResponse{
 			CanChangeTokenMapping: true,

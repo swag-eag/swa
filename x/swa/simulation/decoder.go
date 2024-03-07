@@ -10,7 +10,7 @@ import (
 )
 
 // NewDecodeStore returns a decoder function closure that unmarshals the KVPair's
-// value to the corresponding cronos type.
+// value to the corresponding swa type.
 func NewDecodeStore() func(kvA, kvB kv.Pair) string {
 	return func(kvA, kvB kv.Pair) string {
 		switch {

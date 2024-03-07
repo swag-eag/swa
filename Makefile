@@ -79,7 +79,7 @@ comma := ,
 build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
-ldflags += -X github.com/cosmos/cosmos-sdk/version.Name=cronos \
+ldflags += -X github.com/cosmos/cosmos-sdk/version.Name=swa \
 	-X github.com/cosmos/cosmos-sdk/version.AppName=swad \
 	-X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 	-X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
@@ -239,18 +239,18 @@ run-integration-tests:
 ###                                Utility                                  ###
 ###############################################################################
 
-test-cronos-contracts:
+test-swa-contracts:
 	@git submodule update --init --recursive
-	@nix-shell ./contracts/shell.nix --pure --run ./scripts/test-cronos-contracts
+	@nix-shell ./contracts/shell.nix --pure --run ./scripts/test-swa-contracts
 
-gen-cronos-contracts:
+gen-swa-contracts:
 	@git submodule update --init --recursive
-	@nix-shell ./contracts/shell.nix --pure --run ./scripts/gen-cronos-contracts
+	@nix-shell ./contracts/shell.nix --pure --run ./scripts/gen-swa-contracts
 
 gen-bindings-contracts:
 	@nix-shell ./nix/gen-binding-shell.nix --pure --run ./scripts/gen-bindings-contracts
 
-.PHONY: gen-cronos-contracts gen-bindings-contracts test-cronos-contracts
+.PHONY: gen-swa-contracts gen-bindings-contracts test-swa-contracts
 
 check-network:
 ifeq ($(NETWORK),mainnet)

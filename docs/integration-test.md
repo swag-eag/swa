@@ -1,6 +1,6 @@
 # Integration Test
 
-## Clone the cronos repository
+## Clone the swa repository
 ```shell
 git clone https://github.com/swag-eag/swa.git
 ```
@@ -34,7 +34,7 @@ nix-env -iA cachix -f https://cachix.org/api/v1/install
 Binary caches will save a lot of build times.
 
 ```shell
-cachix use cronos
+cachix use swa
 cachix use dapp  # it's necessary to use dapp's binary cache on new macos system.
 ```
 
@@ -83,12 +83,12 @@ $ cd integration_tests
 $ pytest -k test_basic
 ```
 
-Some test cases will run on both `geth` and `cronos`, you can also select the platform to run using `-k`:
+Some test cases will run on both `geth` and `swa`, you can also select the platform to run using `-k`:
 
 ```shell
 $ cd integration_tests
-$ # run against cronos only
-$ pytest -k cronos
+$ # run against swa only
+$ pytest -k swa
 $ # run against geth only
 $ pytest -k geth
 ```

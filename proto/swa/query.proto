@@ -1,11 +1,11 @@
 syntax = "proto3";
-package cronos;
+package swa;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "ethermint/evm/v1/tx.proto";
-import "cronos/cronos.proto";
+import "swa/swa.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/swag-eag/swa/v2/x/swa/types";
@@ -14,12 +14,12 @@ option go_package = "github.com/swag-eag/swa/v2/x/swa/types";
 service Query {
   // ContractByDenom queries contract addresses by native denom
   rpc ContractByDenom(ContractByDenomRequest) returns (ContractByDenomResponse) {
-    option (google.api.http).get = "/cronos/v1/contract_by_denom/{denom}";
+    option (google.api.http).get = "/swa/v1/contract_by_denom/{denom}";
   }
 
   // DenomByContract queries native denom by contract address
   rpc DenomByContract(DenomByContractRequest) returns (DenomByContractResponse) {
-    option (google.api.http).get = "/cronos/v1/denom_by_contract/{contract}";
+    option (google.api.http).get = "/swa/v1/denom_by_contract/{contract}";
   }
 
   // ReplayBlock replay the eth messages in the block to recover the results of
@@ -28,12 +28,12 @@ service Query {
 
   // Params queries all parameters.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/cronos/v1/params";
+    option (google.api.http).get = "/swa/v1/params";
   }
 
   // Params queries permissions for a specific address..
   rpc Permissions(QueryPermissionsRequest) returns (QueryPermissionsResponse) {
-    option (google.api.http).get = "/cronos/v1/permissions";
+    option (google.api.http).get = "/swa/v1/permissions";
   }
 
   // this line is used by starport scaffolding # 2

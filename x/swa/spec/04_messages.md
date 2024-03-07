@@ -4,11 +4,11 @@
 
 ## MsgConvertVouchers
 
-> Normally user should use Cronos smart contract to do this, no need to use this message directly.
+> Normally user should use Swa smart contract to do this, no need to use this message directly.
 
-Convert native tokens to the mapped CRC20 tokens, if the mapping does not exist and auto-deployment is enabled, an embed CRC20 contract is deployed for it automatically, otherwise, the message fails.
+Convert native tokens to the mapped SWAC20 tokens, if the mapping does not exist and auto-deployment is enabled, an embed SWAC20 contract is deployed for it automatically, otherwise, the message fails.
 
-+++ https://github.com/swag-eag/swa/blob/v0.6.0-testnet/proto/cronos/tx.proto#L26-L30
++++ https://github.com/swag-eag/swa/blob/v0.6.0-testnet/proto/swa/tx.proto#L26-L30
 
 This message is expected to fail if:
 
@@ -17,18 +17,18 @@ This message is expected to fail if:
 
 Fields:
 
-- `address`: Message signer, bech32 address on Cronos.
+- `address`: Message signer, bech32 address on Swa.
 - `coins`: The coins to convert.
 
 ## MsgTransferTokens
 
-> Normally user should use Cronos smart contract to do this, no need to use this message directly.
+> Normally user should use Swa smart contract to do this, no need to use this message directly.
 
-Transfer IBC tokens (including CRO) away from Cronos chain, decimals conversion is done automatically for CRO.
+Transfer IBC tokens (including CRO) away from Swa chain, decimals conversion is done automatically for CRO.
 
 It calls the ibc transfer module internally, the `timeoutHeight` parameter is hardcoded to zero, the `timeoutTimestamp` parameter is set according the `IbcTimeout` module parameter.
 
-+++ https://github.com/swag-eag/swa/blob/v0.6.0-testnet/proto/cronos/tx.proto#L33-L38
++++ https://github.com/swag-eag/swa/blob/v0.6.0-testnet/proto/swa/tx.proto#L33-L38
 
 This message is expected to fail if:
 
@@ -37,15 +37,15 @@ This message is expected to fail if:
 
 Fields:
 
-- `from`: Message signer, bech32 address on Cronos.
+- `from`: Message signer, bech32 address on Swa.
 - `to`: The destination address of IBC transfer.
 - `coins`: The coins to transfer.
 
 ## MsgUpdateTokenMapping
 
-Update external token mapping, insert if not exists, can only be called by Cronos admin account, which is configured in module parameters.
+Update external token mapping, insert if not exists, can only be called by Swa admin account, which is configured in module parameters.
 
-+++ https://github.com/swag-eag/swa/blob/v0.6.0-testnet/proto/cronos/tx.proto#L47-L51
++++ https://github.com/swag-eag/swa/blob/v0.6.0-testnet/proto/swa/tx.proto#L47-L51
 
 This message is expected to fail if:
 

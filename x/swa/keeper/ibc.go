@@ -129,8 +129,8 @@ func (k Keeper) IbcTransferCoins(ctx sdk.Context, from, destination string, coin
 			}
 
 		default:
-			if !types.IsValidIBCDenom(c.Denom) && !types.IsValidCronosDenom(c.Denom) {
-				return fmt.Errorf("the coin %s is neither an ibc voucher or a cronos token", c.Denom)
+			if !types.IsValidIBCDenom(c.Denom) && !types.IsValidSwaDenom(c.Denom) {
+				return fmt.Errorf("the coin %s is neither an ibc voucher or a swa token", c.Denom)
 			}
 			_, found := k.GetContractByDenom(ctx, c.Denom)
 			if !found {

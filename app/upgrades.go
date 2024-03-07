@@ -29,7 +29,7 @@ import (
 	clientkeeper "github.com/cosmos/ibc-go/v7/modules/core/02-client/keeper"
 	"github.com/cosmos/ibc-go/v7/modules/core/exported"
 	ibctmmigrations "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint/migrations"
-	cronostypes "github.com/swag-eag/swa/v2/x/swa/types"
+	swatypes "github.com/swag-eag/swa/v2/x/swa/types"
 	icaauthtypes "github.com/swag-eag/swa/v2/x/icaauth/types"
 	v0evmtypes "github.com/evmos/ethermint/x/evm/migrations/v0/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
@@ -68,8 +68,8 @@ func (app *App) RegisterUpgradeHandlers(cdc codec.BinaryCodec, clientKeeper clie
 			keyTable = v0evmtypes.ParamKeyTable() //nolint:staticcheck
 		case feemarkettypes.ModuleName:
 			keyTable = feemarkettypes.ParamKeyTable()
-		case cronostypes.ModuleName:
-			keyTable = cronostypes.ParamKeyTable()
+		case swatypes.ModuleName:
+			keyTable = swatypes.ParamKeyTable()
 		default:
 			continue
 		}

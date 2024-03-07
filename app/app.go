@@ -142,12 +142,12 @@ import (
 	memiavlstore "github.com/swag-eag/swa/store"
 	memiavlrootmulti "github.com/swag-eag/swa/store/rootmulti"
 	"github.com/swag-eag/swa/v2/x/swa"
-	cronosclient "github.com/swag-eag/swa/v2/x/swa/client"
-	cronoskeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swaclient "github.com/swag-eag/swa/v2/x/swa/client"
+	swakeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	evmhandlers "github.com/swag-eag/swa/v2/x/swa/keeper/evmhandlers"
-	cronosprecompiles "github.com/swag-eag/swa/v2/x/swa/keeper/precompiles"
+	swaprecompiles "github.com/swag-eag/swa/v2/x/swa/keeper/precompiles"
 	"github.com/swag-eag/swa/v2/x/swa/middleware"
-	cronostypes "github.com/swag-eag/swa/v2/x/swa/types"
+	swatypes "github.com/swag-eag/swa/v2/x/swa/types"
 
 	"github.com/swag-eag/swa/v2/client/docs"
 
@@ -162,7 +162,7 @@ import (
 )
 
 const (
-	Name = "cronos"
+	Name = "swa"
 
 	// AddrLen is the allowed length (in bytes) for an address.
 	//
@@ -185,7 +185,7 @@ func getGovProposalHandlers() []govclient.ProposalHandler {
 		upgradeclient.LegacyProposalHandler,
 		upgradeclient.LegacyCancelProposalHandler,
 		ibcclientclient.UpdateClientProposalHandler, ibcclientclient.UpgradeProposalHandler,
-		cronosclient.ProposalHandler,
+		swaclient.ProposalHandler,
 		// this line is used by starport scaffolding # stargate/app/govProposalHandler
 	)
 
@@ -214,7 +214,7 @@ var (
 		icatypes.ModuleName:            nil,
 		evmtypes.ModuleName:            {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
 		gravitytypes.ModuleName:        {authtypes.Minter, authtypes.Burner},
-		cronostypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
+		swatypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
 	}
 	// Module configurator
 
@@ -285,7 +285,7 @@ func StoreKeys(skipGravity bool) (
 		// ethermint keys
 		evmtypes.StoreKey, feemarkettypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
-		cronostypes.StoreKey,
+		swatypes.StoreKey,
 	}
 	if !skipGravity {
 		storeKeys = append(storeKeys, gravitytypes.StoreKey)
@@ -357,7 +357,7 @@ type App struct {
 
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
-	CronosKeeper cronoskeeper.Keeper
+	SwaKeeper swakeeper.Keeper
 
 	// the module manager
 	mm *module.Manager
@@ -533,10 +533,10 @@ func New(
 		evmS,
 		[]evmkeeper.CustomContractFn{
 			func(_ sdk.Context, rules ethparams.Rules) vm.PrecompiledContract {
-				return cronosprecompiles.NewRelayerContract(app.IBCKeeper, appCodec, rules, app.Logger())
+				return swaprecompiles.NewRelayerContract(app.IBCKeeper, appCodec, rules, app.Logger())
 			},
 			func(ctx sdk.Context, rules ethparams.Rules) vm.PrecompiledContract {
-				return cronosprecompiles.NewIcaContract(ctx, &app.ICAAuthKeeper, &app.CronosKeeper, appCodec, gasConfig)
+				return swaprecompiles.NewIcaContract(ctx, &app.ICAAuthKeeper, &app.SwaKeeper, appCodec, gasConfig)
 			},
 		},
 		allKeys,
@@ -561,10 +561,10 @@ func New(
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
-	app.CronosKeeper = *cronoskeeper.NewKeeper(
+	app.SwaKeeper = *swakeeper.NewKeeper(
 		appCodec,
-		keys[cronostypes.StoreKey],
-		keys[cronostypes.MemStoreKey],
+		keys[swatypes.StoreKey],
+		keys[swatypes.MemStoreKey],
 		app.BankKeeper,
 		app.TransferKeeper,
 		gravityKeeper,
@@ -572,7 +572,7 @@ func New(
 		app.AccountKeeper,
 		authAddr,
 	)
-	cronosModule := swa.NewAppModule(app.CronosKeeper, app.AccountKeeper, app.BankKeeper, app.GetSubspace(cronostypes.ModuleName))
+	swaModule := swa.NewAppModule(app.SwaKeeper, app.AccountKeeper, app.BankKeeper, app.GetSubspace(swatypes.ModuleName))
 
 	// register the proposal types
 	govRouter := govv1beta1.NewRouter()
@@ -580,7 +580,7 @@ func New(
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(app.ParamsKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(app.UpgradeKeeper)).
 		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
-		AddRoute(cronostypes.RouterKey, swa.NewTokenMappingChangeProposalHandler(app.CronosKeeper))
+		AddRoute(swatypes.RouterKey, swa.NewTokenMappingChangeProposalHandler(app.SwaKeeper))
 
 	govConfig := govtypes.DefaultConfig()
 	/*
@@ -594,7 +594,7 @@ func New(
 
 	var transferStack porttypes.IBCModule
 	transferStack = transfer.NewIBCModule(app.TransferKeeper)
-	transferStack = middleware.NewIBCConversionModule(transferStack, app.CronosKeeper)
+	transferStack = middleware.NewIBCConversionModule(transferStack, app.SwaKeeper)
 	transferStack = ibcfee.NewIBCMiddleware(transferStack, app.IBCFeeKeeper)
 
 	govKeeper := govkeeper.NewKeeper(
@@ -613,17 +613,17 @@ func New(
 
 	var gravitySrv gravitytypes.MsgServer
 	if !skipGravity {
-		app.GravityKeeper = *gravityKeeper.SetHooks(app.CronosKeeper)
+		app.GravityKeeper = *gravityKeeper.SetHooks(app.SwaKeeper)
 		gravitySrv = gravitykeeper.NewMsgServerImpl(app.GravityKeeper)
 	}
 
-	app.EvmKeeper.SetHooks(cronoskeeper.NewLogProcessEvmHook(
-		evmhandlers.NewSendToAccountHandler(app.BankKeeper, app.CronosKeeper),
-		evmhandlers.NewSendToEvmChainHandler(gravitySrv, app.BankKeeper, app.CronosKeeper),
-		evmhandlers.NewCancelSendToEvmChainHandler(gravitySrv, app.CronosKeeper, app.GravityKeeper),
-		evmhandlers.NewSendToIbcHandler(app.BankKeeper, app.CronosKeeper),
-		evmhandlers.NewSendCroToIbcHandler(app.BankKeeper, app.CronosKeeper),
-		evmhandlers.NewSendToIbcV2Handler(app.BankKeeper, app.CronosKeeper),
+	app.EvmKeeper.SetHooks(swakeeper.NewLogProcessEvmHook(
+		evmhandlers.NewSendToAccountHandler(app.BankKeeper, app.SwaKeeper),
+		evmhandlers.NewSendToEvmChainHandler(gravitySrv, app.BankKeeper, app.SwaKeeper),
+		evmhandlers.NewCancelSendToEvmChainHandler(gravitySrv, app.SwaKeeper, app.GravityKeeper),
+		evmhandlers.NewSendToIbcHandler(app.BankKeeper, app.SwaKeeper),
+		evmhandlers.NewSendCroToIbcHandler(app.BankKeeper, app.SwaKeeper),
+		evmhandlers.NewSendToIbcV2Handler(app.BankKeeper, app.SwaKeeper),
 	))
 
 	// register the staking hooks
@@ -648,8 +648,8 @@ func New(
 	app.ICAControllerKeeper.WithICS4Wrapper(ics4Wrapper)
 	app.ICAAuthKeeper.WithICS4Wrapper(ics4Wrapper)
 	icaAuthModule := icaauth.NewAppModule(appCodec, app.ICAAuthKeeper, ics4Wrapper)
-	// we don't limit gas usage here, because the cronos keeper will use network parameter to control it.
-	icaControllerStack = ibccallbacks.NewIBCMiddleware(icaControllerStack, app.IBCFeeKeeper, app.CronosKeeper, math.MaxUint64)
+	// we don't limit gas usage here, because the swa keeper will use network parameter to control it.
+	icaControllerStack = ibccallbacks.NewIBCMiddleware(icaControllerStack, app.IBCFeeKeeper, app.SwaKeeper, math.MaxUint64)
 
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := porttypes.NewRouter()
@@ -705,7 +705,7 @@ func New(
 		feeModule,
 		feemarket.NewAppModule(app.FeeMarketKeeper, feeMarketS),
 		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, evmS),
-		cronosModule,
+		swaModule,
 	}
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -731,7 +731,7 @@ func New(
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
-		cronostypes.ModuleName,
+		swatypes.ModuleName,
 		consensusparamtypes.ModuleName,
 	}
 	endBlockersOrder := []string{
@@ -754,7 +754,7 @@ func New(
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
-		cronostypes.ModuleName,
+		swatypes.ModuleName,
 		consensusparamtypes.ModuleName,
 	}
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -787,7 +787,7 @@ func New(
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
-		cronostypes.ModuleName,
+		swatypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		// NOTE: crisis module must go at the end to check for invariants on each module
 		crisistypes.ModuleName,
@@ -1155,7 +1155,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 		paramsKeeper.Subspace(gravitytypes.ModuleName)
 	}
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
-	paramsKeeper.Subspace(cronostypes.ModuleName).WithKeyTable(cronostypes.ParamKeyTable())
+	paramsKeeper.Subspace(swatypes.ModuleName).WithKeyTable(swatypes.ParamKeyTable())
 
 	return paramsKeeper
 }

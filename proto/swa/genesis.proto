@@ -1,14 +1,14 @@
 syntax = "proto3";
-package cronos;
+package swa;
 
 import "gogoproto/gogo.proto";
-import "cronos/cronos.proto";
+import "swa/swa.proto";
 
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/swag-eag/swa/v2/x/swa/types";
 
-// GenesisState defines the cronos module's genesis state.
+// GenesisState defines the swa module's genesis state.
 message GenesisState {
   // params defines all the paramaters of the module.
   Params                params             = 1 [(gogoproto.nullable) = false];

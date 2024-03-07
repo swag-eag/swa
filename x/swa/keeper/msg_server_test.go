@@ -1,7 +1,7 @@
 package keeper_test
 
 import (
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swamodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -23,7 +23,7 @@ func (suite *KeeperTestSuite) TestUpdateParams() {
 				Params: types.Params{
 					IbcCroDenom:          types.IbcCroDenomDefaultValue,
 					IbcTimeout:           10,
-					CronosAdmin:          sdk.AccAddress(suite.address.Bytes()).String(),
+					SwaAdmin:          sdk.AccAddress(suite.address.Bytes()).String(),
 					EnableAutoDeployment: true,
 				},
 			},
@@ -41,11 +41,11 @@ func (suite *KeeperTestSuite) TestUpdateParams() {
 		{
 			name: "set invalid ibc cro denomination",
 			req: &types.MsgUpdateParams{
-				Authority: suite.app.CronosKeeper.GetAuthority(),
+				Authority: suite.app.SwaKeeper.GetAuthority(),
 				Params: types.Params{
 					IbcCroDenom:          "foo",
 					IbcTimeout:           10,
-					CronosAdmin:          sdk.AccAddress(suite.address.Bytes()).String(),
+					SwaAdmin:          sdk.AccAddress(suite.address.Bytes()).String(),
 					EnableAutoDeployment: true,
 				},
 			},
@@ -53,13 +53,13 @@ func (suite *KeeperTestSuite) TestUpdateParams() {
 			expErrMsg: "invalid ibc denom",
 		},
 		{
-			name: "set invalid cronos admin address",
+			name: "set invalid swa admin address",
 			req: &types.MsgUpdateParams{
-				Authority: suite.app.CronosKeeper.GetAuthority(),
+				Authority: suite.app.SwaKeeper.GetAuthority(),
 				Params: types.Params{
 					IbcCroDenom:          types.IbcCroDenomDefaultValue,
 					IbcTimeout:           10,
-					CronosAdmin:          "foo",
+					SwaAdmin:          "foo",
 					EnableAutoDeployment: true,
 				},
 			},
@@ -71,7 +71,7 @@ func (suite *KeeperTestSuite) TestUpdateParams() {
 	for _, tc := range testCases {
 		tc := tc
 		suite.Run(tc.name, func() {
-			msgServer := cronosmodulekeeper.NewMsgServerImpl(suite.app.CronosKeeper)
+			msgServer := swamodulekeeper.NewMsgServerImpl(suite.app.SwaKeeper)
 			_, err := msgServer.UpdateParams(suite.ctx, tc.req)
 			if tc.expectErr {
 				suite.Require().Error(err)

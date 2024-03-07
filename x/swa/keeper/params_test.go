@@ -6,7 +6,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/swag-eag/swa/v2/app"
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swamodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	keepertest "github.com/swag-eag/swa/v2/x/swa/keeper/mock"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
@@ -37,8 +37,8 @@ func (suite *KeeperTestSuite) TestGetSourceChannelID() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
-			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			// Create Swa Keeper with mock transfer keeper
+			swaKeeper := *swamodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -49,9 +49,9 @@ func (suite *KeeperTestSuite) TestGetSourceChannelID() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			suite.app.CronosKeeper = cronosKeeper
+			suite.app.SwaKeeper = swaKeeper
 
-			channelID, err := suite.app.CronosKeeper.GetSourceChannelID(suite.ctx, tc.ibcDenom)
+			channelID, err := suite.app.SwaKeeper.GetSourceChannelID(suite.ctx, tc.ibcDenom)
 			if tc.expectedError != nil {
 				suite.Require().EqualError(err, tc.expectedError.Error())
 			} else {

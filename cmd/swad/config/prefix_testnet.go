@@ -6,7 +6,7 @@ package config
 import sdk "github.com/cosmos/cosmos-sdk/types"
 
 const (
-	// Bech32Prefix defines the Bech32 prefix used for Cronos Accounts
+	// Bech32Prefix defines the Bech32 prefix used for Swa Accounts
 	Bech32Prefix = "tswac"
 
 	// Bech32PrefixAccAddr defines the Bech32 prefix of an account's address

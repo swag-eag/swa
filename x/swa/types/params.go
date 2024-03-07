@@ -14,8 +14,8 @@ var (
 	KeyIbcCroDenom = []byte("IbcCroDenom")
 	// KeyIbcTimeout is store's key for the IBC Timeout
 	KeyIbcTimeout = []byte("IbcTimeout")
-	// KeyCronosAdmin is store's key for the admin address
-	KeyCronosAdmin = []byte("CronosAdmin")
+	// KeySwaAdmin is store's key for the admin address
+	KeySwaAdmin = []byte("SwaAdmin")
 	// KeyEnableAutoDeployment is store's key for the EnableAutoDeployment
 	KeyEnableAutoDeployment = []byte("EnableAutoDeployment")
 	// KeyMaxCallbackGas is store's key for the MaxCallbackGas
@@ -33,29 +33,29 @@ func ParamKeyTable() paramtypes.KeyTable {
 	return paramtypes.NewKeyTable().RegisterParamSet(&Params{})
 }
 
-// NewParams creates a new parameter configuration for the cronos module
-func NewParams(ibcCroDenom string, ibcTimeout uint64, cronosAdmin string, enableAutoDeployment bool, maxCallbackGas uint64) Params {
+// NewParams creates a new parameter configuration for the swa module
+func NewParams(ibcCroDenom string, ibcTimeout uint64, swaAdmin string, enableAutoDeployment bool, maxCallbackGas uint64) Params {
 	return Params{
 		IbcCroDenom:          ibcCroDenom,
 		IbcTimeout:           ibcTimeout,
-		CronosAdmin:          cronosAdmin,
+		SwaAdmin:          swaAdmin,
 		EnableAutoDeployment: enableAutoDeployment,
 		MaxCallbackGas:       maxCallbackGas,
 	}
 }
 
-// DefaultParams is the default parameter configuration for the cronos module
+// DefaultParams is the default parameter configuration for the swa module
 func DefaultParams() Params {
 	return Params{
 		IbcCroDenom:          IbcCroDenomDefaultValue,
 		IbcTimeout:           IbcTimeoutDefaultValue,
-		CronosAdmin:          "",
+		SwaAdmin:          "",
 		EnableAutoDeployment: false,
 		MaxCallbackGas:       MaxCallbackGasDefaultValue,
 	}
 }
 
-// Validate all cronos module parameters
+// Validate all swa module parameters
 func (p Params) Validate() error {
 	if err := validateIsUint64(p.IbcTimeout); err != nil {
 		return err
@@ -63,8 +63,8 @@ func (p Params) Validate() error {
 	if err := validateIsIbcDenom(p.IbcCroDenom); err != nil {
 		return err
 	}
-	if len(p.CronosAdmin) > 0 {
-		if _, err := sdk.AccAddressFromBech32(p.CronosAdmin); err != nil {
+	if len(p.SwaAdmin) > 0 {
+		if _, err := sdk.AccAddressFromBech32(p.SwaAdmin); err != nil {
 			return err
 		}
 	}
@@ -85,7 +85,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 	return paramtypes.ParamSetPairs{
 		paramtypes.NewParamSetPair(KeyIbcCroDenom, &p.IbcCroDenom, validateIsIbcDenom),
 		paramtypes.NewParamSetPair(KeyIbcTimeout, &p.IbcTimeout, validateIsUint64),
-		paramtypes.NewParamSetPair(KeyCronosAdmin, &p.CronosAdmin, validateIsAddress),
+		paramtypes.NewParamSetPair(KeySwaAdmin, &p.SwaAdmin, validateIsAddress),
 		paramtypes.NewParamSetPair(KeyEnableAutoDeployment, &p.EnableAutoDeployment, validateIsBool),
 		paramtypes.NewParamSetPair(KeyMaxCallbackGas, &p.MaxCallbackGas, validateIsUint64),
 	}

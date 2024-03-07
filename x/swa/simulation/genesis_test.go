@@ -38,14 +38,14 @@ func TestRandomizedGenState(t *testing.T) {
 
 	simulation.RandomizedGenState(&simState)
 
-	var cronosGenesis types.GenesisState
-	simState.Cdc.MustUnmarshalJSON(simState.GenState[types.ModuleName], &cronosGenesis)
+	var swaGenesis types.GenesisState
+	simState.Cdc.MustUnmarshalJSON(simState.GenState[types.ModuleName], &swaGenesis)
 
-	require.Equal(t, "ibc/7939cb6694d2c422acd208a0072939487f6999eb9d18a44784045d87f3c67cf2", cronosGenesis.Params.GetIbcCroDenom())
-	require.Equal(t, uint64(0x68255aaf95e94627), cronosGenesis.Params.GetIbcTimeout())
-	require.Equal(t, "cosmos1tnh2q55v8wyygtt9srz5safamzdengsnqeycj3", cronosGenesis.Params.GetCronosAdmin())
-	require.Equal(t, true, cronosGenesis.Params.GetEnableAutoDeployment())
+	require.Equal(t, "ibc/7939cb6694d2c422acd208a0072939487f6999eb9d18a44784045d87f3c67cf2", swaGenesis.Params.GetIbcCroDenom())
+	require.Equal(t, uint64(0x68255aaf95e94627), swaGenesis.Params.GetIbcTimeout())
+	require.Equal(t, "cosmos1tnh2q55v8wyygtt9srz5safamzdengsnqeycj3", swaGenesis.Params.GetSwaAdmin())
+	require.Equal(t, true, swaGenesis.Params.GetEnableAutoDeployment())
 
-	require.Equal(t, len(cronosGenesis.ExternalContracts), 0)
-	require.Equal(t, len(cronosGenesis.AutoContracts), 0)
+	require.Equal(t, len(swaGenesis.ExternalContracts), 0)
+	require.Equal(t, len(swaGenesis.AutoContracts), 0)
 }

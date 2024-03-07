@@ -41,7 +41,7 @@ ACCOUNTS = {
 }
 KEYS = {name: account.key for name, account in ACCOUNTS.items()}
 ADDRS = {name: account.address for name, account in ACCOUNTS.items()}
-CRONOS_ADDRESS_PREFIX = "crc"
+CRONOS_ADDRESS_PREFIX = "swac"
 TEST_CONTRACTS = {
     "Gravity": "Gravity.sol",
     "Greeter": "Greeter.sol",
@@ -52,9 +52,9 @@ TEST_CONTRACTS = {
     "TestMessageCall": "TestMessageCall.sol",
     "TestBlackListERC20": "TestBlackListERC20.sol",
     "CroBridge": "CroBridge.sol",
-    "CronosGravityCancellation": "CronosGravityCancellation.sol",
-    "TestCRC20": "TestCRC20.sol",
-    "TestCRC20Proxy": "TestCRC20Proxy.sol",
+    "SwaGravityCancellation": "SwaGravityCancellation.sol",
+    "TestSWAC20": "TestSWAC20.sol",
+    "TestSWAC20Proxy": "TestSWAC20Proxy.sol",
     "TestMaliciousSupply": "TestMaliciousSupply.sol",
     "CosmosERC20": "CosmosToken.sol",
     "TestBank": "TestBank.sol",
@@ -73,11 +73,11 @@ def contract_path(name, filename):
 
 CONTRACTS = {
     "ModuleSWAC20": Path(__file__).parent.parent
-    / "x/cronos/types/contracts/ModuleSWAC20.json",
+    / "x/swa/types/contracts/ModuleSWAC20.json",
     "ModuleSWAC21": Path(__file__).parent.parent
-    / "x/cronos/types/contracts/ModuleSWAC21.json",
+    / "x/swa/types/contracts/ModuleSWAC21.json",
     "ModuleSWAC20Proxy": Path(__file__).parent.parent
-    / "x/cronos/types/contracts/ModuleSWAC20Proxy.json",
+    / "x/swa/types/contracts/ModuleSWAC20Proxy.json",
     **{
         name: contract_path(name, filename) for name, filename in TEST_CONTRACTS.items()
     },
@@ -391,15 +391,15 @@ def send_transaction(w3, tx, key=KEYS["validator"]):
     return w3.eth.wait_for_transaction_receipt(txhash)
 
 
-def cronos_address_from_mnemonics(mnemonics, prefix=CRONOS_ADDRESS_PREFIX):
-    "return cronos address from mnemonics"
+def swa_address_from_mnemonics(mnemonics, prefix=CRONOS_ADDRESS_PREFIX):
+    "return swa address from mnemonics"
     acct = Account.from_mnemonic(mnemonics)
     return eth_to_bech32(acct.address, prefix)
 
 
 def send_to_cosmos(gravity_contract, token_contract, w3, recipient, amount, key=None):
     """
-    do approve and sendToCronos on ethereum side
+    do approve and sendToSwa on ethereum side
     """
     acct = Account.from_key(key)
     txreceipt = send_transaction(
@@ -413,7 +413,7 @@ def send_to_cosmos(gravity_contract, token_contract, w3, recipient, amount, key=
 
     return send_transaction(
         w3,
-        gravity_contract.functions.sendToCronos(
+        gravity_contract.functions.sendToSwa(
             token_contract.address, HexBytes(recipient), amount
         ).build_transaction({"from": acct.address}),
         key,
@@ -510,7 +510,7 @@ def modify_command_in_supervisor_config(ini: Path, fn, **kwargs):
     "replace the first node with the instrumented binary"
     ini.write_text(
         re.sub(
-            r"^command = (cronosd .*$)",
+            r"^command = (swad .*$)",
             lambda m: f"command = {fn(m.group(1))}",
             ini.read_text(),
             flags=re.M,
@@ -557,7 +557,7 @@ def build_batch_tx(w3, cli, txs, key=KEYS["validator"]):
 def get_receipts_by_block(w3, blk):
     if isinstance(blk, int):
         blk = hex(blk)
-    rsp = w3.provider.make_request("cronos_getTransactionReceiptsByBlock", [blk])
+    rsp = w3.provider.make_request("swa_getTransactionReceiptsByBlock", [blk])
     if "error" not in rsp:
         rsp["result"] = [
             AttributeDict(receipt_formatter(item)) for item in rsp["result"]
@@ -608,7 +608,7 @@ def multiple_send_to_cosmos(gcontract, tcontract, w3, recipient, amount, keys):
         assert txreceipt.status == 1, "approve failed"
 
         # generate the tx
-        tx = gcontract.functions.sendToCronos(
+        tx = gcontract.functions.sendToSwa(
             tcontract.address, HexBytes(recipient), amount
         ).build_transaction({"from": acct_address})
         signed = sign_transaction(w3, tx, key_from)
@@ -619,31 +619,31 @@ def multiple_send_to_cosmos(gcontract, tcontract, w3, recipient, amount, keys):
     return send_raw_transactions(w3, raw_transactions)
 
 
-def setup_token_mapping(cronos, name, symbol):
+def setup_token_mapping(swa, name, symbol):
     # deploy contract
-    w3 = cronos.w3
+    w3 = swa.w3
     contract = deploy_contract(w3, CONTRACTS[name])
 
     # setup the contract mapping
-    cronos_cli = cronos.cosmos_cli()
+    swa_cli = swa.cosmos_cli()
 
     print("contract", contract.address)
-    denom = f"cronos{contract.address}"
+    denom = f"swa{contract.address}"
     balance = contract.caller.balanceOf(ADDRS["validator"])
     assert balance == 100000000000000000000000000
 
     print("check the contract mapping not exists yet")
     with pytest.raises(AssertionError):
-        cronos_cli.query_contract_by_denom(denom)
+        swa_cli.query_contract_by_denom(denom)
 
-    rsp = cronos_cli.update_token_mapping(
+    rsp = swa_cli.update_token_mapping(
         denom, contract.address, symbol, 6, from_="validator"
     )
     assert rsp["code"] == 0, rsp["raw_log"]
-    wait_for_new_blocks(cronos_cli, 1)
+    wait_for_new_blocks(swa_cli, 1)
 
     print("check the contract mapping exists now")
-    rsp = cronos_cli.query_denom_by_contract(contract.address)
+    rsp = swa_cli.query_denom_by_contract(contract.address)
     assert rsp["denom"] == denom
     return contract, denom
 
@@ -653,10 +653,10 @@ def module_address(name):
     return to_checksum_address(decode_bech32(eth_to_bech32(data)).hex())
 
 
-def submit_any_proposal(cronos, tmp_path):
+def submit_any_proposal(swa, tmp_path):
     # governance module account as granter
-    cli = cronos.cosmos_cli()
-    granter_addr = "crc10d07y265gmmuvt4z0w9aw880jnsr700jdufnyd"
+    cli = swa.cosmos_cli()
+    granter_addr = "swac10d07y265gmmuvt4z0w9aw880jnsr700jdufnyd"
     grantee_addr = cli.address("signer1")
 
     # this json can be obtained with `--generate-only` flag for respective cli calls
@@ -681,7 +681,7 @@ def submit_any_proposal(cronos, tmp_path):
     proposal_file.write_text(json.dumps(proposal_json))
     rsp = cli.submit_gov_proposal(proposal_file, from_="community")
     assert rsp["code"] == 0, rsp["raw_log"]
-    approve_proposal(cronos, rsp)
+    approve_proposal(swa, rsp)
     grant_detail = cli.query_grant(granter_addr, grantee_addr)
     assert grant_detail["granter"] == granter_addr
     assert grant_detail["grantee"] == grantee_addr

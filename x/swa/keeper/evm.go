@@ -120,7 +120,7 @@ func (k Keeper) ConvertCoinFromNativeToSWAC21(ctx sdk.Context, sender common.Add
 			return err
 		}
 		// unlock swac tokens
-		_, err = k.CallModuleSWAC21(ctx, contract, "transfer_from_cronos_module", sender, coin.Amount.BigInt())
+		_, err = k.CallModuleSWAC21(ctx, contract, "transfer_from_swa_module", sender, coin.Amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -131,7 +131,7 @@ func (k Keeper) ConvertCoinFromNativeToSWAC21(ctx sdk.Context, sender common.Add
 			return err
 		}
 		// mint swac tokens
-		_, err = k.CallModuleSWAC21(ctx, contract, "mint_by_cronos_module", sender, coin.Amount.BigInt())
+		_, err = k.CallModuleSWAC21(ctx, contract, "mint_by_swa_module", sender, coin.Amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -151,7 +151,7 @@ func (k Keeper) ConvertCoinFromSWAC21ToNative(ctx sdk.Context, contract common.A
 	coins := sdk.NewCoins(sdk.NewCoin(denom, amount))
 
 	if isSource {
-		_, err := k.CallModuleSWAC21(ctx, contract, "transfer_by_cronos_module", receiver, amount.BigInt())
+		_, err := k.CallModuleSWAC21(ctx, contract, "transfer_by_swa_module", receiver, amount.BigInt())
 		if err != nil {
 			return err
 		}
@@ -172,7 +172,7 @@ func (k Keeper) ConvertCoinFromSWAC21ToNative(ctx sdk.Context, contract common.A
 			return err
 		}
 
-		_, err = k.CallModuleSWAC21(ctx, contract, "burn_by_cronos_module", receiver, amount.BigInt())
+		_, err = k.CallModuleSWAC21(ctx, contract, "burn_by_swa_module", receiver, amount.BigInt())
 		if err != nil {
 			return err
 		}

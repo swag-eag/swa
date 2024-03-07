@@ -7,9 +7,9 @@ import (
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
-// Migrate migrates the x/cronos module state from the consensus version 1 to
+// Migrate migrates the x/swa module state from the consensus version 1 to
 // version 2. Specifically, it takes the parameters that are currently stored
-// and managed by the x/params modules and stores them directly into the x/cronos
+// and managed by the x/params modules and stores them directly into the x/swa
 // module state.
 func Migrate(ctx sdk.Context, store sdk.KVStore, legacySubspace exported.Subspace, cdc codec.BinaryCodec) error {
 	var currParams types.Params

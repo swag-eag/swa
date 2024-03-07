@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	cronostypes "github.com/swag-eag/swa/v2/x/swa/types"
+	swatypes "github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
 	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
 )
@@ -59,15 +59,15 @@ func (k Keeper) doAfterSendToCosmosEvent(ctx sdk.Context, event gravitytypes.Sen
 	// TODO: Remove after event is emitted at Gravity module https://github.com/crypto-org-chain/gravity-bridge/pull/12
 	coins := sdk.Coins{sdk.NewCoin(denom, event.Amount)}
 	ctx.EventManager().EmitEvent(sdk.NewEvent(
-		cronostypes.EventTypeEthereumSendToCosmosHandled,
+		swatypes.EventTypeEthereumSendToCosmosHandled,
 		sdk.NewAttribute(sdk.AttributeKeyModule, gravitytypes.ModuleName),
-		sdk.NewAttribute(cronostypes.AttributeKeySender, event.GetEthereumSender()),
-		sdk.NewAttribute(cronostypes.AttributeKeyReceiver, event.GetCosmosReceiver()),
-		sdk.NewAttribute(cronostypes.AttributeKeyAmount, coins.String()),
+		sdk.NewAttribute(swatypes.AttributeKeySender, event.GetEthereumSender()),
+		sdk.NewAttribute(swatypes.AttributeKeyReceiver, event.GetCosmosReceiver()),
+		sdk.NewAttribute(swatypes.AttributeKeyAmount, coins.String()),
 		sdk.NewAttribute(gravitytypes.AttributeKeyBridgeChainID, strconv.FormatUint(
 			k.gravityKeeper.GetParams(ctx).BridgeChainId, 10,
 		)),
-		sdk.NewAttribute(cronostypes.AttributeKeyEthereumTokenContract, event.GetTokenContract()),
+		sdk.NewAttribute(swatypes.AttributeKeyEthereumTokenContract, event.GetTokenContract()),
 		sdk.NewAttribute(gravitytypes.AttributeKeyNonce, strconv.FormatUint(event.GetEventNonce(), 10)),
 		sdk.NewAttribute(gravitytypes.AttributeKeyEthereumEventVoteRecordID,
 			string(gravitytypes.MakeEthereumEventVoteRecordKey(event.GetEventNonce(), event.Hash()))),

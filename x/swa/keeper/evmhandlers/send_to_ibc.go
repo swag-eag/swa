@@ -8,16 +8,16 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swakeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 var _ types.EvmLogHandler = SendToIbcHandler{}
 
-const SendToIbcEventName = "__CronosSendToIbc"
+const SendToIbcEventName = "__SwaSendToIbc"
 
 // SendToIbcEvent represent the signature of
-// `event __CronosSendToIbc(address sender, string recipient, uint256 amount)`
+// `event __SwaSendToIbc(address sender, string recipient, uint256 amount)`
 var SendToIbcEvent abi.Event
 
 func init() {
@@ -45,16 +45,16 @@ func init() {
 	)
 }
 
-// SendToIbcHandler handles `__CronosSendToIbc` log
+// SendToIbcHandler handles `__SwaSendToIbc` log
 type SendToIbcHandler struct {
 	bankKeeper   types.BankKeeper
-	cronosKeeper cronoskeeper.Keeper
+	swaKeeper swakeeper.Keeper
 }
 
-func NewSendToIbcHandler(bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendToIbcHandler {
+func NewSendToIbcHandler(bankKeeper types.BankKeeper, swaKeeper swakeeper.Keeper) *SendToIbcHandler {
 	return &SendToIbcHandler{
 		bankKeeper:   bankKeeper,
-		cronosKeeper: cronosKeeper,
+		swaKeeper: swaKeeper,
 	}
 }
 
@@ -72,7 +72,7 @@ func (h SendToIbcHandler) Handle(
 	unpacked, err := SendToIbcEvent.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.swaKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 	sender := unpacked[0].(common.Address)
@@ -89,13 +89,13 @@ func (h SendToIbcHandler) handle(
 	amountInt *big.Int,
 	id *big.Int,
 ) error {
-	denom, found := h.cronosKeeper.GetDenomByContract(ctx, contract)
+	denom, found := h.swaKeeper.GetDenomByContract(ctx, contract)
 	if !found {
 		return fmt.Errorf("contract %s is not connected to native token", contract)
 	}
 
-	if !types.IsValidIBCDenom(denom) && !types.IsValidCronosDenom(denom) {
-		return fmt.Errorf("the native token associated with the contract %s is neither an ibc voucher or a cronos token", contract)
+	if !types.IsValidIBCDenom(denom) && !types.IsValidSwaDenom(denom) {
+		return fmt.Errorf("the native token associated with the contract %s is neither an ibc voucher or a swa token", contract)
 	}
 
 	contractAddr := sdk.AccAddress(contract.Bytes())
@@ -125,7 +125,7 @@ func (h SendToIbcHandler) handle(
 		channelId = "channel-" + id.String()
 	}
 	// Initiate IBC transfer from sender account
-	if err = h.cronosKeeper.IbcTransferCoins(ctx, sender.String(), recipient, coins, channelId); err != nil {
+	if err = h.swaKeeper.IbcTransferCoins(ctx, sender.String(), recipient, coins, channelId); err != nil {
 		return err
 	}
 	return nil

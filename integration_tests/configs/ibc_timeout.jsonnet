@@ -1,7 +1,7 @@
 local ibc = import 'ibc.jsonnet';
 
 ibc {
-  'cronos_777-1'+: {
+  'swa_777-1'+: {
     key_name: 'signer3',
     accounts: super.accounts + [{
       name: 'signer3',
@@ -10,7 +10,7 @@ ibc {
     }],
     genesis+: {
       app_state+: {
-        cronos+: {
+        swa+: {
           params+: {
             ibc_timeout: 0,
           },
@@ -20,7 +20,7 @@ ibc {
   },
   relayer+: {
     chains: [super.chains[0] {
-      fee_granter: 'crc16z0herz998946wr659lr84c8c556da55dc34hh',  //signer1
+      fee_granter: 'swac16z0herz998946wr659lr84c8c556da55dc34hh',  //signer1
     }] + super.chains[1:],
   },
 }

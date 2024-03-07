@@ -13,7 +13,7 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	if err := k.SetParams(ctx, genState.Params); err != nil {
-		panic(fmt.Sprintf("Invalid cronos module params: %v\n", genState.Params))
+		panic(fmt.Sprintf("Invalid swa module params: %v\n", genState.Params))
 	}
 
 	for _, m := range genState.ExternalContracts {

@@ -6,7 +6,7 @@ This guide shows how to configure the different keystores with gorc.
 
 ### Prerequisites
 
- - `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-cronos-alpha0).
+ - `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-swa-alpha0).
  - Above binaries setup in `PATH`.
 
 
@@ -29,9 +29,9 @@ rpc = "http://localhost:8545" # TODO - EVM RPC of Ethereum node
 
 [cosmos]
 gas_price = { amount = 5000000000000, denom = "basetcro" } # TODO basecro for mainnet, basetcro for testnet
-grpc = "http://localhost:9090" # TODO - GRPC of Cronos node
+grpc = "http://localhost:9090" # TODO - GRPC of Swa node
 key_derivation_path = "m/44'/60'/0'/0/0"
-prefix = "tcrc" # TODO - crc for mainnet, tcrc for testnet
+prefix = "tswac" # TODO - swac for mainnet, tswac for testnet
 
 [metrics]
 listen_addr = "127.0.0.1:3000"
@@ -70,7 +70,7 @@ You will need to replace the following variables above:
 
 - `$region`: region where you want to store the keys at
 - `$account-id`: AWS account id
-- `$keys-prefix`: prefix for the keys created (e.g. cronos-testnet3-orch*). Then you'd be able to create keys `cronos-testnet3-orch1` and `cronos-testnet3-orch2`
+- `$keys-prefix`: prefix for the keys created (e.g. swa-testnet3-orch*). Then you'd be able to create keys `swa-testnet3-orch1` and `swa-testnet3-orch2`
 
 
 ####  Creating the config:
@@ -90,9 +90,9 @@ rpc = "http://localhost:8545" # TODO - EVM RPC of Ethereum node
 
 [cosmos]
 gas_price = { amount = 5000000000000, denom = "basetcro" } # TODO basecro for mainnet, basetcro for testnet
-grpc = "http://localhost:9090" # TODO - GRPC of Cronos node
+grpc = "http://localhost:9090" # TODO - GRPC of Swa node
 key_derivation_path = "m/44'/60'/0'/0/0"
-prefix = "tcrc" # TODO - crc for mainnet, tcrc for testnet
+prefix = "tswac" # TODO - swac for mainnet, tswac for testnet
 
 [metrics]
 listen_addr = "127.0.0.1:3000"
@@ -100,7 +100,7 @@ listen_addr = "127.0.0.1:3000"
 
 ### Creating accounts
 
-#### Creating a Cronos account:
+#### Creating a Swa account:
 
 ```shell
 gorc -c gorc.toml keys cosmos add orch_cro
@@ -110,7 +110,7 @@ Sample output:
 ```
 **Important** record this bip39-mnemonic in a safe place:
 lava ankle enlist blame vast blush proud split position just want cinnamon virtual velvet rubber essence picture print arrest away size tip exotic crouch
-orch_cro        tcrc1ypvpyjcny3m0wl5hjwld2vw8gus2emtzmur4he
+orch_cro        tswac1ypvpyjcny3m0wl5hjwld2vw8gus2emtzmur4he
 ```
 
 The second line is the mnemonic (for security reasons, this will not be printed out for AWS Secret Manager keystore) and the third one is the public address.

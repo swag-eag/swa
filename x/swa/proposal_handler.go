@@ -15,7 +15,7 @@ func NewTokenMappingChangeProposalHandler(k keeper.Keeper) govtypes.Handler {
 	return func(ctx sdk.Context, content govtypes.Content) error {
 		switch c := content.(type) {
 		case *types.TokenMappingChangeProposal:
-			// check first that the denom is one of the denom supported by cronos
+			// check first that the denom is one of the denom supported by swa
 			if !types.IsValidCoinDenom(c.Denom) {
 				return errors.Wrapf(sdkerrors.ErrInvalidRequest, "invalid coin denom %s", c.Denom)
 			}
@@ -28,7 +28,7 @@ func NewTokenMappingChangeProposalHandler(k keeper.Keeper) govtypes.Handler {
 			}
 			return k.RegisterOrUpdateTokenMapping(ctx, &msg)
 		default:
-			return errors.Wrapf(sdkerrors.ErrUnknownRequest, "unrecognized cronos proposal content type: %T", c)
+			return errors.Wrapf(sdkerrors.ErrUnknownRequest, "unrecognized swa proposal content type: %T", c)
 		}
 	}
 }

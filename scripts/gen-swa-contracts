@@ -3,16 +3,16 @@ make -C contracts
 cat contracts/out/dapp.sol.json | \
     jq '.contracts."src/ModuleSWAC20.sol".ModuleSWAC20' | \
     jq '{abi, bin: .evm.bytecode.object}' \
-    > x/cronos/types/contracts/ModuleSWAC20.json
+    > x/swa/types/contracts/ModuleSWAC20.json
 cat contracts/out/dapp.sol.json | \
     jq '.contracts."src/ModuleSWAC21.sol".ModuleSWAC21' | \
     jq '{abi, bin: .evm.bytecode.object}' \
-    > x/cronos/types/contracts/ModuleSWAC21.json
+    > x/swa/types/contracts/ModuleSWAC21.json
 cat contracts/out/dapp.sol.json | \
     jq '.contracts."src/ModuleSWAC20Proxy.sol".ModuleSWAC20Proxy' | \
     jq '{abi, bin: .evm.bytecode.object}' \
-    > x/cronos/types/contracts/ModuleSWAC20Proxy.json
+    > x/swa/types/contracts/ModuleSWAC20Proxy.json
 cat contracts/out/dapp.sol.json | \
     jq '.contracts."src/ModuleSWAC20ProxyAuthority.sol".ModuleSWAC20ProxyAuthority' | \
     jq '{abi, bin: .evm.bytecode.object}' \
-    > x/cronos/types/contracts/ModuleSWAC20ProxyAuthority.json
+    > x/swa/types/contracts/ModuleSWAC20ProxyAuthority.json

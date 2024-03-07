@@ -164,7 +164,7 @@
           "type": "uint256"
         }
       ],
-      "name": "__CronosSendToEthereum",
+      "name": "__SwaSendToEthereum",
       "type": "event"
     },
     {
@@ -189,7 +189,7 @@
           "type": "uint256"
         }
       ],
-      "name": "__CronosSendToIbc",
+      "name": "__SwaSendToIbc",
       "type": "event"
     },
     {
@@ -335,7 +335,7 @@
           "type": "uint256"
         }
       ],
-      "name": "burn_by_cronos_module",
+      "name": "burn_by_swa_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -397,7 +397,7 @@
           "type": "uint256"
         }
       ],
-      "name": "mint_by_cronos_module",
+      "name": "mint_by_swa_module",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

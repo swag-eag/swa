@@ -9,7 +9,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/swag-eag/swa/v2/app"
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swamodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	evmhandlers "github.com/swag-eag/swa/v2/x/swa/keeper/evmhandlers"
 	keepertest "github.com/swag-eag/swa/v2/x/swa/keeper/mock"
 	"github.com/swag-eag/swa/v2/x/swa/types"
@@ -60,7 +60,7 @@ func (suite *KeeperTestSuite) TestSendToAccountHandler() {
 		{
 			"success send to account",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
 				coin := sdk.NewCoin(denom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -91,7 +91,7 @@ func (suite *KeeperTestSuite) TestSendToAccountHandler() {
 
 	for _, tc := range testCases {
 		suite.Run(fmt.Sprintf("Case %s", tc.msg), func() {
-			handler := evmhandlers.NewSendToAccountHandler(suite.app.BankKeeper, suite.app.CronosKeeper)
+			handler := evmhandlers.NewSendToAccountHandler(suite.app.BankKeeper, suite.app.SwaKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {
@@ -124,7 +124,7 @@ func (suite *KeeperTestSuite) TestSendToEvmChainHandler() {
 		{
 			"non gravity denom, expect fail",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, invalidDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, invalidDenom, contract)
 				coin := sdk.NewCoin(invalidDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -147,12 +147,12 @@ func (suite *KeeperTestSuite) TestSendToEvmChainHandler() {
 				data = input
 			},
 			func() {},
-			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither a gravity voucher or a cronos token"),
+			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither a gravity voucher or a swa token"),
 		},
 		{
 			"non supported network id",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
 				coin := sdk.NewCoin(validDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -207,7 +207,7 @@ func (suite *KeeperTestSuite) TestSendToEvmChainHandler() {
 		{
 			"success send to chain",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
 				coin := sdk.NewCoin(validDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -249,7 +249,7 @@ func (suite *KeeperTestSuite) TestSendToEvmChainHandler() {
 			suite.SetupTest()
 			handler := evmhandlers.NewSendToEvmChainHandler(
 				gravitykeeper.NewMsgServerImpl(suite.app.GravityKeeper),
-				suite.app.BankKeeper, suite.app.CronosKeeper)
+				suite.app.BankKeeper, suite.app.SwaKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {
@@ -302,7 +302,7 @@ func (suite *KeeperTestSuite) TestSendToIbcHandler() {
 		{
 			"non IBC denom, expect fail",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, invalidDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, invalidDenom, contract)
 				coin := sdk.NewCoin(invalidDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -321,12 +321,12 @@ func (suite *KeeperTestSuite) TestSendToIbcHandler() {
 				data = input
 			},
 			func() {},
-			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither an ibc voucher or a cronos token"),
+			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither an ibc voucher or a swa token"),
 		},
 		{
 			"success send to ibc",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
 				coin := sdk.NewCoin(validDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -352,8 +352,8 @@ func (suite *KeeperTestSuite) TestSendToIbcHandler() {
 	for _, tc := range testCases {
 		suite.Run(fmt.Sprintf("Case %s", tc.msg), func() {
 			suite.SetupTest()
-			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			// Create Swa Keeper with mock transfer keeper
+			swaKeeper := *swamodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -364,7 +364,7 @@ func (suite *KeeperTestSuite) TestSendToIbcHandler() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			handler := evmhandlers.NewSendToIbcHandler(suite.app.BankKeeper, cronosKeeper)
+			handler := evmhandlers.NewSendToIbcHandler(suite.app.BankKeeper, swaKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {
@@ -420,7 +420,7 @@ func (suite *KeeperTestSuite) TestSendToIbcV2Handler() {
 		{
 			"non IBC denom, expect fail",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, invalidDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, invalidDenom, contract)
 				coin := sdk.NewCoin(invalidDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -441,12 +441,12 @@ func (suite *KeeperTestSuite) TestSendToIbcV2Handler() {
 				data = input
 			},
 			func() {},
-			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither an ibc voucher or a cronos token"),
+			errors.New("the native token associated with the contract 0x0000000000000000000000000000000000000001 is neither an ibc voucher or a swa token"),
 		},
 		{
 			"success send to ibc",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
 				coin := sdk.NewCoin(validDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -474,8 +474,8 @@ func (suite *KeeperTestSuite) TestSendToIbcV2Handler() {
 	for _, tc := range testCases {
 		suite.Run(fmt.Sprintf("Case %s", tc.msg), func() {
 			suite.SetupTest()
-			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			// Create Swa Keeper with mock transfer keeper
+			swaKeeper := *swamodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -486,7 +486,7 @@ func (suite *KeeperTestSuite) TestSendToIbcV2Handler() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			handler := evmhandlers.NewSendToIbcV2Handler(suite.app.BankKeeper, cronosKeeper)
+			handler := evmhandlers.NewSendToIbcV2Handler(suite.app.BankKeeper, swaKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {
@@ -571,8 +571,8 @@ func (suite *KeeperTestSuite) TestSendCroToIbcHandler() {
 	for _, tc := range testCases {
 		suite.Run(fmt.Sprintf("Case %s", tc.msg), func() {
 			suite.SetupTest()
-			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			// Create Swa Keeper with mock transfer keeper
+			swaKeeper := *swamodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -583,7 +583,7 @@ func (suite *KeeperTestSuite) TestSendCroToIbcHandler() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			handler := evmhandlers.NewSendCroToIbcHandler(suite.app.BankKeeper, cronosKeeper)
+			handler := evmhandlers.NewSendCroToIbcHandler(suite.app.BankKeeper, swaKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {
@@ -614,7 +614,7 @@ func (suite *KeeperTestSuite) TestCancelSendToEvmChainHandler() {
 		{
 			"id not found",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
 				coin := sdk.NewCoin(validDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(sender.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -637,7 +637,7 @@ func (suite *KeeperTestSuite) TestCancelSendToEvmChainHandler() {
 		{
 			"success cancel send to chain",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, validDenom, contract)
 				coin := sdk.NewCoin(validDenom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(sender.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -691,7 +691,7 @@ func (suite *KeeperTestSuite) TestCancelSendToEvmChainHandler() {
 			suite.SetupTest()
 			handler := evmhandlers.NewCancelSendToEvmChainHandler(
 				gravitykeeper.NewMsgServerImpl(suite.app.GravityKeeper),
-				suite.app.CronosKeeper, suite.app.GravityKeeper)
+				suite.app.SwaKeeper, suite.app.GravityKeeper)
 			tc.malleate()
 			err := handler.Handle(suite.ctx, contract, topics, data, func(contractAddress common.Address, logSig common.Hash, logData []byte) {})
 			if tc.error != nil {

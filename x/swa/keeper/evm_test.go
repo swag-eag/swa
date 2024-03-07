@@ -12,7 +12,7 @@ import (
 
 func (suite *KeeperTestSuite) TestDeployContract() {
 	suite.SetupTest()
-	keeper := suite.app.CronosKeeper
+	keeper := suite.app.SwaKeeper
 
 	_, err := keeper.DeployModuleSWAC21(suite.ctx, "test")
 	suite.Require().NoError(err)
@@ -20,7 +20,7 @@ func (suite *KeeperTestSuite) TestDeployContract() {
 
 func (suite *KeeperTestSuite) TestTokenConversion() {
 	suite.SetupTest()
-	keeper := suite.app.CronosKeeper
+	keeper := suite.app.SwaKeeper
 
 	// generate test address
 	priv, err := ethsecp256k1.GenerateKey()
@@ -71,7 +71,7 @@ func (suite *KeeperTestSuite) TestTokenConversion() {
 
 func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 	suite.SetupTest()
-	keeper := suite.app.CronosKeeper
+	keeper := suite.app.SwaKeeper
 
 	// generate test address
 	priv, err := ethsecp256k1.GenerateKey()
@@ -84,7 +84,7 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 	suite.Require().NoError(err)
 
 	// Register the token
-	denom := "cronos" + contractAddress.Hex()
+	denom := "swa" + contractAddress.Hex()
 	msgUpdateTokenMapping := types.MsgUpdateTokenMapping{
 		Sender:   cosmosAddress.String(),
 		Denom:    denom,
@@ -97,7 +97,7 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 
 	// Mint some SWAC21 token
 	amount := big.NewInt(100)
-	_, err = suite.app.CronosKeeper.CallModuleSWAC21(suite.ctx, contractAddress, "mint_by_cronos_module", address, amount)
+	_, err = suite.app.SwaKeeper.CallModuleSWAC21(suite.ctx, contractAddress, "mint_by_swa_module", address, amount)
 	suite.Require().NoError(err)
 
 	// Convert SWAC21 to native

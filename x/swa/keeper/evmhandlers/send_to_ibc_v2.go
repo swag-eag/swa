@@ -8,14 +8,14 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swakeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 var _ types.EvmLogHandler = SendToIbcV2Handler{}
 
 // SendToIbcEventV2 represent the signature of
-// `event __CronosSendToIbc(address indexed sender, string indexed recipient, string indexed channel_id, uint256 amount, bytes extraData)`
+// `event __SwaSendToIbc(address indexed sender, string indexed recipient, string indexed channel_id, uint256 amount, bytes extraData)`
 var SendToIbcEventV2 abi.Event
 
 func init() {
@@ -52,14 +52,14 @@ func init() {
 	)
 }
 
-// SendToIbcV2Handler handles `__CronosSendToIbc` log
+// SendToIbcV2Handler handles `__SwaSendToIbc` log
 type SendToIbcV2Handler struct {
 	*SendToIbcHandler
 }
 
-func NewSendToIbcV2Handler(bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendToIbcV2Handler {
+func NewSendToIbcV2Handler(bankKeeper types.BankKeeper, swaKeeper swakeeper.Keeper) *SendToIbcV2Handler {
 	return &SendToIbcV2Handler{
-		SendToIbcHandler: NewSendToIbcHandler(bankKeeper, cronosKeeper),
+		SendToIbcHandler: NewSendToIbcHandler(bankKeeper, swaKeeper),
 	}
 }
 
@@ -76,9 +76,9 @@ func (h SendToIbcV2Handler) Handle(
 ) error {
 	if len(topics) != 3 {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Info("log signature matches but wrong number of indexed events")
+		h.swaKeeper.Logger(ctx).Info("log signature matches but wrong number of indexed events")
 		for i, topic := range topics {
-			h.cronosKeeper.Logger(ctx).Debug(fmt.Sprintf("topic index: %d value: %s", i, topic.TerminalString()))
+			h.swaKeeper.Logger(ctx).Debug(fmt.Sprintf("topic index: %d value: %s", i, topic.TerminalString()))
 		}
 		return nil
 	}
@@ -86,7 +86,7 @@ func (h SendToIbcV2Handler) Handle(
 	unpacked, err := SendToIbcEventV2.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.swaKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 

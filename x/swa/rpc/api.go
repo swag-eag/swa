@@ -25,8 +25,8 @@ import (
 )
 
 const (
-	// CronosNamespace is the extension RPC namespace of cronos module.
-	CronosNamespace = "cronos"
+	// SwaNamespace is the extension RPC namespace of swa module.
+	SwaNamespace = "swa"
 
 	apiVersion = "1.0"
 
@@ -34,57 +34,57 @@ const (
 )
 
 func init() {
-	if err := evmrpc.RegisterAPINamespace(CronosNamespace, CreateCronosRPCAPIs); err != nil {
+	if err := evmrpc.RegisterAPINamespace(SwaNamespace, CreateSwaRPCAPIs); err != nil {
 		panic(err)
 	}
 }
 
-// CreateCronosRPCAPIs creates extension json-rpc apis
-func CreateCronosRPCAPIs(ctx *server.Context, clientCtx client.Context, _ *stream.RPCStream, allowUnprotectedTxs bool, indexer ethermint.EVMTxIndexer) []rpc.API {
+// CreateSwaRPCAPIs creates extension json-rpc apis
+func CreateSwaRPCAPIs(ctx *server.Context, clientCtx client.Context, _ *stream.RPCStream, allowUnprotectedTxs bool, indexer ethermint.EVMTxIndexer) []rpc.API {
 	evmBackend := backend.NewBackend(ctx, ctx.Logger, clientCtx, allowUnprotectedTxs, indexer)
 	return []rpc.API{
 		{
-			Namespace: CronosNamespace,
+			Namespace: SwaNamespace,
 			Version:   apiVersion,
-			Service:   NewCronosAPI(ctx.Logger, clientCtx, *evmBackend),
+			Service:   NewSwaAPI(ctx.Logger, clientCtx, *evmBackend),
 			Public:    true,
 		},
 	}
 }
 
-// CronosAPI is the extension jsonrpc apis prefixed with cronos_.
-type CronosAPI struct {
+// SwaAPI is the extension jsonrpc apis prefixed with swa_.
+type SwaAPI struct {
 	ctx               context.Context
 	clientCtx         client.Context
 	queryClient       *rpctypes.QueryClient
 	chainIDEpoch      *big.Int
 	logger            log.Logger
 	backend           backend.Backend
-	cronosQueryClient types.QueryClient
+	swaQueryClient types.QueryClient
 }
 
-// NewCronosAPI creates an instance of the cronos web3 extension apis.
-func NewCronosAPI(
+// NewSwaAPI creates an instance of the swa web3 extension apis.
+func NewSwaAPI(
 	logger log.Logger,
 	clientCtx client.Context,
 	backend backend.Backend,
-) *CronosAPI {
+) *SwaAPI {
 	eip155ChainID, err := ethermint.ParseChainID(clientCtx.ChainID)
 	if err != nil {
 		panic(err)
 	}
-	return &CronosAPI{
+	return &SwaAPI{
 		ctx:               context.Background(),
 		clientCtx:         clientCtx,
 		queryClient:       rpctypes.NewQueryClient(clientCtx),
 		chainIDEpoch:      eip155ChainID,
 		logger:            logger.With("client", "json-rpc"),
 		backend:           backend,
-		cronosQueryClient: types.NewQueryClient(clientCtx),
+		swaQueryClient: types.NewQueryClient(clientCtx),
 	}
 }
 
-func (api *CronosAPI) getBlockDetail(blockNrOrHash rpctypes.BlockNumberOrHash) (
+func (api *SwaAPI) getBlockDetail(blockNrOrHash rpctypes.BlockNumberOrHash) (
 	resBlock *coretypes.ResultBlock,
 	blockNumber int64,
 	blockHash string,
@@ -113,8 +113,8 @@ func (api *CronosAPI) getBlockDetail(blockNrOrHash rpctypes.BlockNumberOrHash) (
 }
 
 // GetTransactionReceiptsByBlock returns all the transaction receipts included in the block.
-func (api *CronosAPI) GetTransactionReceiptsByBlock(blockNrOrHash rpctypes.BlockNumberOrHash) ([]map[string]interface{}, error) {
-	api.logger.Debug("cronos_getTransactionReceiptsByBlock", "blockNrOrHash", blockNrOrHash)
+func (api *SwaAPI) GetTransactionReceiptsByBlock(blockNrOrHash rpctypes.BlockNumberOrHash) ([]map[string]interface{}, error) {
+	api.logger.Debug("swa_getTransactionReceiptsByBlock", "blockNrOrHash", blockNrOrHash)
 	resBlock, blockNumber, blockHash, blockRes, baseFee, err := api.getBlockDetail(blockNrOrHash)
 	if err != nil {
 		return nil, err
@@ -236,8 +236,8 @@ func (api *CronosAPI) GetTransactionReceiptsByBlock(blockNrOrHash rpctypes.Block
 
 // ReplayBlock return tx receipts by replay all the eth transactions,
 // if postUpgrade is true, the tx that exceeded block gas limit is treated as reverted, otherwise as committed.
-func (api *CronosAPI) ReplayBlock(blockNrOrHash rpctypes.BlockNumberOrHash, postUpgrade bool) ([]map[string]interface{}, error) {
-	api.logger.Debug("cronos_replayBlock", "blockNrOrHash", blockNrOrHash)
+func (api *SwaAPI) ReplayBlock(blockNrOrHash rpctypes.BlockNumberOrHash, postUpgrade bool) ([]map[string]interface{}, error) {
+	api.logger.Debug("swa_replayBlock", "blockNrOrHash", blockNrOrHash)
 	resBlock, blockNumber, blockHash, blockRes, baseFee, err := api.getBlockDetail(blockNrOrHash)
 	if err != nil {
 		return nil, err
@@ -291,7 +291,7 @@ func (api *CronosAPI) ReplayBlock(blockNrOrHash rpctypes.BlockNumberOrHash, post
 		// 0 is a special value in `ContextWithHeight`
 		contextHeight = 1
 	}
-	rsp, err := api.cronosQueryClient.ReplayBlock(rpctypes.ContextWithHeight(contextHeight), req)
+	rsp, err := api.swaQueryClient.ReplayBlock(rpctypes.ContextWithHeight(contextHeight), req)
 	if err != nil {
 		return nil, err
 	}
@@ -379,7 +379,7 @@ func (api *CronosAPI) ReplayBlock(blockNrOrHash rpctypes.BlockNumberOrHash, post
 }
 
 // getBlock returns the block from BlockNumberOrHash
-func (api *CronosAPI) getBlock(blockNrOrHash rpctypes.BlockNumberOrHash) (blk *coretypes.ResultBlock, err error) {
+func (api *SwaAPI) getBlock(blockNrOrHash rpctypes.BlockNumberOrHash) (blk *coretypes.ResultBlock, err error) {
 	if blockNrOrHash.BlockHash != nil {
 		blk, err = api.backend.TendermintBlockByHash(*blockNrOrHash.BlockHash)
 	} else {

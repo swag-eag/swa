@@ -129,11 +129,11 @@ class CosmosCLI:
     def migrate_sdk_genesis(self, version, path):
         return json.loads(self.raw("migrate", version, path))
 
-    def migrate_cronos_genesis(self, version, path):
+    def migrate_swa_genesis(self, version, path):
         return json.loads(
             self.raw(
                 "tx",
-                "cronos",
+                "swa",
                 "migrate",
                 version,
                 path,
@@ -1008,8 +1008,8 @@ class CosmosCLI:
 
     def set_delegate_keys(self, val_addr, acc_addr, eth_addr, signature, **kwargs):
         """
-        val_addr: cronos validator address
-        acc_addr: orchestrator's cronos address
+        val_addr: swa validator address
+        acc_addr: orchestrator's swa address
         eth_addr: orchestrator's ethereum address
         """
         kwargs.setdefault("gas_prices", DEFAULT_GAS_PRICE)
@@ -1031,7 +1031,7 @@ class CosmosCLI:
     def query_gravity_params(self):
         return self.query_params("gravity")
 
-    def query_params(self, module="cronos"):
+    def query_params(self, module="swa"):
         return json.loads(self.raw("query", module, "params", home=self.data_dir))
 
     def query_signer_set_txs(self):
@@ -1075,7 +1075,7 @@ class CosmosCLI:
         return json.loads(
             self.raw(
                 "query",
-                "cronos",
+                "swa",
                 "contract-by-denom",
                 denom,
                 home=self.data_dir,
@@ -1087,7 +1087,7 @@ class CosmosCLI:
         return json.loads(
             self.raw(
                 "query",
-                "cronos",
+                "swa",
                 "denom-by-contract",
                 contract,
                 home=self.data_dir,
@@ -1175,7 +1175,7 @@ class CosmosCLI:
         rsp = json.loads(
             self.raw(
                 "tx",
-                "cronos",
+                "swa",
                 "update-token-mapping",
                 denom,
                 contract,
@@ -1214,7 +1214,7 @@ class CosmosCLI:
         rsp = json.loads(
             self.raw(
                 "tx",
-                "cronos",
+                "swa",
                 "transfer-tokens",
                 from_,
                 to,
@@ -1607,7 +1607,7 @@ class CosmosCLI:
         return json.loads(
             self.raw(
                 "tx",
-                "cronos",
+                "swa",
                 "turn-bridge",
                 enable,
                 "-y",
@@ -1635,7 +1635,7 @@ class CosmosCLI:
         return json.loads(
             self.raw(
                 "query",
-                "cronos",
+                "swa",
                 "permissions",
                 address,
                 home=self.data_dir,
@@ -1648,7 +1648,7 @@ class CosmosCLI:
         rsp = json.loads(
             self.raw(
                 "tx",
-                "cronos",
+                "swa",
                 "update-permissions",
                 address,
                 permissions,

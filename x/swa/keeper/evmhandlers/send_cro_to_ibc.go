@@ -7,16 +7,16 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swakeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 var _ types.EvmLogHandler = SendCroToIbcHandler{}
 
-const SendCroToIbcEventName = "__CronosSendCroToIbc"
+const SendCroToIbcEventName = "__SwaSendCroToIbc"
 
 // SendCroToIbcEvent represent the signature of
-// `event __CronosSendCroToIbc(string recipient, uint256 amount)`
+// `event __SwaSendCroToIbc(string recipient, uint256 amount)`
 var SendCroToIbcEvent abi.Event
 
 func init() {
@@ -44,16 +44,16 @@ func init() {
 	)
 }
 
-// SendCroToIbcHandler handles `__CronosSendCroToIbc` log
+// SendCroToIbcHandler handles `__SwaSendCroToIbc` log
 type SendCroToIbcHandler struct {
 	bankKeeper   types.BankKeeper
-	cronosKeeper cronoskeeper.Keeper
+	swaKeeper swakeeper.Keeper
 }
 
-func NewSendCroToIbcHandler(bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendCroToIbcHandler {
+func NewSendCroToIbcHandler(bankKeeper types.BankKeeper, swaKeeper swakeeper.Keeper) *SendCroToIbcHandler {
 	return &SendCroToIbcHandler{
 		bankKeeper:   bankKeeper,
-		cronosKeeper: cronosKeeper,
+		swaKeeper: swaKeeper,
 	}
 }
 
@@ -71,7 +71,7 @@ func (h SendCroToIbcHandler) Handle(
 	unpacked, err := SendCroToIbcEvent.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.swaKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 
@@ -79,14 +79,14 @@ func (h SendCroToIbcHandler) Handle(
 	sender := sdk.AccAddress(unpacked[0].(common.Address).Bytes())
 	recipient := unpacked[1].(string)
 	amount := sdk.NewIntFromBigInt(unpacked[2].(*big.Int))
-	evmDenom := h.cronosKeeper.GetEvmParams(ctx).EvmDenom
+	evmDenom := h.swaKeeper.GetEvmParams(ctx).EvmDenom
 	coins := sdk.NewCoins(sdk.NewCoin(evmDenom, amount))
 	// First, transfer IBC coin to user so that he will be the refunded address if transfer fails
 	if err = h.bankKeeper.SendCoins(ctx, contractAddr, sender, coins); err != nil {
 		return err
 	}
 	// Initiate IBC transfer from sender account
-	if err = h.cronosKeeper.IbcTransferCoins(ctx, sender.String(), recipient, coins, ""); err != nil {
+	if err = h.swaKeeper.IbcTransferCoins(ctx, sender.String(), recipient, coins, ""); err != nil {
 		return err
 	}
 	return nil

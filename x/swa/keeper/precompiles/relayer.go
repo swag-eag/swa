@@ -13,7 +13,7 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	cronosevents "github.com/swag-eag/swa/v2/x/swa/events"
+	swaevents "github.com/swag-eag/swa/v2/x/swa/events"
 	"github.com/swag-eag/swa/v2/x/swa/events/bindings/cosmos/precompile/relayer"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
@@ -202,7 +202,7 @@ func (bc *RelayerContract) Run(evm *vm.EVM, contract *vm.Contract, readonly bool
 		return nil, errors.New("fail to unpack input arguments")
 	}
 	input := args[0].([]byte)
-	converter := cronosevents.RelayerConvertEvent
+	converter := swaevents.RelayerConvertEvent
 	e := &Executor{
 		cdc:       bc.cdc,
 		stateDB:   stateDB,

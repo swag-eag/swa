@@ -9,20 +9,20 @@ import (
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	porttypes "github.com/cosmos/ibc-go/v7/modules/core/05-port/types"
 	"github.com/cosmos/ibc-go/v7/modules/core/exported"
-	cronoskeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swakeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 )
 
 // IBCConversionModule implements the ICS26 interface.
 type IBCConversionModule struct {
 	app          porttypes.IBCModule
-	cronoskeeper cronoskeeper.Keeper
+	swakeeper swakeeper.Keeper
 }
 
 // NewIBCConversionModule creates a new IBCModule given the keeper and underlying application
-func NewIBCConversionModule(app porttypes.IBCModule, ck cronoskeeper.Keeper) IBCConversionModule {
+func NewIBCConversionModule(app porttypes.IBCModule, ck swakeeper.Keeper) IBCConversionModule {
 	return IBCConversionModule{
 		app:          app,
-		cronoskeeper: ck,
+		swakeeper: ck,
 	}
 }
 
@@ -187,19 +187,19 @@ func (im IBCConversionModule) convertVouchers(ctx sdk.Context, data transferType
 	}
 	token := sdk.NewCoin(denom, transferAmount)
 	if isSender {
-		im.cronoskeeper.OnRecvVouchers(ctx, sdk.NewCoins(token), data.Sender)
+		im.swakeeper.OnRecvVouchers(ctx, sdk.NewCoins(token), data.Sender)
 	} else {
-		im.cronoskeeper.OnRecvVouchers(ctx, sdk.NewCoins(token), data.Receiver)
+		im.swakeeper.OnRecvVouchers(ctx, sdk.NewCoins(token), data.Receiver)
 	}
 	return nil
 }
 
 func (im IBCConversionModule) canBeConverted(ctx sdk.Context, denom string) bool {
-	params := im.cronoskeeper.GetParams(ctx)
+	params := im.swakeeper.GetParams(ctx)
 	if denom == params.IbcCroDenom {
 		return true
 	}
-	_, found := im.cronoskeeper.GetContractByDenom(ctx, denom)
+	_, found := im.swakeeper.GetContractByDenom(ctx, denom)
 	return found
 }
 

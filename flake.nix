@@ -35,15 +35,15 @@
           };
         in
         rec {
-          packages = pkgs.cronos-matrix // {
+          packages = pkgs.swa-matrix // {
             inherit (pkgs) rocksdb;
           };
           apps = {
-            cronosd = mkApp packages.cronosd;
-            cronosd-testnet = mkApp packages.cronosd-testnet;
+            swad = mkApp packages.swad;
+            swad-testnet = mkApp packages.swad-testnet;
           };
-          defaultPackage = packages.cronosd;
-          defaultApp = apps.cronosd;
+          defaultPackage = packages.swad;
+          defaultApp = apps.swad;
           devShells = {
             default = pkgs.mkShell {
               buildInputs = [
@@ -76,7 +76,7 @@
             --owner=0 --group=0 --mode=u+rw,uga+r --hard-dereference . \
             | gzip -9 > $out
         '';
-        bundle-win-exe = drv: final.callPackage ./nix/bundle-win-exe.nix { cronosd = drv; };
+        bundle-win-exe = drv: final.callPackage ./nix/bundle-win-exe.nix { swad = drv; };
       } // (with final;
         let
           matrix = lib.cartesianProductOfSets {
@@ -90,33 +90,33 @@
           binaries = builtins.listToAttrs (builtins.map
             ({ network, pkgtype }: {
               name = builtins.concatStringsSep "-" (
-                [ "cronosd" ] ++
+                [ "swad" ] ++
                 lib.optional (network != "mainnet") network ++
                 lib.optional (pkgtype != "nix") pkgtype
               );
               value =
                 let
-                  cronosd = callPackage ./. {
+                  swad = callPackage ./. {
                     inherit rev network;
                   };
                   bundle =
                     if stdenv.hostPlatform.isWindows then
-                      bundle-win-exe cronosd
+                      bundle-win-exe swad
                     else
-                      bundle-exe cronosd;
+                      bundle-exe swad;
                 in
                 if pkgtype == "bundle" then
                   bundle
                 else if pkgtype == "tarball" then
                   make-tarball bundle
                 else
-                  cronosd;
+                  swad;
             })
             matrix
           );
         in
         {
-          cronos-matrix = binaries;
+          swa-matrix = binaries;
         }
       );
     };

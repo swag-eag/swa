@@ -40,19 +40,19 @@ type CompiledContract struct {
 	Bin ByteString
 }
 
-const EVMModuleName = "cronos-evm"
+const EVMModuleName = "swa-evm"
 
 var (
 	//go:embed contracts/ModuleSWAC20.json
-	cronosSWAC20JSON []byte
+	swaSWAC20JSON []byte
 
-	// ModuleSWAC20Contract is the compiled cronos swac20 contract
+	// ModuleSWAC20Contract is the compiled swa swac20 contract
 	ModuleSWAC20Contract CompiledContract
 
 	//go:embed contracts/ModuleSWAC21.json
-	cronosSWAC21JSON []byte
+	swaSWAC21JSON []byte
 
-	// ModuleSWAC21Contract is the compiled cronos swac21 contract
+	// ModuleSWAC21Contract is the compiled swa swac21 contract
 	ModuleSWAC21Contract CompiledContract
 
 	// EVMModuleAddress is the native module address for EVM
@@ -62,7 +62,7 @@ var (
 func init() {
 	EVMModuleAddress = common.BytesToAddress(authtypes.NewModuleAddress(EVMModuleName).Bytes())
 
-	err := json.Unmarshal(cronosSWAC20JSON, &ModuleSWAC20Contract)
+	err := json.Unmarshal(swaSWAC20JSON, &ModuleSWAC20Contract)
 	if err != nil {
 		panic(err)
 	}
@@ -71,7 +71,7 @@ func init() {
 		panic("load contract failed")
 	}
 
-	err = json.Unmarshal(cronosSWAC21JSON, &ModuleSWAC21Contract)
+	err = json.Unmarshal(swaSWAC21JSON, &ModuleSWAC21Contract)
 	if err != nil {
 		panic(err)
 	}

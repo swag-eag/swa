@@ -27,13 +27,13 @@ func (k Keeper) GetPermissions(ctx sdk.Context, address sdk.AccAddress) uint64 {
 	return sdk.BigEndianToUint64(permissionsBytes)
 }
 
-// HasPermission check if an account has a specific permission. by default cronos admin has all permissions
+// HasPermission check if an account has a specific permission. by default swa admin has all permissions
 func (k Keeper) HasPermission(ctx sdk.Context, accounts []sdk.AccAddress, permissionsToCheck uint64) bool {
 	// case when no permission is needed
 	if permissionsToCheck == 0 {
 		return true
 	}
-	admin := k.GetParams(ctx).CronosAdmin
+	admin := k.GetParams(ctx).SwaAdmin
 	for _, account := range accounts {
 		if admin == account.String() {
 			return true

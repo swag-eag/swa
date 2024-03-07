@@ -19,7 +19,7 @@ import sources.nixpkgs {
       import ./scripts.nix {
         inherit pkgs;
         config = {
-          cronos-config = ../scripts/cronos-devnet.yaml;
+          swa-config = ../scripts/swa-devnet.yaml;
           geth-genesis = ../scripts/geth-genesis.json;
           dotenv = builtins.path { name = "dotenv"; path = ../scripts/.env; };
         };

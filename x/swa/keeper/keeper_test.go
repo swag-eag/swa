@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swamodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	keepertest "github.com/swag-eag/swa/v2/x/swa/keeper/mock"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 
@@ -128,14 +128,14 @@ func (suite *KeeperTestSuite) MintCoins(address sdk.AccAddress, coins sdk.Coins)
 func (suite *KeeperTestSuite) RegisterSourceToken(
 	contractAddress, symbol string, decimal uint32,
 ) error {
-	denom := "cronos" + contractAddress
+	denom := "swa" + contractAddress
 	msg := types.MsgUpdateTokenMapping{
 		Denom:    denom,
 		Contract: contractAddress,
 		Symbol:   symbol,
 		Decimal:  decimal,
 	}
-	return suite.app.CronosKeeper.RegisterOrUpdateTokenMapping(suite.ctx, &msg)
+	return suite.app.SwaKeeper.RegisterOrUpdateTokenMapping(suite.ctx, &msg)
 }
 
 func (suite *KeeperTestSuite) TestDenomContractMap() {
@@ -152,7 +152,7 @@ func (suite *KeeperTestSuite) TestDenomContractMap() {
 		{
 			"success, happy path",
 			func() {
-				keeper := suite.app.CronosKeeper
+				keeper := suite.app.SwaKeeper
 
 				_, found := keeper.GetContractByDenom(suite.ctx, denom1)
 				suite.Require().False(found)
@@ -173,7 +173,7 @@ func (suite *KeeperTestSuite) TestDenomContractMap() {
 		{
 			"failure, multiple denoms map to same contract",
 			func() {
-				keeper := suite.app.CronosKeeper
+				keeper := suite.app.SwaKeeper
 				keeper.SetAutoContractForDenom(suite.ctx, denom1, autoContract)
 				err := keeper.SetExternalContractForDenom(suite.ctx, denom2, autoContract)
 				suite.Require().Error(err)
@@ -182,7 +182,7 @@ func (suite *KeeperTestSuite) TestDenomContractMap() {
 		{
 			"failure, multiple denoms map to same external contract",
 			func() {
-				keeper := suite.app.CronosKeeper
+				keeper := suite.app.SwaKeeper
 				err := keeper.SetExternalContractForDenom(suite.ctx, denom1, externalContract)
 				suite.Require().NoError(err)
 				err = keeper.SetExternalContractForDenom(suite.ctx, denom2, externalContract)
@@ -269,8 +269,8 @@ func (suite *KeeperTestSuite) TestOnRecvVouchers() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
-			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			// Create Swa Keeper with mock transfer keeper
+			swaKeeper := *swamodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -281,10 +281,10 @@ func (suite *KeeperTestSuite) TestOnRecvVouchers() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			suite.app.CronosKeeper = cronosKeeper
+			suite.app.SwaKeeper = swaKeeper
 
 			tc.malleate()
-			suite.app.CronosKeeper.OnRecvVouchers(suite.ctx, tc.coins, address.String())
+			suite.app.SwaKeeper.OnRecvVouchers(suite.ctx, tc.coins, address.String())
 			tc.postCheck()
 		})
 	}
@@ -329,7 +329,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 			"Non source token, no hex contract address, error",
 			types.MsgUpdateTokenMapping{
 				Sender:   "",
-				Denom:    "cronos0xtest",
+				Denom:    "swa0xtest",
 				Contract: "test",
 				Symbol:   "",
 				Decimal:  0,
@@ -348,7 +348,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 				Decimal:  0,
 			},
 			func() {
-				err := suite.app.CronosKeeper.SetExternalContractForDenom(
+				err := suite.app.SwaKeeper.SetExternalContractForDenom(
 					suite.ctx,
 					"gravity0xf6d4fecb1a6fb7c2ca350169a050d483bd87b883",
 					common.HexToAddress(contractAddress))
@@ -360,7 +360,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 			"Source token, invalid denom, error",
 			types.MsgUpdateTokenMapping{
 				Sender:   "",
-				Denom:    "cronos0xf6d4fecb1a6fb7c2ca350169a050d483bd87b88@",
+				Denom:    "swa0xf6d4fecb1a6fb7c2ca350169a050d483bd87b88@",
 				Contract: contractAddress,
 				Symbol:   "",
 				Decimal:  0,
@@ -373,7 +373,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 			"Source token, denom correct, no error",
 			types.MsgUpdateTokenMapping{
 				Sender:   "",
-				Denom:    "cronos0xF6D4FeCB1a6fb7C2CA350169A050D483bd87b883",
+				Denom:    "swa0xF6D4FeCB1a6fb7C2CA350169A050D483bd87b883",
 				Contract: contractAddress,
 				Symbol:   "",
 				Decimal:  0,
@@ -386,7 +386,7 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 			"Source token, denom correct with decimal, no error",
 			types.MsgUpdateTokenMapping{
 				Sender:   "",
-				Denom:    "cronos0xF6D4FeCB1a6fb7C2CA350169A050D483bd87b883",
+				Denom:    "swa0xF6D4FeCB1a6fb7C2CA350169A050D483bd87b883",
 				Contract: contractAddress,
 				Symbol:   "Test",
 				Decimal:  6,
@@ -401,8 +401,8 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 		tc := tc
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
-			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			// Create Swa Keeper with mock transfer keeper
+			swaKeeper := *swamodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -413,10 +413,10 @@ func (suite *KeeperTestSuite) TestRegisterOrUpdateTokenMapping() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			suite.app.CronosKeeper = cronosKeeper
+			suite.app.SwaKeeper = swaKeeper
 
 			tc.malleate()
-			err := suite.app.CronosKeeper.RegisterOrUpdateTokenMapping(suite.ctx, &tc.msg)
+			err := suite.app.SwaKeeper.RegisterOrUpdateTokenMapping(suite.ctx, &tc.msg)
 			if tc.error {
 				suite.Require().Error(err)
 			} else {

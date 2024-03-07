@@ -6,7 +6,7 @@ import (
 
 const (
 	// ModuleName defines the module name
-	ModuleName = "cronos"
+	ModuleName = "swa"
 
 	// StoreKey defines the primary module store key
 	StoreKey = ModuleName
@@ -15,12 +15,12 @@ const (
 	RouterKey = ModuleName
 
 	// MemStoreKey defines the in-memory store key
-	MemStoreKey = "mem_cronos"
+	MemStoreKey = "mem_swa"
 
 	// this line is used by starport scaffolding # ibc/keys/name
 )
 
-// prefix bytes for the cronos persistent store
+// prefix bytes for the swa persistent store
 const (
 	prefixDenomToExternalContract = iota + 1
 	prefixDenomToAutoContract

@@ -8,16 +8,16 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	cronoskeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swakeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 var _ types.EvmLogHandler = SendToAccountHandler{}
 
-const SendToAccountEventName = "__CronosSendToAccount"
+const SendToAccountEventName = "__SwaSendToAccount"
 
 // SendToAccountEvent represent the signature of
-// `event __CronosSendToAccount(address recipient, uint256 amount)`
+// `event __SwaSendToAccount(address recipient, uint256 amount)`
 var SendToAccountEvent abi.Event
 
 func init() {
@@ -40,16 +40,16 @@ func init() {
 	)
 }
 
-// SendToAccountHandler handles `__CronosSendToAccount` log
+// SendToAccountHandler handles `__SwaSendToAccount` log
 type SendToAccountHandler struct {
 	bankKeeper   types.BankKeeper
-	cronosKeeper cronoskeeper.Keeper
+	swaKeeper swakeeper.Keeper
 }
 
-func NewSendToAccountHandler(bankKeeper types.BankKeeper, cronosKeeper cronoskeeper.Keeper) *SendToAccountHandler {
+func NewSendToAccountHandler(bankKeeper types.BankKeeper, swaKeeper swakeeper.Keeper) *SendToAccountHandler {
 	return &SendToAccountHandler{
 		bankKeeper:   bankKeeper,
-		cronosKeeper: cronosKeeper,
+		swaKeeper: swaKeeper,
 	}
 }
 
@@ -67,11 +67,11 @@ func (h SendToAccountHandler) Handle(
 	unpacked, err := SendToAccountEvent.Inputs.Unpack(data)
 	if err != nil {
 		// log and ignore
-		h.cronosKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
+		h.swaKeeper.Logger(ctx).Error("log signature matches but failed to decode", "error", err)
 		return nil
 	}
 
-	denom, found := h.cronosKeeper.GetDenomByContract(ctx, contract)
+	denom, found := h.swaKeeper.GetDenomByContract(ctx, contract)
 	if !found {
 		return fmt.Errorf("contract %s is not connected to native token", contract)
 	}

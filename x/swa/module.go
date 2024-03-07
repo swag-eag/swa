@@ -179,17 +179,17 @@ func (am AppModule) EndBlock(_ sdk.Context, _ abci.RequestEndBlock) []abci.Valid
 	return []abci.ValidatorUpdate{}
 }
 
-// RegisterStoreDecoder registers a decoder for cronos module's types
+// RegisterStoreDecoder registers a decoder for swa module's types
 func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 	sdr[types.StoreKey] = simulation.NewDecodeStore()
 }
 
-// GenerateGenesisState creates a randomized GenState of the cronos module.
+// GenerateGenesisState creates a randomized GenState of the swa module.
 func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 	simulation.RandomizedGenState(simState)
 }
 
-// WeightedOperations returns the all the cronos module operations with their respective weights.
+// WeightedOperations returns the all the swa module operations with their respective weights.
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	return simulation.WeightedOperations(
 		simState.AppParams, simState.Cdc, am.accountKeeper, am.bankKeeper, &am.keeper,

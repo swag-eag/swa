@@ -17,7 +17,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-type CronosTestSuite struct {
+type SwaTestSuite struct {
 	suite.Suite
 
 	ctx     sdk.Context
@@ -26,30 +26,30 @@ type CronosTestSuite struct {
 	address sdk.AccAddress
 }
 
-func TestCronosTestSuite(t *testing.T) {
-	suite.Run(t, new(CronosTestSuite))
+func TestSwaTestSuite(t *testing.T) {
+	suite.Run(t, new(SwaTestSuite))
 }
 
-func (suite *CronosTestSuite) SetupTest() {
+func (suite *SwaTestSuite) SetupTest() {
 	checkTx := false
 	privKey, err := ethsecp256k1.GenerateKey()
 	suite.Require().NoError(err)
 	suite.address = sdk.AccAddress(privKey.PubKey().Address())
 	suite.app = app.Setup(suite.T(), suite.address.String(), true)
 	suite.ctx = suite.app.BaseApp.NewContext(checkTx, tmproto.Header{Height: 1, ChainID: app.TestAppChainID, Time: time.Now().UTC()})
-	suite.handler = cronos.NewHandler(suite.app.CronosKeeper)
+	suite.handler = swa.NewHandler(suite.app.SwaKeeper)
 }
 
-func (suite *CronosTestSuite) TestInvalidMsg() {
+func (suite *SwaTestSuite) TestInvalidMsg() {
 	res, err := suite.handler(sdk.NewContext(nil, tmproto.Header{}, false, nil), testdata.NewTestMsg())
 	suite.Require().Error(err)
 	suite.Nil(res)
 
 	_, _, log := errorsmod.ABCIInfo(err, false)
-	suite.Require().True(strings.Contains(log, "unrecognized cronos message type"))
+	suite.Require().True(strings.Contains(log, "unrecognized swa message type"))
 }
 
-func (suite *CronosTestSuite) TestMsgConvertVouchers() {
+func (suite *SwaTestSuite) TestMsgConvertVouchers() {
 	testCases := []struct {
 		name          string
 		msg           *types.MsgConvertVouchers
@@ -78,7 +78,7 @@ func (suite *CronosTestSuite) TestMsgConvertVouchers() {
 
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
-			handler := cronos.NewHandler(suite.app.CronosKeeper)
+			handler := swa.NewHandler(suite.app.SwaKeeper)
 			_, err := handler(suite.ctx, tc.msg)
 			if tc.expectedError != nil {
 				suite.Require().EqualError(err, tc.expectedError.Error())
@@ -89,7 +89,7 @@ func (suite *CronosTestSuite) TestMsgConvertVouchers() {
 	}
 }
 
-func (suite *CronosTestSuite) TestMsgTransferTokens() {
+func (suite *SwaTestSuite) TestMsgTransferTokens() {
 	testCases := []struct {
 		name          string
 		msg           *types.MsgTransferTokens
@@ -118,12 +118,12 @@ func (suite *CronosTestSuite) TestMsgTransferTokens() {
 			"Correct address with non supported coin denom",
 			types.NewMsgTransferTokens(suite.address.String(), "to", sdk.NewCoins(sdk.NewCoin("fake", sdk.NewInt(1)))),
 			func() {},
-			errors.New("the coin fake is neither an ibc voucher or a cronos token"),
+			errors.New("the coin fake is neither an ibc voucher or a swa token"),
 		},
 	}
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
-			handler := cronos.NewHandler(suite.app.CronosKeeper)
+			handler := swa.NewHandler(suite.app.SwaKeeper)
 			_, err := handler(suite.ctx, tc.msg)
 			if tc.expectedError != nil {
 				suite.Require().EqualError(err, tc.expectedError.Error())
@@ -134,18 +134,18 @@ func (suite *CronosTestSuite) TestMsgTransferTokens() {
 	}
 }
 
-func (suite *CronosTestSuite) TestUpdateTokenMapping() {
+func (suite *SwaTestSuite) TestUpdateTokenMapping() {
 	suite.SetupTest()
 
 	denom := "gravity0x6E7eef2b30585B2A4D45Ba9312015d5354FDB067"
 	contract := "0x57f96e6B86CdeFdB3d412547816a82E3E0EbF9D2"
 
 	msg := types.NewMsgUpdateTokenMapping(suite.address.String(), denom, contract, "", 0)
-	handler := cronos.NewHandler(suite.app.CronosKeeper)
+	handler := swa.NewHandler(suite.app.SwaKeeper)
 	_, err := handler(suite.ctx, msg)
 	suite.Require().NoError(err)
 
-	contractAddr, found := suite.app.CronosKeeper.GetContractByDenom(suite.ctx, denom)
+	contractAddr, found := suite.app.SwaKeeper.GetContractByDenom(suite.ctx, denom)
 	suite.Require().True(found)
 	suite.Require().Equal(contract, contractAddr.Hex())
 }

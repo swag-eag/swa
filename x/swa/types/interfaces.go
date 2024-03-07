@@ -89,8 +89,8 @@ type Icaauthkeeper interface {
 	SubmitTxWithArgs(goCtx context.Context, owner, connectionId string, timeoutDuration time.Duration, packetData icatypes.InterchainAccountPacketData) (string, *icaauthtypes.MsgSubmitTxResponse, error)
 }
 
-// CronosKeeper defines the interface for cronos keeper
-type CronosKeeper interface {
+// SwaKeeper defines the interface for swa keeper
+type SwaKeeper interface {
 	GetParams(ctx sdk.Context) (params Params)
 }
 

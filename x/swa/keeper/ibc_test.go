@@ -9,7 +9,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/swag-eag/swa/v2/app"
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swamodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	keepertest "github.com/swag-eag/swa/v2/x/swa/keeper/mock"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
@@ -18,7 +18,7 @@ import (
 
 const (
 	CorrectIbcDenom    = "ibc/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-	CorrectCronosDenom = "cronos0xc1b37f2abdb778f540fa5db8e1fd2eadfc9a05ed"
+	CorrectSwaDenom = "swa0xc1b37f2abdb778f540fa5db8e1fd2eadfc9a05ed"
 )
 
 func (suite *KeeperTestSuite) TestConvertVouchersToEvmCoins() {
@@ -113,9 +113,9 @@ func (suite *KeeperTestSuite) TestConvertVouchersToEvmCoins() {
 				ibcCroCoin := suite.GetBalance(address, CorrectIbcDenom)
 				suite.Require().Equal(sdk.NewInt(0), ibcCroCoin.Amount)
 				// Verify SWAC20 balance post operation
-				contract, found := suite.app.CronosKeeper.GetContractByDenom(suite.ctx, CorrectIbcDenom)
+				contract, found := suite.app.SwaKeeper.GetContractByDenom(suite.ctx, CorrectIbcDenom)
 				suite.Require().True(found)
-				ret, err := suite.app.CronosKeeper.CallModuleSWAC21(suite.ctx, contract, "balanceOf", common.BytesToAddress(address.Bytes()))
+				ret, err := suite.app.SwaKeeper.CallModuleSWAC21(suite.ctx, contract, "balanceOf", common.BytesToAddress(address.Bytes()))
 				suite.Require().NoError(err)
 				suite.Require().Equal(big.NewInt(123), big.NewInt(0).SetBytes(ret))
 			},
@@ -127,7 +127,7 @@ func (suite *KeeperTestSuite) TestConvertVouchersToEvmCoins() {
 			suite.SetupTest() // reset
 
 			tc.malleate()
-			err := suite.app.CronosKeeper.ConvertVouchersToEvmCoins(suite.ctx, tc.from, tc.coin)
+			err := suite.app.SwaKeeper.ConvertVouchersToEvmCoins(suite.ctx, tc.from, tc.coin)
 			if tc.expectedError != nil {
 				suite.Require().EqualError(err, tc.expectedError.Error())
 			} else {
@@ -190,7 +190,7 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 			sdk.NewCoins(sdk.NewCoin("fake", sdk.NewInt(1))),
 			"channel-0",
 			func() {},
-			errors.New("the coin fake is neither an ibc voucher or a cronos token"),
+			errors.New("the coin fake is neither an ibc voucher or a swa token"),
 			func() {},
 		},
 		{
@@ -248,9 +248,9 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 			"channel-0",
 			func() {
 				// Add support for the IBC token
-				suite.app.CronosKeeper.SetAutoContractForDenom(suite.ctx, "incorrect", common.HexToAddress("0x11"))
+				suite.app.SwaKeeper.SetAutoContractForDenom(suite.ctx, "incorrect", common.HexToAddress("0x11"))
 			},
-			errors.New("the coin incorrect is neither an ibc voucher or a cronos token"),
+			errors.New("the coin incorrect is neither an ibc voucher or a swa token"),
 			func() {
 			},
 		},
@@ -264,7 +264,7 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 				// Mint IBC token for user
 				suite.MintCoins(address, sdk.NewCoins(sdk.NewCoin(CorrectIbcDenom, sdk.NewInt(123))))
 				// Add support for the IBC token
-				suite.app.CronosKeeper.SetAutoContractForDenom(suite.ctx, CorrectIbcDenom, common.HexToAddress("0x11"))
+				suite.app.SwaKeeper.SetAutoContractForDenom(suite.ctx, CorrectIbcDenom, common.HexToAddress("0x11"))
 			},
 			nil,
 			func() {
@@ -274,13 +274,13 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 			"Correct address with incorrect IBC token denom",
 			address.String(),
 			"to",
-			sdk.NewCoins(sdk.NewCoin(CorrectCronosDenom, sdk.NewInt(123))),
+			sdk.NewCoins(sdk.NewCoin(CorrectSwaDenom, sdk.NewInt(123))),
 			"aaa",
 			func() {
 				// Mint IBC token for user
-				suite.MintCoins(address, sdk.NewCoins(sdk.NewCoin(CorrectCronosDenom, sdk.NewInt(123))))
+				suite.MintCoins(address, sdk.NewCoins(sdk.NewCoin(CorrectSwaDenom, sdk.NewInt(123))))
 				// Add support for the IBC token
-				suite.app.CronosKeeper.SetAutoContractForDenom(suite.ctx, CorrectCronosDenom, common.HexToAddress("0x11"))
+				suite.app.SwaKeeper.SetAutoContractForDenom(suite.ctx, CorrectSwaDenom, common.HexToAddress("0x11"))
 			},
 			errors.New("invalid channel id for ibc transfer of source token"),
 			func() {
@@ -291,8 +291,8 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
-			// Create Cronos Keeper with mock transfer keeper
-			cronosKeeper := *cronosmodulekeeper.NewKeeper(
+			// Create Swa Keeper with mock transfer keeper
+			swaKeeper := *swamodulekeeper.NewKeeper(
 				app.MakeEncodingConfig().Codec,
 				suite.app.GetKey(types.StoreKey),
 				suite.app.GetKey(types.MemStoreKey),
@@ -303,10 +303,10 @@ func (suite *KeeperTestSuite) TestIbcTransferCoins() {
 				suite.app.AccountKeeper,
 				authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 			)
-			suite.app.CronosKeeper = cronosKeeper
+			suite.app.SwaKeeper = swaKeeper
 
 			tc.malleate()
-			err := suite.app.CronosKeeper.IbcTransferCoins(suite.ctx, tc.from, tc.to, tc.coin, tc.channelId)
+			err := suite.app.SwaKeeper.IbcTransferCoins(suite.ctx, tc.from, tc.to, tc.coin, tc.channelId)
 			if tc.expectedError != nil {
 				suite.Require().EqualError(err, tc.expectedError.Error())
 			} else {

@@ -18,9 +18,9 @@ def get_balance(cli, addr, denom):
     return cli.balance(eth_to_bech32(addr), denom)
 
 
-def test_call(cronos):
-    w3 = cronos.w3
-    cli = cronos.cosmos_cli()
+def test_call(swa):
+    w3 = swa.w3
+    cli = swa.cosmos_cli()
     addr = ADDRS["signer1"]
     keys = KEYS["signer1"]
     contract = deploy_contract(w3, CONTRACTS["TestBank"], (), keys)
@@ -29,13 +29,13 @@ def test_call(cronos):
     def assert_balance(tx, expect_status, amt):
         balance = get_balance(cli, addr, denom)
         assert balance == contract.caller.nativeBalanceOf(addr)
-        crc20_balance = contract.caller.balanceOf(addr)
+        swac20_balance = contract.caller.balanceOf(addr)
         receipt = send_transaction(w3, tx, keys)
         assert receipt.status == expect_status
         balance += amt
         assert balance == get_balance(cli, addr, denom)
         assert balance == contract.caller.nativeBalanceOf(addr)
-        assert crc20_balance - amt == contract.caller.balanceOf(addr)
+        assert swac20_balance - amt == contract.caller.balanceOf(addr)
 
     # test mint
     amt1 = 100
@@ -60,11 +60,11 @@ def test_call(cronos):
     tx = contract.functions.nativeTransfer(addr2, amt3).build_transaction(data)
     balance = get_balance(cli, addr, denom)
     assert balance == contract.caller.nativeBalanceOf(addr)
-    crc20_balance = contract.caller.balanceOf(addr)
+    swac20_balance = contract.caller.balanceOf(addr)
 
     balance2 = get_balance(cli, addr2, denom)
     assert balance2 == contract.caller.nativeBalanceOf(addr2)
-    crc20_balance2 = contract.caller.balanceOf(addr2)
+    swac20_balance2 = contract.caller.balanceOf(addr2)
 
     receipt = send_transaction(w3, tx, keys)
     assert receipt.status == 1
@@ -72,12 +72,12 @@ def test_call(cronos):
     balance -= amt3
     assert balance == get_balance(cli, addr, denom)
     assert balance == contract.caller.nativeBalanceOf(addr)
-    assert crc20_balance - amt3 == contract.caller.balanceOf(addr)
+    assert swac20_balance - amt3 == contract.caller.balanceOf(addr)
 
     balance2 += amt3
     assert balance2 == get_balance(cli, addr2, denom)
     assert balance2 == contract.caller.nativeBalanceOf(addr2)
-    assert crc20_balance2 + amt3 == contract.caller.balanceOf(addr2)
+    assert swac20_balance2 + amt3 == contract.caller.balanceOf(addr2)
 
     # test transfer to blocked address
     recipient = module_address("evm")

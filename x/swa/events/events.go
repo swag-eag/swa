@@ -8,7 +8,7 @@ import (
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	ica "github.com/swag-eag/swa/v2/x/swa/events/bindings/cosmos/precompile/ica"
 	relayer "github.com/swag-eag/swa/v2/x/swa/events/bindings/cosmos/precompile/relayer"
-	cronoseventstypes "github.com/swag-eag/swa/v2/x/swa/events/types"
+	swaeventstypes "github.com/swag-eag/swa/v2/x/swa/events/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 )
@@ -35,7 +35,7 @@ var (
 		transfertypes.AttributeKeyDenom:       ReturnStringAsIs,
 	}
 	IcaValueDecoders = ValueDecoders{
-		cronoseventstypes.AttributeKeySeq:   ConvertUint64,
+		swaeventstypes.AttributeKeySeq:   ConvertUint64,
 		channeltypes.AttributeKeySrcChannel: ReturnStringAsIs,
 	}
 )

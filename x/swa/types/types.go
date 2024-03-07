@@ -18,8 +18,8 @@ const (
 	ibcDenomLen        = len(ibcDenomPrefix) + 64
 	gravityDenomPrefix = "gravity0x"
 	gravityDenomLen    = len(gravityDenomPrefix) + 40
-	cronosDenomPrefix  = "cronos0x"
-	cronosDenomLen     = len(cronosDenomPrefix) + 40
+	swaDenomPrefix  = "swa0x"
+	swaDenomLen     = len(swaDenomPrefix) + 40
 )
 
 // IsValidIBCDenom returns true if denom is a valid ibc denom
@@ -32,19 +32,19 @@ func IsValidGravityDenom(denom string) bool {
 	return len(denom) == gravityDenomLen && strings.HasPrefix(denom, gravityDenomPrefix)
 }
 
-// IsValidCronosDenom returns true if denom is a valid cronos denom
-func IsValidCronosDenom(denom string) bool {
-	return len(denom) == cronosDenomLen && strings.HasPrefix(denom, cronosDenomPrefix)
+// IsValidSwaDenom returns true if denom is a valid swa denom
+func IsValidSwaDenom(denom string) bool {
+	return len(denom) == swaDenomLen && strings.HasPrefix(denom, swaDenomPrefix)
 }
 
-// IsSourceCoin returns true if denom is a coin originated from cronos
+// IsSourceCoin returns true if denom is a coin originated from swa
 func IsSourceCoin(denom string) bool {
-	return IsValidCronosDenom(denom)
+	return IsValidSwaDenom(denom)
 }
 
 // IsValidCoinDenom returns true if it's ok it is a valid coin denom
 func IsValidCoinDenom(denom string) bool {
-	return IsValidIBCDenom(denom) || IsValidGravityDenom(denom) || IsValidCronosDenom(denom)
+	return IsValidIBCDenom(denom) || IsValidGravityDenom(denom) || IsValidSwaDenom(denom)
 }
 
 // GetContractAddressFromDenom get the contract address from the coin denom
@@ -52,7 +52,7 @@ func GetContractAddressFromDenom(denom string) (string, error) {
 	contractAddress := ""
 	if strings.HasPrefix(denom, gravityDenomPrefix) {
 		contractAddress = denom[7:]
-	} else if strings.HasPrefix(denom, cronosDenomPrefix) {
+	} else if strings.HasPrefix(denom, swaDenomPrefix) {
 		contractAddress = denom[6:]
 	}
 	if !common.IsHexAddress(contractAddress) {

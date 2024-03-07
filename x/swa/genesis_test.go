@@ -5,7 +5,7 @@ import (
 	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
-func (suite *CronosTestSuite) TestInitGenesis() {
+func (suite *SwaTestSuite) TestInitGenesis() {
 	testCases := []struct {
 		name     string
 		malleate func()
@@ -118,13 +118,13 @@ func (suite *CronosTestSuite) TestInitGenesis() {
 			if tc.expPanic {
 				suite.Require().Panics(
 					func() {
-						cronos.InitGenesis(suite.ctx, suite.app.CronosKeeper, *tc.genState)
+						swa.InitGenesis(suite.ctx, suite.app.SwaKeeper, *tc.genState)
 					},
 				)
 			} else {
 				suite.Require().NotPanics(
 					func() {
-						cronos.InitGenesis(suite.ctx, suite.app.CronosKeeper, *tc.genState)
+						swa.InitGenesis(suite.ctx, suite.app.SwaKeeper, *tc.genState)
 					},
 				)
 			}
@@ -132,7 +132,7 @@ func (suite *CronosTestSuite) TestInitGenesis() {
 	}
 }
 
-func (suite *CronosTestSuite) TestExportGenesis() {
-	genesisState := cronos.ExportGenesis(suite.ctx, suite.app.CronosKeeper)
+func (suite *SwaTestSuite) TestExportGenesis() {
+	genesisState := swa.ExportGenesis(suite.ctx, suite.app.SwaKeeper)
 	suite.Require().Equal(genesisState.Params.IbcCroDenom, types.DefaultParams().IbcCroDenom)
 }

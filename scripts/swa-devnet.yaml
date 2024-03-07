@@ -9,7 +9,7 @@ swa_331110-1:
     json-rpc:
       address: "127.0.0.1:{EVMRPC_PORT}"
       ws-address: "127.0.0.1:{EVMRPC_PORT_WS}"
-      api: "eth,net,web3,debug,cronos"
+      api: "eth,net,web3,debug,swa"
   validators:
     - coins: 1000000000000000000stake,10000000000000000000000swa
       staked: 1000000000000000000stake
@@ -37,9 +37,9 @@ swa_331110-1:
       evm:
         params:
           evm_denom: swa
-      cronos:
+      swa:
         params:
-          cronos_admin: ${CRONOS_ADMIN}
+          swa_admin: ${CRONOS_ADMIN}
           enable_auto_deployment: true
           ibc_cro_denom: ${IBC_CRO_DENOM}
       gov:

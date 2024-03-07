@@ -12,10 +12,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
-	cronosevents "github.com/swag-eag/swa/v2/x/swa/events"
+	swaevents "github.com/swag-eag/swa/v2/x/swa/events"
 	"github.com/swag-eag/swa/v2/x/swa/events/bindings/cosmos/precompile/ica"
 	"github.com/swag-eag/swa/v2/x/swa/events/bindings/cosmos/precompile/icacallback"
-	cronoseventstypes "github.com/swag-eag/swa/v2/x/swa/events/types"
+	swaeventstypes "github.com/swag-eag/swa/v2/x/swa/events/types"
 	"github.com/swag-eag/swa/v2/x/swa/types"
 
 	icaauthtypes "github.com/swag-eag/swa/v2/x/icaauth/types"
@@ -73,17 +73,17 @@ type IcaContract struct {
 	ctx           sdk.Context
 	cdc           codec.Codec
 	icaauthKeeper types.Icaauthkeeper
-	cronosKeeper  types.CronosKeeper
+	swaKeeper  types.SwaKeeper
 	kvGasConfig   storetypes.GasConfig
 }
 
-func NewIcaContract(ctx sdk.Context, icaauthKeeper types.Icaauthkeeper, cronosKeeper types.CronosKeeper, cdc codec.Codec, kvGasConfig storetypes.GasConfig) vm.PrecompiledContract {
+func NewIcaContract(ctx sdk.Context, icaauthKeeper types.Icaauthkeeper, swaKeeper types.SwaKeeper, cdc codec.Codec, kvGasConfig storetypes.GasConfig) vm.PrecompiledContract {
 	return &IcaContract{
 		BaseContract:  NewBaseContract(icaContractAddress),
 		ctx:           ctx,
 		cdc:           cdc,
 		icaauthKeeper: icaauthKeeper,
-		cronosKeeper:  cronosKeeper,
+		swaKeeper:  swaKeeper,
 		kvGasConfig:   kvGasConfig,
 	}
 }
@@ -100,7 +100,7 @@ func (ic *IcaContract) RequiredGas(input []byte) uint64 {
 	copy(methodID[:], input[:4])
 	requiredGas, ok := icaGasRequiredByMethod[methodID]
 	if icaMethodNamesByID[methodID] == SubmitMsgsMethodName {
-		requiredGas += ic.cronosKeeper.GetParams(ic.ctx).MaxCallbackGas
+		requiredGas += ic.swaKeeper.GetParams(ic.ctx).MaxCallbackGas
 	}
 	if ok {
 		return requiredGas + baseCost
@@ -119,7 +119,7 @@ func (ic *IcaContract) Run(evm *vm.EVM, contract *vm.Contract, readonly bool) ([
 	precompileAddr := ic.Address()
 	caller := contract.CallerAddress
 	owner := sdk.AccAddress(caller.Bytes()).String()
-	converter := cronosevents.IcaConvertEvent
+	converter := swaevents.IcaConvertEvent
 	var execErr error
 	switch method.Name {
 	case RegisterAccountMethodName:
@@ -196,9 +196,9 @@ func (ic *IcaContract) Run(evm *vm.EVM, contract *vm.Contract, readonly bool) ([
 				seq = response.Sequence
 				ctx.EventManager().EmitEvents(sdk.Events{
 					sdk.NewEvent(
-						cronoseventstypes.EventTypeSubmitMsgsResult,
+						swaeventstypes.EventTypeSubmitMsgsResult,
 						sdk.NewAttribute(channeltypes.AttributeKeySrcChannel, activeChannelID),
-						sdk.NewAttribute(cronoseventstypes.AttributeKeySeq, fmt.Sprintf("%d", response.Sequence)),
+						sdk.NewAttribute(swaeventstypes.AttributeKeySeq, fmt.Sprintf("%d", response.Sequence)),
 					),
 				})
 			}

@@ -15,7 +15,7 @@ import (
 const (
 	ibcCroDenomKey          = "ibc_cro_denom"
 	ibcTimeoutKey           = "ibc_timeout"
-	cronosAdminKey          = "cronos_admin"
+	swaAdminKey          = "swa_admin"
 	enableAutoDeploymentKey = "enable_auto_deployment"
 	maxCallbackGasKey       = "max_callback_gas"
 )
@@ -31,7 +31,7 @@ func GenIbcTimeout(r *rand.Rand) uint64 {
 	return timeout
 }
 
-func GenCronosAdmin(r *rand.Rand, simState *module.SimulationState) string {
+func GenSwaAdmin(r *rand.Rand, simState *module.SimulationState) string {
 	adminAccount, _ := simtypes.RandomAcc(r, simState.Accounts)
 	return adminAccount.Address.String()
 }
@@ -45,13 +45,13 @@ func GenMaxCallbackGas(r *rand.Rand) uint64 {
 	return maxCallbackGas
 }
 
-// RandomizedGenState generates a random GenesisState for the cronos module
+// RandomizedGenState generates a random GenesisState for the swa module
 func RandomizedGenState(simState *module.SimulationState) {
-	// cronos params
+	// swa params
 	var (
 		ibcCroDenom          string
 		ibcTimeout           uint64
-		cronosAdmin          string
+		swaAdmin          string
 		enableAutoDeployment bool
 		maxCallbackGas       uint64
 	)
@@ -67,8 +67,8 @@ func RandomizedGenState(simState *module.SimulationState) {
 	)
 
 	simState.AppParams.GetOrGenerate(
-		simState.Cdc, cronosAdminKey, &cronosAdmin, simState.Rand,
-		func(r *rand.Rand) { cronosAdmin = GenCronosAdmin(r, simState) },
+		simState.Cdc, swaAdminKey, &swaAdmin, simState.Rand,
+		func(r *rand.Rand) { swaAdmin = GenSwaAdmin(r, simState) },
 	)
 
 	simState.AppParams.GetOrGenerate(
@@ -81,18 +81,18 @@ func RandomizedGenState(simState *module.SimulationState) {
 		func(r *rand.Rand) { maxCallbackGas = GenIbcTimeout(r) },
 	)
 
-	params := types.NewParams(ibcCroDenom, ibcTimeout, cronosAdmin, enableAutoDeployment, maxCallbackGas)
-	cronosGenesis := &types.GenesisState{
+	params := types.NewParams(ibcCroDenom, ibcTimeout, swaAdmin, enableAutoDeployment, maxCallbackGas)
+	swaGenesis := &types.GenesisState{
 		Params:            params,
 		ExternalContracts: nil,
 		AutoContracts:     nil,
 	}
 
-	bz, err := json.MarshalIndent(cronosGenesis, "", " ")
+	bz, err := json.MarshalIndent(swaGenesis, "", " ")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("Selected randomly generated %s parameters:\n%s\n", types.ModuleName, bz)
 
-	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(cronosGenesis)
+	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(swaGenesis)
 }

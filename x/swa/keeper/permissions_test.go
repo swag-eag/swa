@@ -9,7 +9,7 @@ import (
 
 func (suite *KeeperTestSuite) TestSetAndGetPermissions() {
 	suite.SetupTest()
-	keeper := suite.app.CronosKeeper
+	keeper := suite.app.SwaKeeper
 
 	// generate test address
 	priv, err := ethsecp256k1.GenerateKey()
@@ -35,7 +35,7 @@ func (suite *KeeperTestSuite) TestSetAndGetPermissions() {
 
 func (suite *KeeperTestSuite) TestHasPermissions() {
 	suite.SetupTest()
-	keeper := suite.app.CronosKeeper
+	keeper := suite.app.SwaKeeper
 
 	// generate test address
 	priv, err := ethsecp256k1.GenerateKey()

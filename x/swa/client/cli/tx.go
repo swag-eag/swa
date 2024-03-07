@@ -53,7 +53,7 @@ func GetTxCmd() *cobra.Command {
 func CmdConvertTokens() *cobra.Command {
 	cmd := &cobra.Command{
 		Use: "convert-vouchers [address] [amount]",
-		Short: "Convert ibc vouchers to cronos tokens, Note, the'--from' flag is" +
+		Short: "Convert ibc vouchers to swa tokens, Note, the'--from' flag is" +
 			" ignored as it is implied from [address].`",
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -87,7 +87,7 @@ func CmdConvertTokens() *cobra.Command {
 func CmdSendToCryptoOrg() *cobra.Command {
 	cmd := &cobra.Command{
 		Use: "transfer-tokens [from] [to] [amount]",
-		Short: "Transfer cronos tokens to the origin chain through IBC , Note, the'--from' flag is" +
+		Short: "Transfer swa tokens to the origin chain through IBC , Note, the'--from' flag is" +
 			" ignored as it is implied from [from].`",
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -290,7 +290,7 @@ func CmdTurnBridge() *cobra.Command {
 	return cmd
 }
 
-// CmdUpdatePermissions returns a CLI command handler for updating cronos permissions
+// CmdUpdatePermissions returns a CLI command handler for updating swa permissions
 func CmdUpdatePermissions() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update-permissions [address] [permissions]",
@@ -397,7 +397,7 @@ func MigrateGenesisCmd() *cobra.Command {
 		Long: fmt.Sprintf(`Migrate the source genesis into the target version and print to STDOUT.
 
 Example:
-$ %s migrate v1.0 /path/to/genesis.json --chain-id=cronos_777-1 --genesis-time=2019-04-22T17:00:00Z
+$ %s migrate v1.0 /path/to/genesis.json --chain-id=swa_777-1 --genesis-time=2019-04-22T17:00:00Z
 `, version.AppName),
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {

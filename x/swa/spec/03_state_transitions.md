@@ -6,7 +6,7 @@ order: 3
 
 <!-- define state transitions for accounts and storage -->
 
-This document describes the state transition operations of Cronos module, currently the only state is token mapping.
+This document describes the state transition operations of Swa module, currently the only state is token mapping.
 
 ## Token Mapping
 

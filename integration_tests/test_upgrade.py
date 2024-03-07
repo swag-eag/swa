@@ -8,7 +8,7 @@ import pytest
 from pystarport import ports
 from pystarport.cluster import SUPERVISOR_CONFIG_FILE
 
-from .network import Cronos, setup_custom_cronos
+from .network import Swa, setup_custom_swa
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -28,12 +28,12 @@ pytestmark = pytest.mark.upgrade
 
 @pytest.fixture(scope="module")
 def testnet(tmp_path_factory):
-    yield from setup_cronos_test(tmp_path_factory)
+    yield from setup_swa_test(tmp_path_factory)
 
 
 @pytest.fixture(scope="module")
 def mainnet(tmp_path_factory):
-    yield from setup_cronos_test(tmp_path_factory, False)
+    yield from setup_swa_test(tmp_path_factory, False)
 
 
 def init_cosmovisor(home):
@@ -50,7 +50,7 @@ def post_init(path, base_port, config):
     """
     prepare cosmovisor for each node
     """
-    chain_id = "cronos_777-1"
+    chain_id = "swa_777-1"
     data = path / chain_id
     cfg = json.loads((data / "config.json").read_text())
     for i, _ in enumerate(cfg["validators"]):
@@ -62,12 +62,12 @@ def post_init(path, base_port, config):
         data / SUPERVISOR_CONFIG_FILE,
         lambda i, _: {
             "command": f"cosmovisor start --home %(here)s/node{i}",
-            "environment": f"DAEMON_NAME=cronosd,DAEMON_HOME=%(here)s/node{i}",
+            "environment": f"DAEMON_NAME=swad,DAEMON_HOME=%(here)s/node{i}",
         },
     )
 
 
-def setup_cronos_test(tmp_path_factory, testnet=True):
+def setup_swa_test(tmp_path_factory, testnet=True):
     path = tmp_path_factory.mktemp("upgrade")
     port = 26100 if testnet else 26200
     nix_name = "upgrade-testnet-test-package" if testnet else "upgrade-test-package"
@@ -81,14 +81,14 @@ def setup_cronos_test(tmp_path_factory, testnet=True):
     print(*cmd)
     subprocess.run(cmd, check=True)
     # init with genesis binary
-    with contextmanager(setup_custom_cronos)(
+    with contextmanager(setup_custom_swa)(
         path,
         port,
         Path(__file__).parent / f"configs/{cfg_name}.jsonnet",
         post_init=post_init,
-        chain_binary=str(path / "upgrades/genesis/bin/cronosd"),
-    ) as cronos:
-        yield cronos
+        chain_binary=str(path / "upgrades/genesis/bin/swad"),
+    ) as swa:
+        yield swa
 
 
 def exec(c, tmp_path_factory, testnet=True):
@@ -114,7 +114,7 @@ def exec(c, tmp_path_factory, testnet=True):
         json.dump(json.loads(cli.export()), fp)
         fp.flush()
 
-    c.supervisorctl("start", "cronos_777-1-node0", "cronos_777-1-node1")
+    c.supervisorctl("start", "swa_777-1-node0", "swa_777-1-node1")
     wait_for_port(ports.evmrpc_port(c.base_port(0)))
     wait_for_new_blocks(cli, 1)
 
@@ -157,7 +157,7 @@ def exec(c, tmp_path_factory, testnet=True):
 
     # update cli chain binary
     c.chain_binary = (
-        Path(c.chain_binary).parent.parent.parent / f"{plan_name}/bin/cronosd"
+        Path(c.chain_binary).parent.parent.parent / f"{plan_name}/bin/swad"
     )
     cli = c.cosmos_cli()
 
@@ -216,11 +216,11 @@ def exec(c, tmp_path_factory, testnet=True):
         with open(file_path1, "w") as fp:
             json.dump(cli.migrate_sdk_genesis(sdk_version, str(file_path0)), fp)
             fp.flush()
-        # migrate to cronos v1.0.x
-        cronos_version = "v1.0"
-        file_path0 = Path(migrate / f"{cronos_version}.json")
+        # migrate to swa v1.0.x
+        swa_version = "v1.0"
+        file_path0 = Path(migrate / f"{swa_version}.json")
         with open(file_path0, "w") as fp:
-            json.dump(cli.migrate_cronos_genesis(cronos_version, str(file_path1)), fp)
+            json.dump(cli.migrate_swa_genesis(swa_version, str(file_path1)), fp)
             fp.flush()
         print(cli.validate_genesis(str(file_path0)))
 
@@ -234,14 +234,14 @@ def exec(c, tmp_path_factory, testnet=True):
         genesis["genesis_time"] = config.get("genesis-time")
         file = c.cosmos_cli(i).data_dir / "config/genesis.json"
         file.write_text(json.dumps(genesis))
-    c.supervisorctl("start", "cronos_777-1-node0", "cronos_777-1-node1")
+    c.supervisorctl("start", "swa_777-1-node0", "swa_777-1-node1")
     wait_for_new_blocks(c.cosmos_cli(), 1)
     c.supervisorctl("stop", "all")
 
 
-def test_cosmovisor_upgrade_mainnet(mainnet: Cronos, tmp_path_factory):
+def test_cosmovisor_upgrade_mainnet(mainnet: Swa, tmp_path_factory):
     exec(mainnet, tmp_path_factory, False)
 
 
-def test_cosmovisor_upgrade_testnet(testnet: Cronos, tmp_path_factory):
+def test_cosmovisor_upgrade_testnet(testnet: Swa, tmp_path_factory):
     exec(testnet, tmp_path_factory, True)

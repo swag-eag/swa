@@ -15,7 +15,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	swamodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
@@ -73,7 +73,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 		{
 			"success send to account",
 			func() {
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
 				coin := sdk.NewCoin(denom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -110,7 +110,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 			func() {
 				suite.SetupTest()
 
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
 				coin := sdk.NewCoin(denom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(sender.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -150,7 +150,7 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 				suite.SetupTest()
 				denom := denomGravity
 
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
 				coin := sdk.NewCoin(denom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
@@ -196,8 +196,8 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 			"failed send to ibc, invalid ibc denom",
 			func() {
 				suite.SetupTest()
-				// Create Cronos Keeper with mock transfer keeper
-				cronosKeeper := *cronosmodulekeeper.NewKeeper(
+				// Create Swa Keeper with mock transfer keeper
+				swaKeeper := *swamodulekeeper.NewKeeper(
 					app.MakeEncodingConfig().Codec,
 					suite.app.GetKey(types.StoreKey),
 					suite.app.GetKey(types.MemStoreKey),
@@ -208,9 +208,9 @@ func (suite *KeeperTestSuite) TestEvmHooks() {
 					suite.app.AccountKeeper,
 					authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 				)
-				suite.app.CronosKeeper = cronosKeeper
+				suite.app.SwaKeeper = swaKeeper
 
-				suite.app.CronosKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
+				suite.app.SwaKeeper.SetExternalContractForDenom(suite.ctx, denom, contract)
 				coin := sdk.NewCoin(denom, sdk.NewInt(100))
 				err := suite.MintCoins(sdk.AccAddress(contract.Bytes()), sdk.NewCoins(coin))
 				suite.Require().NoError(err)
