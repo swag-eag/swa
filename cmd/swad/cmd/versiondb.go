@@ -7,7 +7,7 @@ import (
 	"sort"
 
 	"github.com/swag-eag/swa/v2/app"
-	"github.com/swag-eag/swa/v2/cmd/swa/opendb"
+	"github.com/swag-eag/swa/v2/cmd/swad/opendb"
 	versiondbclient "github.com/swag-eag/swa/versiondb/client"
 	"github.com/linxGnu/grocksdb"
 	"github.com/spf13/cobra"
