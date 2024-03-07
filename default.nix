@@ -40,7 +40,7 @@ buildGoApplication rec {
   ] ./.);
   modules = ./gomod2nix.toml;
   pwd = src; # needed to support replace
-  subPackages = [ "cmd/cronosd" ];
+  subPackages = [ "cmd/swad" ];
   buildFlags = lib.optionalString coverage "-cover";
   CGO_ENABLED = "1";
   CGO_LDFLAGS = lib.optionalString (rocksdb != null) (
