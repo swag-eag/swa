@@ -141,13 +141,13 @@ import (
 
 	memiavlstore "github.com/swag-eag/swa/store"
 	memiavlrootmulti "github.com/swag-eag/swa/store/rootmulti"
-	"github.com/swag-eag/swa/v2/x/cronos"
-	cronosclient "github.com/swag-eag/swa/v2/x/cronos/client"
-	cronoskeeper "github.com/swag-eag/swa/v2/x/cronos/keeper"
-	evmhandlers "github.com/swag-eag/swa/v2/x/cronos/keeper/evmhandlers"
-	cronosprecompiles "github.com/swag-eag/swa/v2/x/cronos/keeper/precompiles"
-	"github.com/swag-eag/swa/v2/x/cronos/middleware"
-	cronostypes "github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa"
+	cronosclient "github.com/swag-eag/swa/v2/x/swa/client"
+	cronoskeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	evmhandlers "github.com/swag-eag/swa/v2/x/swa/keeper/evmhandlers"
+	cronosprecompiles "github.com/swag-eag/swa/v2/x/swa/keeper/precompiles"
+	"github.com/swag-eag/swa/v2/x/swa/middleware"
+	cronostypes "github.com/swag-eag/swa/v2/x/swa/types"
 
 	"github.com/swag-eag/swa/v2/client/docs"
 
@@ -158,7 +158,7 @@ import (
 	ethparams "github.com/ethereum/go-ethereum/params"
 
 	// force register the extension json-rpc.
-	_ "github.com/swag-eag/swa/v2/x/cronos/rpc"
+	_ "github.com/swag-eag/swa/v2/x/swa/rpc"
 )
 
 const (

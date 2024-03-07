@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/types/kv"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
 )
 

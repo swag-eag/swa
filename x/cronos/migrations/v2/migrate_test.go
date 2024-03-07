@@ -6,9 +6,9 @@ import (
 	simappparams "cosmossdk.io/simapp/params"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/swag-eag/swa/v2/x/cronos/exported"
-	v2 "github.com/swag-eag/swa/v2/x/cronos/migrations/v2"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa/exported"
+	v2 "github.com/swag-eag/swa/v2/x/swa/migrations/v2"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/stretchr/testify/require"
 )
 

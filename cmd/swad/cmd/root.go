@@ -43,7 +43,7 @@ import (
 	memiavlcfg "github.com/swag-eag/swa/store/config"
 	"github.com/swag-eag/swa/v2/app"
 	"github.com/swag-eag/swa/v2/cmd/swad/opendb"
-	"github.com/swag-eag/swa/v2/x/cronos"
+	"github.com/swag-eag/swa/v2/x/swa"
 	// this line is used by starport scaffolding # stargate/root/import
 )
 

@@ -20,8 +20,8 @@ import (
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	ibcexported "github.com/cosmos/ibc-go/v7/modules/core/exported"
-	cronosprecompiles "github.com/swag-eag/swa/v2/x/cronos/keeper/precompiles"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	cronosprecompiles "github.com/swag-eag/swa/v2/x/swa/keeper/precompiles"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
 	// this line is used by starport scaffolding # ibc/keeper/import
 )

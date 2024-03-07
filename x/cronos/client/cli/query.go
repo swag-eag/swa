@@ -10,7 +10,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module

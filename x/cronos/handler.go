@@ -1,4 +1,4 @@
-package cronos
+package swa
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 	"cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/swag-eag/swa/v2/x/cronos/keeper"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa/keeper"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 // NewHandler for Cronos

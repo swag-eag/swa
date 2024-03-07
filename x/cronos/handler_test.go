@@ -1,4 +1,4 @@
-package cronos_test
+package swa_test
 
 import (
 	"errors"
@@ -11,8 +11,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/swag-eag/swa/v2/app"
-	"github.com/swag-eag/swa/v2/x/cronos"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/evmos/ethermint/crypto/ethsecp256k1"
 	"github.com/stretchr/testify/suite"
 )

@@ -1,11 +1,11 @@
-package cronos
+package swa
 
 import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/swag-eag/swa/v2/x/cronos/keeper"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa/keeper"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
 )
 

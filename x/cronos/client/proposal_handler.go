@@ -3,7 +3,7 @@ package client
 import (
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 
-	"github.com/swag-eag/swa/v2/x/cronos/client/cli"
+	"github.com/swag-eag/swa/v2/x/swa/client/cli"
 )
 
 // ProposalHandler is the token mapping change proposal handler.

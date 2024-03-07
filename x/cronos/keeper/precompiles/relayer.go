@@ -13,9 +13,9 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	cronosevents "github.com/swag-eag/swa/v2/x/cronos/events"
-	"github.com/swag-eag/swa/v2/x/cronos/events/bindings/cosmos/precompile/relayer"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	cronosevents "github.com/swag-eag/swa/v2/x/swa/events"
+	"github.com/swag-eag/swa/v2/x/swa/events/bindings/cosmos/precompile/relayer"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 var (

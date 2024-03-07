@@ -4,18 +4,18 @@ import (
 	"fmt"
 	"math/big"
 
-	handlers "github.com/swag-eag/swa/v2/x/cronos/keeper/evmhandlers"
+	handlers "github.com/swag-eag/swa/v2/x/swa/keeper/evmhandlers"
 
 	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
 
 	"github.com/swag-eag/swa/v2/app"
-	keepertest "github.com/swag-eag/swa/v2/x/cronos/keeper/mock"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	keepertest "github.com/swag-eag/swa/v2/x/swa/keeper/mock"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/cronos/keeper"
+	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"

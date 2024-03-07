@@ -36,7 +36,7 @@ import (
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	cronostypes "github.com/swag-eag/swa/v2/x/cronos/types"
+	cronostypes "github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 const (

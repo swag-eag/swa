@@ -1,4 +1,4 @@
-package cronos
+package swa
 
 import (
 	"cosmossdk.io/errors"
@@ -6,8 +6,8 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/swag-eag/swa/v2/x/cronos/keeper"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa/keeper"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 // NewTokenMappingChangeProposalHandler creates a new governance Handler for a TokenMappingChangeProposal

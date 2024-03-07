@@ -1,8 +1,8 @@
-package cronos_test
+package swa_test
 
 import (
-	"github.com/swag-eag/swa/v2/x/cronos"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 func (suite *CronosTestSuite) TestInitGenesis() {

@@ -9,9 +9,9 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/swag-eag/swa/v2/app"
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/cronos/keeper"
-	keepertest "github.com/swag-eag/swa/v2/x/cronos/keeper/mock"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	keepertest "github.com/swag-eag/swa/v2/x/swa/keeper/mock"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/evmos/ethermint/crypto/ethsecp256k1"
 )

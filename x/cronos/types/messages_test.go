@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/swag-eag/swa/v2/app"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/stretchr/testify/require"
 )
 

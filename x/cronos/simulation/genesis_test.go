@@ -12,8 +12,8 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/swag-eag/swa/v2/x/cronos/simulation"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/x/swa/simulation"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 // TestRandomizedGenState tests the normal scenario of applying RandomizedGenState.

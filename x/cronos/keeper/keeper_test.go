@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/cronos/keeper"
-	keepertest "github.com/swag-eag/swa/v2/x/cronos/keeper/mock"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	keepertest "github.com/swag-eag/swa/v2/x/swa/keeper/mock"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 

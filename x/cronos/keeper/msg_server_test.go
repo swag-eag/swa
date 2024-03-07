@@ -1,8 +1,8 @@
 package keeper_test
 
 import (
-	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/cronos/keeper"
-	"github.com/swag-eag/swa/v2/x/cronos/types"
+	cronosmodulekeeper "github.com/swag-eag/swa/v2/x/swa/keeper"
+	"github.com/swag-eag/swa/v2/x/swa/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"

@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	cronostypes "github.com/swag-eag/swa/v2/x/cronos/types"
+	cronostypes "github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
 	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
 )
