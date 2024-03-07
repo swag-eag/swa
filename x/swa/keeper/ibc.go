@@ -56,7 +56,7 @@ func (k Keeper) ConvertVouchersToEvmCoins(ctx sdk.Context, from string, coins sd
 			}
 
 		default:
-			err := k.ConvertCoinFromNativeToCRC21(ctx, common.BytesToAddress(acc.Bytes()), c, params.EnableAutoDeployment)
+			err := k.ConvertCoinFromNativeToSWAC21(ctx, common.BytesToAddress(acc.Bytes()), c, params.EnableAutoDeployment)
 			if err != nil {
 				return err
 			}

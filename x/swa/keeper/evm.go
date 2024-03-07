@@ -66,7 +66,7 @@ func (k Keeper) CallModuleSWAC21(ctx sdk.Context, contract common.Address, metho
 	return res.Ret, nil
 }
 
-// DeployModuleSWAC21 deploy an embed crc21 contract
+// DeployModuleSWAC21 deploy an embed swac21 contract
 func (k Keeper) DeployModuleSWAC21(ctx sdk.Context, denom string) (common.Address, error) {
 	ctor, err := types.ModuleSWAC21Contract.ABI.Pack("", denom, uint8(0), false)
 	if err != nil {
@@ -86,8 +86,8 @@ func (k Keeper) DeployModuleSWAC21(ctx sdk.Context, denom string) (common.Addres
 	return crypto.CreateAddress(types.EVMModuleAddress, msg.Nonce), nil
 }
 
-// ConvertCoinFromNativeToCRC21 convert native token to erc20 token
-func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Address, coin sdk.Coin, autoDeploy bool) error {
+// ConvertCoinFromNativeToSWAC21 convert native token to erc20 token
+func (k Keeper) ConvertCoinFromNativeToSWAC21(ctx sdk.Context, sender common.Address, coin sdk.Coin, autoDeploy bool) error {
 	if !types.IsValidCoinDenom(coin.Denom) {
 		return fmt.Errorf("coin %s is not supported for conversion", coin.Denom)
 	}
@@ -119,7 +119,7 @@ func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Addr
 		if err != nil {
 			return err
 		}
-		// unlock crc tokens
+		// unlock swac tokens
 		_, err = k.CallModuleSWAC21(ctx, contract, "transfer_from_cronos_module", sender, coin.Amount.BigInt())
 		if err != nil {
 			return err
@@ -130,7 +130,7 @@ func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Addr
 		if err != nil {
 			return err
 		}
-		// mint crc tokens
+		// mint swac tokens
 		_, err = k.CallModuleSWAC21(ctx, contract, "mint_by_cronos_module", sender, coin.Amount.BigInt())
 		if err != nil {
 			return err
@@ -140,8 +140,8 @@ func (k Keeper) ConvertCoinFromNativeToCRC21(ctx sdk.Context, sender common.Addr
 	return nil
 }
 
-// ConvertCoinFromCRC21ToNative convert erc20 token to native token
-func (k Keeper) ConvertCoinFromCRC21ToNative(ctx sdk.Context, contract common.Address, receiver common.Address, amount sdkmath.Int) error {
+// ConvertCoinFromSWAC21ToNative convert erc20 token to native token
+func (k Keeper) ConvertCoinFromSWAC21ToNative(ctx sdk.Context, contract common.Address, receiver common.Address, amount sdkmath.Int) error {
 	denom, found := k.GetDenomByContract(ctx, contract)
 	if !found {
 		return fmt.Errorf("the contract address %s is not mapped to native token", contract.String())
@@ -181,10 +181,10 @@ func (k Keeper) ConvertCoinFromCRC21ToNative(ctx sdk.Context, contract common.Ad
 	return nil
 }
 
-// ConvertCoinsFromNativeToCRC21 convert native tokens to erc20 tokens
-func (k Keeper) ConvertCoinsFromNativeToCRC21(ctx sdk.Context, sender common.Address, coins sdk.Coins, autoDeploy bool) error {
+// ConvertCoinsFromNativeToSWAC21 convert native tokens to erc20 tokens
+func (k Keeper) ConvertCoinsFromNativeToSWAC21(ctx sdk.Context, sender common.Address, coins sdk.Coins, autoDeploy bool) error {
 	for _, coin := range coins {
-		if err := k.ConvertCoinFromNativeToCRC21(ctx, sender, coin, autoDeploy); err != nil {
+		if err := k.ConvertCoinFromNativeToSWAC21(ctx, sender, coin, autoDeploy); err != nil {
 			return err
 		}
 	}

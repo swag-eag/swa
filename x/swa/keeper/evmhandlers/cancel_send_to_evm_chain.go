@@ -120,11 +120,11 @@ func (h CancelSendToEvmChainHandler) Handle(
 	}
 
 	// check that the event is emitted from the contract address that manage this token
-	crc20Address, found := h.cronosKeeper.GetContractByDenom(ctx, denom)
+	swac20Address, found := h.cronosKeeper.GetContractByDenom(ctx, denom)
 	if !found {
 		return fmt.Errorf("the native token %s is not associated with any contract address on cronos", denom)
 	}
-	if crc20Address != contract {
+	if swac20Address != contract {
 		return fmt.Errorf("cannot cancel a transfer of the native token %s from the contract address %s", denom, contract)
 	}
 

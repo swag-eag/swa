@@ -98,7 +98,7 @@ func (suite *KeeperTestSuite) TestConvertVouchersToEvmCoins() {
 			func() {},
 		},
 		{
-			"Correct address with IBC token : Should receive CRC20 tokens",
+			"Correct address with IBC token : Should receive SWAC20 tokens",
 			address.String(),
 			sdk.NewCoins(sdk.NewCoin(CorrectIbcDenom, sdk.NewInt(123))),
 			func() {
@@ -112,7 +112,7 @@ func (suite *KeeperTestSuite) TestConvertVouchersToEvmCoins() {
 				// Verify balance IBC coin post operation
 				ibcCroCoin := suite.GetBalance(address, CorrectIbcDenom)
 				suite.Require().Equal(sdk.NewInt(0), ibcCroCoin.Amount)
-				// Verify CRC20 balance post operation
+				// Verify SWAC20 balance post operation
 				contract, found := suite.app.CronosKeeper.GetContractByDenom(suite.ctx, CorrectIbcDenom)
 				suite.Require().True(found)
 				ret, err := suite.app.CronosKeeper.CallModuleSWAC21(suite.ctx, contract, "balanceOf", common.BytesToAddress(address.Bytes()))

@@ -37,7 +37,7 @@ func (suite *KeeperTestSuite) TestTokenConversion() {
 	suite.Require().NoError(err)
 
 	// send to erc20
-	err = keeper.ConvertCoinsFromNativeToCRC21(suite.ctx, address, coins, true)
+	err = keeper.ConvertCoinsFromNativeToSWAC21(suite.ctx, address, coins, true)
 	suite.Require().NoError(err)
 
 	// check erc20 balance
@@ -53,7 +53,7 @@ func (suite *KeeperTestSuite) TestTokenConversion() {
 	suite.Require().Equal(amount, big.NewInt(0).SetBytes(ret))
 
 	// convert back to native
-	err = keeper.ConvertCoinFromCRC21ToNative(suite.ctx, contract, address, coins[0].Amount)
+	err = keeper.ConvertCoinFromSWAC21ToNative(suite.ctx, contract, address, coins[0].Amount)
 	suite.Require().NoError(err)
 
 	ret, err = keeper.CallModuleSWAC21(suite.ctx, contract, "balanceOf", address)
@@ -79,7 +79,7 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 	address := common.BytesToAddress(priv.PubKey().Address().Bytes())
 	cosmosAddress := sdk.AccAddress(address.Bytes())
 
-	// Deploy CRC21 token
+	// Deploy SWAC21 token
 	contractAddress, err := keeper.DeployModuleSWAC21(suite.ctx, "Test")
 	suite.Require().NoError(err)
 
@@ -95,22 +95,22 @@ func (suite *KeeperTestSuite) TestSourceTokenConversion() {
 	err = keeper.RegisterOrUpdateTokenMapping(suite.ctx, &msgUpdateTokenMapping)
 	suite.Require().NoError(err)
 
-	// Mint some CRC21 token
+	// Mint some SWAC21 token
 	amount := big.NewInt(100)
 	_, err = suite.app.CronosKeeper.CallModuleSWAC21(suite.ctx, contractAddress, "mint_by_cronos_module", address, amount)
 	suite.Require().NoError(err)
 
-	// Convert CRC21 to native
-	err = keeper.ConvertCoinFromCRC21ToNative(suite.ctx, contractAddress, address, sdk.NewIntFromBigInt(amount))
+	// Convert SWAC21 to native
+	err = keeper.ConvertCoinFromSWAC21ToNative(suite.ctx, contractAddress, address, sdk.NewIntFromBigInt(amount))
 	suite.Require().NoError(err)
 
 	// Check balance
 	coin := suite.app.BankKeeper.GetBalance(suite.ctx, cosmosAddress, denom)
 	suite.Require().Equal(amount, coin.Amount.BigInt())
 
-	// Convert native to CRC21
+	// Convert native to SWAC21
 	coins := sdk.NewCoins(sdk.NewCoin(denom, sdk.NewIntFromBigInt(amount)))
-	err = keeper.ConvertCoinsFromNativeToCRC21(suite.ctx, address, coins, false)
+	err = keeper.ConvertCoinsFromNativeToSWAC21(suite.ctx, address, coins, false)
 	suite.Require().NoError(err)
 
 	// check balance
