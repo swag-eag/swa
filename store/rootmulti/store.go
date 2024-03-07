@@ -19,9 +19,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/crypto-org-chain/cronos/memiavl"
-	"github.com/crypto-org-chain/cronos/store/cachemulti"
-	"github.com/crypto-org-chain/cronos/store/memiavlstore"
+	"github.com/swag-eag/swa/memiavl"
+	"github.com/swag-eag/swa/store/cachemulti"
+	"github.com/swag-eag/swa/store/memiavlstore"
 )
 
 const CommitInfoFileName = "commit_infos"

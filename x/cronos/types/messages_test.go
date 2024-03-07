@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/crypto-org-chain/cronos/v2/app"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	"github.com/swag-eag/swa/v2/app"
+	"github.com/swag-eag/swa/v2/x/cronos/types"
 	"github.com/stretchr/testify/require"
 )
 

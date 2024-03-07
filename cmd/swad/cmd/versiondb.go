@@ -6,9 +6,9 @@ package cmd
 import (
 	"sort"
 
-	"github.com/crypto-org-chain/cronos/v2/app"
+	"github.com/swag-eag/swa/v2/app"
 	"github.com/swag-eag/swa/v2/cmd/swa/opendb"
-	versiondbclient "github.com/crypto-org-chain/cronos/versiondb/client"
+	versiondbclient "github.com/swag-eag/swa/versiondb/client"
 	"github.com/linxGnu/grocksdb"
 	"github.com/spf13/cobra"
 )

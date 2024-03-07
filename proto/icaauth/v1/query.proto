@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "icaauth/v1/params.proto";
 
-option go_package = "github.com/crypto-org-chain/cronos/v2/x/icaauth/types";
+option go_package = "github.com/swag-eag/swa/v2/x/icaauth/types";
 
 // Query defines the gRPC querier service.
 service Query {

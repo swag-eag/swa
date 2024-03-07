@@ -117,9 +117,9 @@ import (
 	icacontrollerkeeper "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/keeper"
 	icacontrollertypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/types"
 	icatypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/types"
-	icaauth "github.com/crypto-org-chain/cronos/v2/x/icaauth"
-	icaauthkeeper "github.com/crypto-org-chain/cronos/v2/x/icaauth/keeper"
-	icaauthtypes "github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
+	icaauth "github.com/swag-eag/swa/v2/x/icaauth"
+	icaauthkeeper "github.com/swag-eag/swa/v2/x/icaauth/keeper"
+	icaauthtypes "github.com/swag-eag/swa/v2/x/icaauth/types"
 
 	evmante "github.com/evmos/ethermint/app/ante"
 	srvflags "github.com/evmos/ethermint/server/flags"
@@ -139,17 +139,17 @@ import (
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	memiavlstore "github.com/crypto-org-chain/cronos/store"
-	memiavlrootmulti "github.com/crypto-org-chain/cronos/store/rootmulti"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos"
-	cronosclient "github.com/crypto-org-chain/cronos/v2/x/cronos/client"
-	cronoskeeper "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper"
-	evmhandlers "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/evmhandlers"
-	cronosprecompiles "github.com/crypto-org-chain/cronos/v2/x/cronos/keeper/precompiles"
-	"github.com/crypto-org-chain/cronos/v2/x/cronos/middleware"
-	cronostypes "github.com/crypto-org-chain/cronos/v2/x/cronos/types"
+	memiavlstore "github.com/swag-eag/swa/store"
+	memiavlrootmulti "github.com/swag-eag/swa/store/rootmulti"
+	"github.com/swag-eag/swa/v2/x/cronos"
+	cronosclient "github.com/swag-eag/swa/v2/x/cronos/client"
+	cronoskeeper "github.com/swag-eag/swa/v2/x/cronos/keeper"
+	evmhandlers "github.com/swag-eag/swa/v2/x/cronos/keeper/evmhandlers"
+	cronosprecompiles "github.com/swag-eag/swa/v2/x/cronos/keeper/precompiles"
+	"github.com/swag-eag/swa/v2/x/cronos/middleware"
+	cronostypes "github.com/swag-eag/swa/v2/x/cronos/types"
 
-	"github.com/crypto-org-chain/cronos/v2/client/docs"
+	"github.com/swag-eag/swa/v2/client/docs"
 
 	// Force-load the tracer engines to trigger registration
 	"github.com/ethereum/go-ethereum/core/vm"
@@ -158,7 +158,7 @@ import (
 	ethparams "github.com/ethereum/go-ethereum/params"
 
 	// force register the extension json-rpc.
-	_ "github.com/crypto-org-chain/cronos/v2/x/cronos/rpc"
+	_ "github.com/swag-eag/swa/v2/x/cronos/rpc"
 )
 
 const (

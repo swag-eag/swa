@@ -100,5 +100,5 @@ Here are the deployed token mappings:
    -  https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-cronos-alpha0/solidity/contracts/EthGravityWrapper.sol
 
 3. CroBridge :
-   - https://github.com/crypto-org-chain/cronos/blob/v0.8.0-gravity-alpha0/integration_tests/contracts/contracts/CroBridge.sol
+   - https://github.com/swag-eag/swa/blob/v0.8.0-gravity-alpha0/integration_tests/contracts/contracts/CroBridge.sol
 

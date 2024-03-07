@@ -1,4 +1,4 @@
-module github.com/crypto-org-chain/cronos/memiavl
+module github.com/swag-eag/swa/memiavl
 
 go 1.22
 

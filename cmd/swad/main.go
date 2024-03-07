@@ -4,7 +4,7 @@ import (
 	"os"
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
-	"github.com/crypto-org-chain/cronos/v2/app"
+	"github.com/swag-eag/swa/v2/app"
 	"github.com/swag-eag/swa/v2/cmd/swad/cmd"
 )
 

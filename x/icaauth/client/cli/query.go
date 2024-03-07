@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/crypto-org-chain/cronos/v2/x/icaauth/types"
+	"github.com/swag-eag/swa/v2/x/icaauth/types"
 	"github.com/spf13/cobra"
 )
 
