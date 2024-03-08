@@ -9,7 +9,7 @@ require (
 	github.com/cometbft/cometbft v0.37.3-0.20230920093934-46df7b597e3c
 	github.com/cometbft/cometbft-db v0.8.0
 	github.com/confio/ics23/go v0.9.0
-	github.com/cosmos/cosmos-sdk v0.47.3
+	github.com/cosmos/cosmos-sdk v0.46.0-beta2
 	github.com/cosmos/gogoproto v1.4.10
 	github.com/cosmos/iavl v0.21.0-alpha.1.0.20230904092046-df3db2d96583
 	github.com/swag-eag/swa/memiavl v0.0.4
@@ -129,3 +129,5 @@ require (
 )
 
 replace github.com/swag-eag/swa/memiavl => ../memiavl
+
+replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.1
