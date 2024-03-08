@@ -30,7 +30,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.4
 	github.com/swag-eag/swa/store v0.0.4
-	github.com/swag-eag/swa/versiondb v0.0.0-00010101000000-000000000000
+	github.com/swag-eag/swa/versiondb v0.0.4
 	golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
 	google.golang.org/genproto/googleapis/api v0.0.0-20231212172506-995d672761c0
 	google.golang.org/grpc v1.60.1
@@ -230,19 +230,19 @@ require (
 replace (
 	// Use cosmos keyring
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
-	github.com/cometbft/cometbft-db => github.com/crypto-org-chain/cometbft-db v0.0.0-20231011055109-57922ac52a63
-	github.com/cosmos/cosmos-sdk => github.com/crypto-org-chain/cosmos-sdk v0.46.0-beta2.0.20240228013111-9bd1e035ed1d
+	github.com/cometbft/cometbft-db => github.com/swag-eag/cometbft-db v0.0.0
+	github.com/cosmos/cosmos-sdk => github.com/swag-eag/cosmos-sdk v0.0.0
 	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
 	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
 	github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt/v4 v4.4.2
-	github.com/ethereum/go-ethereum => github.com/crypto-org-chain/go-ethereum v1.10.20-0.20231207063621-43cf32d91c3e
-	github.com/evmos/ethermint => github.com/crypto-org-chain/ethermint v0.6.1-0.20240305041633-5b153a460e7a
+	github.com/ethereum/go-ethereum => github.com/swag-eag/go-ethereum v0.0.0
+	github.com/evmos/ethermint => github.com/swag-eag/ethermint v0.0.0
 	// Fix upstream GHSA-h395-qcrw-5vmq and GHSA-3vp4-m3rf-835h vulnerabilities.
 	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.9.0
 	github.com/jhump/protoreflect => github.com/jhump/protoreflect v1.9.0
 	github.com/linxGnu/grocksdb => github.com/linxGnu/grocksdb v1.8.0
-	github.com/peggyjv/gravity-bridge/module/v2 => github.com/crypto-org-chain/gravity-bridge/module/v2 v2.0.1-0.20230825054824-75403cd90c6e
+	github.com/peggyjv/gravity-bridge/module/v2 => github.com/swag-eag/gravity-bridge/module/v2 v0.0.0
 	github.com/swag-eag/swa/memiavl => ./memiavl
 	github.com/swag-eag/swa/store => ./store
 	github.com/swag-eag/swa/versiondb => ./versiondb
