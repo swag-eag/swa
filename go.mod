@@ -230,7 +230,7 @@ require (
 replace (
 	// Use cosmos keyring
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
-	github.com/cometbft/cometbft-db => github.com/swag-eag/cometbft-db v0.0.0
+	github.com/cometbft/cometbft-db => github.com/crypto-org-chain/cometbft-db v0.0.0-20231011055109-57922ac52a63
 	github.com/cosmos/cosmos-sdk => github.com/crypto-org-chain/cosmos-sdk v0.46.0-beta2.0.20240228013111-9bd1e035ed1d
 	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
 	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
@@ -242,11 +242,9 @@ replace (
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.9.0
 	github.com/jhump/protoreflect => github.com/jhump/protoreflect v1.9.0
 	github.com/linxGnu/grocksdb => github.com/linxGnu/grocksdb v1.8.0
-	github.com/peggyjv/gravity-bridge/module/v2 => github.com/swag-eag/gravity-bridge/module/v2 latest
+	github.com/peggyjv/gravity-bridge/module/v2 => github.com/crypto-org-chain/gravity-bridge/module/v2 v2.0.1-0.20230825054824-75403cd90c6e
 	github.com/swag-eag/swa/memiavl => ./memiavl
 	github.com/swag-eag/swa/store => ./store
 	github.com/swag-eag/swa/versiondb => ./versiondb
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 )
-
-replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.1

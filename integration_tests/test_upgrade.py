@@ -209,9 +209,9 @@ def exec(c, tmp_path_factory, testnet=True):
     max_callback_gas = cli.query_params()["max_callback_gas"]
     assert max_callback_gas == "50000", max_callback_gas
     if not testnet:
-        # migrate to sdk v0.46
+        # migrate to sdk v0.47
         c.supervisorctl("stop", "all")
-        sdk_version = "v0.46"
+        sdk_version = "v0.47"
         file_path1 = Path(migrate / f"{sdk_version}.json")
         with open(file_path1, "w") as fp:
             json.dump(cli.migrate_sdk_genesis(sdk_version, str(file_path0)), fp)
