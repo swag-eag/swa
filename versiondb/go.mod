@@ -155,4 +155,3 @@ require (
 )
 
 replace github.com/swag-eag/swa/memiavl => ../memiavl
-replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.1
