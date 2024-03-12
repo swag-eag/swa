@@ -29,8 +29,8 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.4
-	github.com/swag-eag/swa/store v0.0.4
-	github.com/swag-eag/swa/versiondb v0.0.4
+	github.com/swag-eag/swa/store v0.1.4
+	github.com/swag-eag/swa/versiondb v0.1.4
 	golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
 	google.golang.org/genproto/googleapis/api v0.0.0-20231212172506-995d672761c0
 	google.golang.org/grpc v1.60.1
@@ -185,7 +185,7 @@ require (
 	github.com/spf13/viper v1.16.0 // indirect
 	github.com/status-im/keycard-go v0.2.0 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
-	github.com/swag-eag/swa/memiavl v0.0.4 // indirect
+	github.com/swag-eag/swa/memiavl v0.1.4 // indirect
 	github.com/syndtr/goleveldb v1.0.1-0.20220721030215-126854af5e6d // indirect
 	github.com/tendermint/go-amino v0.16.0 // indirect
 	github.com/tendermint/tendermint v0.35.9 // indirect
@@ -243,7 +243,7 @@ replace (
 	github.com/jhump/protoreflect => github.com/jhump/protoreflect v1.9.0
 	github.com/linxGnu/grocksdb => github.com/linxGnu/grocksdb v1.8.0
 	//	github.com/peggyjv/gravity-bridge/module/v2 => github.com/crypto-org-chain/gravity-bridge/module/v2 v2.0.1-0.20230825054824-75403cd90c6e
-	github.com/peggyjv/gravity-bridge/module/v2 => github.com/swag-eag/gravity-bridge/module/v2 v2.0.1-0.20230825054824-75403cd90c6e
+	github.com/peggyjv/gravity-bridge/module/v2 => github.com/swag-eag/gravity-bridge/module/v2 v2.0.1
 	github.com/swag-eag/swa/memiavl => ./memiavl
 	github.com/swag-eag/swa/store => ./store
 	github.com/swag-eag/swa/versiondb => ./versiondb
