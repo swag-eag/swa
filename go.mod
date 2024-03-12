@@ -242,7 +242,8 @@ replace (
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.9.0
 	github.com/jhump/protoreflect => github.com/jhump/protoreflect v1.9.0
 	github.com/linxGnu/grocksdb => github.com/linxGnu/grocksdb v1.8.0
-	github.com/peggyjv/gravity-bridge/module/v2 => github.com/crypto-org-chain/gravity-bridge/module/v2 v2.0.1-0.20230825054824-75403cd90c6e
+	//	github.com/peggyjv/gravity-bridge/module/v2 => github.com/crypto-org-chain/gravity-bridge/module/v2 v2.0.1-0.20230825054824-75403cd90c6e
+	github.com/peggyjv/gravity-bridge/module/v2 => github.com/swag-eag/gravity-bridge/module/v2 v2.0.1-0.20230825054824-75403cd90c6e
 	github.com/swag-eag/swa/memiavl => ./memiavl
 	github.com/swag-eag/swa/store => ./store
 	github.com/swag-eag/swa/versiondb => ./versiondb
