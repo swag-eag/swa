@@ -617,21 +617,21 @@ func (m *MsgUpdatePermissionsResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgUpdatePermissionsResponse proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*MsgConvertVouchers)(nil), "swa.MsgConvertVouchers")
-	proto.RegisterType((*MsgTransferTokens)(nil), "swa.MsgTransferTokens")
-	proto.RegisterType((*MsgConvertVouchersResponse)(nil), "swa.MsgConvertVouchersResponse")
-	proto.RegisterType((*MsgTransferTokensResponse)(nil), "swa.MsgTransferTokensResponse")
-	proto.RegisterType((*MsgUpdateTokenMapping)(nil), "swa.MsgUpdateTokenMapping")
-	proto.RegisterType((*MsgUpdateTokenMappingResponse)(nil), "swa.MsgUpdateTokenMappingResponse")
-	proto.RegisterType((*MsgTurnBridge)(nil), "swa.MsgTurnBridge")
-	proto.RegisterType((*MsgTurnBridgeResponse)(nil), "swa.MsgTurnBridgeResponse")
-	proto.RegisterType((*MsgUpdateParams)(nil), "swa.MsgUpdateParams")
-	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "swa.MsgUpdateParamsResponse")
-	proto.RegisterType((*MsgUpdatePermissions)(nil), "swa.MsgUpdatePermissions")
-	proto.RegisterType((*MsgUpdatePermissionsResponse)(nil), "swa.MsgUpdatePermissionsResponse")
+	proto.RegisterType((*MsgConvertVouchers)(nil), "cronos.MsgConvertVouchers")
+	proto.RegisterType((*MsgTransferTokens)(nil), "cronos.MsgTransferTokens")
+	proto.RegisterType((*MsgConvertVouchersResponse)(nil), "cronos.MsgConvertVouchersResponse")
+	proto.RegisterType((*MsgTransferTokensResponse)(nil), "cronos.MsgTransferTokensResponse")
+	proto.RegisterType((*MsgUpdateTokenMapping)(nil), "cronos.MsgUpdateTokenMapping")
+	proto.RegisterType((*MsgUpdateTokenMappingResponse)(nil), "cronos.MsgUpdateTokenMappingResponse")
+	proto.RegisterType((*MsgTurnBridge)(nil), "cronos.MsgTurnBridge")
+	proto.RegisterType((*MsgTurnBridgeResponse)(nil), "cronos.MsgTurnBridgeResponse")
+	proto.RegisterType((*MsgUpdateParams)(nil), "cronos.MsgUpdateParams")
+	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "cronos.MsgUpdateParamsResponse")
+	proto.RegisterType((*MsgUpdatePermissions)(nil), "cronos.MsgUpdatePermissions")
+	proto.RegisterType((*MsgUpdatePermissionsResponse)(nil), "cronos.MsgUpdatePermissionsResponse")
 }
 
-func init() { proto.RegisterFile("swa/tx.proto", fileDescriptor_28e09e4eabb18884) }
+func init() { proto.RegisterFile("cronos/tx.proto", fileDescriptor_28e09e4eabb18884) }
 
 var fileDescriptor_28e09e4eabb18884 = []byte{
 	// 658 bytes of a gzipped FileDescriptorProto
@@ -717,7 +717,7 @@ func NewMsgClient(cc grpc1.ClientConn) MsgClient {
 
 func (c *msgClient) ConvertVouchers(ctx context.Context, in *MsgConvertVouchers, opts ...grpc.CallOption) (*MsgConvertVouchersResponse, error) {
 	out := new(MsgConvertVouchersResponse)
-	err := c.cc.Invoke(ctx, "/swa.Msg/ConvertVouchers", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cronos.Msg/ConvertVouchers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -726,7 +726,7 @@ func (c *msgClient) ConvertVouchers(ctx context.Context, in *MsgConvertVouchers,
 
 func (c *msgClient) TransferTokens(ctx context.Context, in *MsgTransferTokens, opts ...grpc.CallOption) (*MsgTransferTokensResponse, error) {
 	out := new(MsgTransferTokensResponse)
-	err := c.cc.Invoke(ctx, "/swa.Msg/TransferTokens", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cronos.Msg/TransferTokens", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -735,7 +735,7 @@ func (c *msgClient) TransferTokens(ctx context.Context, in *MsgTransferTokens, o
 
 func (c *msgClient) UpdateTokenMapping(ctx context.Context, in *MsgUpdateTokenMapping, opts ...grpc.CallOption) (*MsgUpdateTokenMappingResponse, error) {
 	out := new(MsgUpdateTokenMappingResponse)
-	err := c.cc.Invoke(ctx, "/swa.Msg/UpdateTokenMapping", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cronos.Msg/UpdateTokenMapping", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -744,7 +744,7 @@ func (c *msgClient) UpdateTokenMapping(ctx context.Context, in *MsgUpdateTokenMa
 
 func (c *msgClient) TurnBridge(ctx context.Context, in *MsgTurnBridge, opts ...grpc.CallOption) (*MsgTurnBridgeResponse, error) {
 	out := new(MsgTurnBridgeResponse)
-	err := c.cc.Invoke(ctx, "/swa.Msg/TurnBridge", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cronos.Msg/TurnBridge", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -753,7 +753,7 @@ func (c *msgClient) TurnBridge(ctx context.Context, in *MsgTurnBridge, opts ...g
 
 func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error) {
 	out := new(MsgUpdateParamsResponse)
-	err := c.cc.Invoke(ctx, "/swa.Msg/UpdateParams", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cronos.Msg/UpdateParams", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -762,7 +762,7 @@ func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts 
 
 func (c *msgClient) UpdatePermissions(ctx context.Context, in *MsgUpdatePermissions, opts ...grpc.CallOption) (*MsgUpdatePermissionsResponse, error) {
 	out := new(MsgUpdatePermissionsResponse)
-	err := c.cc.Invoke(ctx, "/swa.Msg/UpdatePermissions", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/cronos.Msg/UpdatePermissions", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -824,7 +824,7 @@ func _Msg_ConvertVouchers_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/swa.Msg/ConvertVouchers",
+		FullMethod: "/cronos.Msg/ConvertVouchers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).ConvertVouchers(ctx, req.(*MsgConvertVouchers))
@@ -842,7 +842,7 @@ func _Msg_TransferTokens_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/swa.Msg/TransferTokens",
+		FullMethod: "/cronos.Msg/TransferTokens",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).TransferTokens(ctx, req.(*MsgTransferTokens))
@@ -860,7 +860,7 @@ func _Msg_UpdateTokenMapping_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/swa.Msg/UpdateTokenMapping",
+		FullMethod: "/cronos.Msg/UpdateTokenMapping",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdateTokenMapping(ctx, req.(*MsgUpdateTokenMapping))
@@ -878,7 +878,7 @@ func _Msg_TurnBridge_Handler(srv interface{}, ctx context.Context, dec func(inte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/swa.Msg/TurnBridge",
+		FullMethod: "/cronos.Msg/TurnBridge",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).TurnBridge(ctx, req.(*MsgTurnBridge))
@@ -896,7 +896,7 @@ func _Msg_UpdateParams_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/swa.Msg/UpdateParams",
+		FullMethod: "/cronos.Msg/UpdateParams",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdateParams(ctx, req.(*MsgUpdateParams))
@@ -914,7 +914,7 @@ func _Msg_UpdatePermissions_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/swa.Msg/UpdatePermissions",
+		FullMethod: "/cronos.Msg/UpdatePermissions",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).UpdatePermissions(ctx, req.(*MsgUpdatePermissions))
@@ -923,7 +923,7 @@ func _Msg_UpdatePermissions_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 var _Msg_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "swa.Msg",
+	ServiceName: "cronos.Msg",
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -952,7 +952,7 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "swa/tx.proto",
+	Metadata: "cronos/tx.proto",
 }
 
 func (m *MsgConvertVouchers) Marshal() (dAtA []byte, err error) {

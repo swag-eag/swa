@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	// Watch os.Args to see the command line arguments
 	rootCmd, _ := cmd.NewRootCmd()
 	if err := svrcmd.Execute(rootCmd, cmd.EnvPrefix, app.DefaultNodeHome); err != nil {
 		os.Exit(1)

@@ -484,6 +484,10 @@ github.com/creachadair/tomledit v0.0.22/go.mod h1:cIu/4x5L855oSRejIqr+WRFh+mv9g4
 github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7DoTY=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/creack/pty v1.1.11/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
+github.com/crypto-org-chain/ethermint v0.6.1-0.20240305041633-5b153a460e7a h1:on3vlgLb4BdkojU5Umbh6bvXVtGc/s+jFLkGHG4f8Mk=
+github.com/crypto-org-chain/ethermint v0.6.1-0.20240305041633-5b153a460e7a/go.mod h1:T3Tkhw8XMu8rYObcXpeTqGUaKogS+DKsGPD3ulHN/mg=
+github.com/crypto-org-chain/go-ethereum v1.10.20-0.20231207063621-43cf32d91c3e h1:vnyepPQ/m25+19xcTuBUdRxmltZ/EjVWNqEjhg7Ummk=
+github.com/crypto-org-chain/go-ethereum v1.10.20-0.20231207063621-43cf32d91c3e/go.mod h1:+a8pUj1tOyJ2RinsNQD4326YS+leSoKGiG/uVVb0x6Y=
 github.com/cyphar/filepath-securejoin v0.2.3/go.mod h1:aPGpWjXOXUn2NCNjFvBE6aRxGGx79pTxQpKOJNYHHl4=
 github.com/daixiang0/gci v0.4.2/go.mod h1:d0f+IJhr9loBtIq+ebwhRoTt1LGbPH96ih8bKlsRT9E=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=
@@ -1504,10 +1508,6 @@ github.com/swag-eag/cometbft-db v0.0.0 h1:0dJCo2UQhXhqPAz+6zliiT28WrLlB9vWbOCzsb
 github.com/swag-eag/cometbft-db v0.0.0/go.mod h1:rocwIfnS+kA060x64gkSIRvWB9StSppIkJuo5MWzL24=
 github.com/swag-eag/cosmos-sdk v0.46.0-beta2 h1:u6BIXpsjxAG6PLJL6OrTBN28sZw4DhNEF5951trCSbE=
 github.com/swag-eag/cosmos-sdk v0.46.0-beta2/go.mod h1:cmAawe8FV/52oPKbgeHLt4UpNkrNu8R5KD+kw0kxJFc=
-github.com/swag-eag/ethermint v0.6.1 h1:GEuBHdq7HkRzvBbjciF+eCjL/mIkpR4rgHfNABSJ6Z4=
-github.com/swag-eag/ethermint v0.6.1/go.mod h1:T3Tkhw8XMu8rYObcXpeTqGUaKogS+DKsGPD3ulHN/mg=
-github.com/swag-eag/go-ethereum v1.10.20 h1:yUwpMM1ohfoJycyfJPUvzgSSGkfF1Q+7azLkVsSjP3E=
-github.com/swag-eag/go-ethereum v1.10.20/go.mod h1:+a8pUj1tOyJ2RinsNQD4326YS+leSoKGiG/uVVb0x6Y=
 github.com/swag-eag/gravity-bridge/module/v2 v2.0.1 h1:zUVcwwJi+/WJuXx3Tk9VyfbaiZnIikVfDZtr16GgRvU=
 github.com/swag-eag/gravity-bridge/module/v2 v2.0.1/go.mod h1:HBaDqlFjlaXJwVQtA7jHejyaA7xwjXI2o6pU/ccP3tE=
 github.com/sylvia7788/contextcheck v1.0.4/go.mod h1:vuPKJMQ7MQ91ZTqfdyreNKwZjyUg6KO+IebVyQDedZQ=
