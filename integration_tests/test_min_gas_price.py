@@ -52,7 +52,7 @@ def adjust_base_fee(parent_fee, gas_limit, gas_used, params):
     if gas_used == gas_target:
         return parent_fee
     delta = parent_fee * abs(gas_target - gas_used) // gas_target // change_denominator
-    # https://github.com/crypto-org-chain/ethermint/blob/develop/x/feemarket/keeper/eip1559.go#L104
+    # https://github.com/swag-eag/ethermint/blob/develop/x/feemarket/keeper/eip1559.go#L104
     if gas_target > gas_used:
         return max(parent_fee - delta, params["min_gas_price"])
     else:

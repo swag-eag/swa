@@ -40,7 +40,7 @@ def test_ibc(ibc):
 
 def test_swa_transfer_timeout(ibc):
     """
-    test sending basetcro from swa to crypto-org-chain using cli transfer_tokens.
+    test sending basetcro from swa to swag-eag using cli transfer_tokens.
     depends on `test_ibc` to send the original coins.
     """
     assert_ready(ibc)

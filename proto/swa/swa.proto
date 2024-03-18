@@ -11,7 +11,7 @@ message Params {
   string ibc_cro_denom                = 1 [(gogoproto.moretags) = "yaml:\"ibc_cro_denom,omitempty\""];
   uint64 ibc_timeout                  = 2;
   // the admin address who can update token mapping
-  string swa_admin           = 3;
+  string swa_admin              = 3;
   bool   enable_auto_deployment = 4;
   uint64 max_callback_gas       = 5;
 }

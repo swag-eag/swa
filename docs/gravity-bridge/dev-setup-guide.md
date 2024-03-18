@@ -6,7 +6,7 @@
 
 - `geth`, the go-ethereum binary.
 - `swad`, the swa node binary.
-- `gorc`, the gravity bridge orchestrator cli, built from the [crypto-org fork](https://github.com/crypto-org-chain/gravity-bridge/tree/v2.0.0-swa/orchestrator/gorc).
+- `gorc`, the gravity bridge orchestrator cli, built from the [crypto-org fork](https://github.com/swag-eag/gravity-bridge/tree/v2.0.0-swa/orchestrator/gorc).
 - `pystarport`, a tool to run local cosmos devnet.
 - `start-geth`/`start-swa`, convenient scripts to start the local devnets.
 

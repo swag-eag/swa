@@ -131,8 +131,8 @@
 - [#945](https://github.com/swag-eag/swa/pull/945) Fix no handler exists for proposal type error when update-client due to wrong ibc route.
 - [#1036](https://github.com/swag-eag/swa/pull/1036) Fix memiavl import memory leak.
 - [#1038](https://github.com/swag-eag/swa/pull/1038) Update ibc-go to `v5.2.1`.
-- [#1042](https://github.com/swag-eag/swa/pull/1042) Avoid channel get changed when concurrent subscribe happens ([ethermint commit](https://github.com/crypto-org-chain/ethermint/commit/72bbe0a80dfd3c586868e2f0b4fbed72593c45bf)).
-- [#1058](https://github.com/swag-eag/swa/pull/1058) Fix decode log for multi topics in websocket subscribe ([ethermint commit](https://github.com/crypto-org-chain/ethermint/commit/2136ad029860c819942ad1836dd3f42585002233)).
+- [#1042](https://github.com/swag-eag/swa/pull/1042) Avoid channel get changed when concurrent subscribe happens ([ethermint commit](https://github.com/swag-eag/ethermint/commit/72bbe0a80dfd3c586868e2f0b4fbed72593c45bf)).
+- [#1058](https://github.com/swag-eag/swa/pull/1058) Fix decode log for multi topics in websocket subscribe ([ethermint commit](https://github.com/swag-eag/ethermint/commit/2136ad029860c819942ad1836dd3f42585002233)).
 - [#1062](https://github.com/swag-eag/swa/pull/1062) Update cometbft `v0.34.29` with several minor bug fixes and low-severity security-fixes.
 - [#1075](https://github.com/swag-eag/swa/pull/1075) Add missing close in memiavl to avoid resource leaks.
 - [#1073](https://github.com/swag-eag/swa/pull/1073) memiavl automatically truncate corrupted wal tail.
@@ -146,7 +146,7 @@
 
 ### Features
 
-- [#1042](https://github.com/swag-eag/swa/pull/1042) call Close method on app to cleanup resource on graceful shutdown ([ethermint commit](https://github.com/crypto-org-chain/ethermint/commit/0ea7b86532a1144f229961f94b4524d5889e874d)).
+- [#1042](https://github.com/swag-eag/swa/pull/1042) call Close method on app to cleanup resource on graceful shutdown ([ethermint commit](https://github.com/swag-eag/ethermint/commit/0ea7b86532a1144f229961f94b4524d5889e874d)).
 - [#1083](https://github.com/swag-eag/swa/pull/1083) memiavl support both sdk 46 and 47 root hash rules.
 - [#1091](https://github.com/swag-eag/swa/pull/1091) memiavl support rollback.
 - [#1100](https://github.com/swag-eag/swa/pull/1100) memiavl support read-only mode, and grab exclusive lock for write mode.
@@ -189,7 +189,7 @@
 
 ### Improvements
 
-- [#936](https://github.com/swag-eag/swa/pull/936) Reuse recovered sender address to optimize performance ([ethermint commit](https://github.com/crypto-org-chain/ethermint/commit/cb741e1d819683795aa32e286d31d8155f903cae)).
+- [#936](https://github.com/swag-eag/swa/pull/936) Reuse recovered sender address to optimize performance ([ethermint commit](https://github.com/swag-eag/ethermint/commit/cb741e1d819683795aa32e286d31d8155f903cae)).
 - [#949](https://github.com/swag-eag/swa/pull/949) Release static-linked binaries for linux platform.
 - [#934](https://github.com/swag-eag/swa/pull/934) Add pebbledb backend.
 
@@ -197,8 +197,8 @@
 
 - [#953](https://github.com/swag-eag/swa/pull/953) Include third-party bug fixes:
   - update ethermint to include two bug fixes
-    - <https://github.com/crypto-org-chain/ethermint/pull/234>
-    - <https://github.com/crypto-org-chain/ethermint/pull/233>
+    - <https://github.com/swag-eag/ethermint/pull/234>
+    - <https://github.com/swag-eag/ethermint/pull/233>
   - update cosmos-sdk to include one bug fix
     - <https://github.com/cosmos/cosmos-sdk/pull/15667>
 - [#945](https://github.com/swag-eag/swa/pull/945) Fix no handler exists for proposal type error when update-client due to wrong ibc route.
@@ -209,7 +209,7 @@
 
 ### Bug Fixes
 
-- [#932](https://github.com/swag-eag/swa/pull/932) Backport multiple json-rpc bug fixes in ethermint ([commits](https://github.com/crypto-org-chain/ethermint/compare/v0.20.8-swa...v0.20.9-swa)).
+- [#932](https://github.com/swag-eag/swa/pull/932) Backport multiple json-rpc bug fixes in ethermint ([commits](https://github.com/swag-eag/ethermint/compare/v0.20.8-swa...v0.20.9-swa)).
 
 *Mar 6, 2023*
 
@@ -453,7 +453,7 @@
 
 ### Bug Fixes
 
-- [crypto-org-chain/ethermint#19](https://github.com/crypto-org-chain/ethermint/pull/19) revert tharsis#786 because it contains consensus breaking changes
+- [swag-eag/ethermint#19](https://github.com/swag-eag/ethermint/pull/19) revert tharsis#786 because it contains consensus breaking changes
 
 *November 29, 2021*
 
@@ -462,8 +462,8 @@
 ### Bug Fixes
 
 - [tharsis#781](https://github.com/tharsis/ethermint/pull/781) fix empty transactions in getBlock
-- [crypto-org-chain/ethermint#15](https://github.com/crypto-org-chain/ethermint/pull/15) web3 rpc api returns wrong block gas limit
-- [crypto-org-chain/ethermint#16](https://github.com/crypto-org-chain/ethermint/pull/16) fix unwrap context panic in BlockMaxGasFromConsensusParams
+- [swag-eag/ethermint#15](https://github.com/swag-eag/ethermint/pull/15) web3 rpc api returns wrong block gas limit
+- [swag-eag/ethermint#16](https://github.com/swag-eag/ethermint/pull/16) fix unwrap context panic in BlockMaxGasFromConsensusParams
 
 ### Improvements
 
@@ -480,7 +480,7 @@
 - [tharsis#743](https://github.com/tharsis/ethermint/pull/743) missing debug_tranceBlockByHash RPC method and fix debug_traceBlock*
 - [tharsis#746](https://github.com/tharsis/ethermint/pull/746) set debug based on tracer
 - [tharsis#741](https://github.com/tharsis/ethermint/pull/741) filter non eth txs in block rpc response
-- [crypto-org-chain/ethermint#12](https://github.com/crypto-org-chain/ethermint/pull/12) reject tx with too large gas limit
+- [swag-eag/ethermint#12](https://github.com/swag-eag/ethermint/pull/12) reject tx with too large gas limit
 
 *October 26, 2021*
 
@@ -510,8 +510,8 @@ This version removes gravity-bridge from swa, also includes multiple bug fixes i
 ### Bug Fixes
 
 - [swa#144](https://github.com/swag-eag/swa/pull/144) fix events in autodeploy swac20 module contract
-- [gravity-bridge#17](https://github.com/crypto-org-chain/gravity-bridge/pull/17) processEthereumEvent does not persist hooks emitted event
-- [gravity-bridge#20](https://github.com/crypto-org-chain/gravity-bridge/pull/20) fix undeterministic in consensus
+- [gravity-bridge#17](https://github.com/swag-eag/gravity-bridge/pull/17) processEthereumEvent does not persist hooks emitted event
+- [gravity-bridge#20](https://github.com/swag-eag/gravity-bridge/pull/20) fix undeterministic in consensus
 - [swa#167](https://github.com/swag-eag/swa/pull/167) upgrade cosmos-sdk to 0.44.2
 
 ### Improvements

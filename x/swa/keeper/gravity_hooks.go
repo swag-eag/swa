@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	swatypes "github.com/swag-eag/swa/v2/x/swa/types"
 	"github.com/ethereum/go-ethereum/common"
 	gravitytypes "github.com/peggyjv/gravity-bridge/module/v2/x/gravity/types"
+	swatypes "github.com/swag-eag/swa/v2/x/swa/types"
 )
 
 // TODO Implements GravityHooks interface
@@ -56,7 +56,7 @@ func (k Keeper) doAfterSendToCosmosEvent(ctx sdk.Context, event gravitytypes.Sen
 
 	_, denom := k.gravityKeeper.ERC20ToDenomLookup(ctx, common.HexToAddress(event.TokenContract))
 	coin := sdk.NewCoin(denom, event.Amount)
-	// TODO: Remove after event is emitted at Gravity module https://github.com/crypto-org-chain/gravity-bridge/pull/12
+	// TODO: Remove after event is emitted at Gravity module https://github.com/swag-eag/gravity-bridge/pull/12
 	coins := sdk.Coins{sdk.NewCoin(denom, event.Amount)}
 	ctx.EventManager().EmitEvent(sdk.NewEvent(
 		swatypes.EventTypeEthereumSendToCosmosHandled,

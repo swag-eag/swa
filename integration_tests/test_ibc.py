@@ -40,7 +40,7 @@ def test_ibc_incentivized_transfer(ibc):
 
 def test_swa_transfer_tokens(ibc):
     """
-    test sending basetcro from swa to crypto-org-chain using cli transfer_tokens.
+    test sending basetcro from swa to swag-eag using cli transfer_tokens.
     depends on `test_ibc` to send the original coins.
     """
     assert_ready(ibc)
@@ -76,7 +76,7 @@ def test_swa_transfer_tokens(ibc):
 
 def test_swa_transfer_tokens_acknowledgement_error(ibc):
     """
-    test sending basetcro from swa to crypto-org-chain using cli transfer_tokens
+    test sending basetcro from swa to swag-eag using cli transfer_tokens
     with invalid receiver for acknowledgement error.
     depends on `test_ibc` to send the original coins.
     """
@@ -108,7 +108,7 @@ def test_swa_transfer_tokens_acknowledgement_error(ibc):
 
 def test_cro_bridge_contract(ibc):
     """
-    test sending basetcro from swa to crypto-org-chain using CroBridge contract.
+    test sending basetcro from swa to swag-eag using CroBridge contract.
     depends on `test_ibc` to send the original coins.
     """
     dst_addr = ibc.chainmain.cosmos_cli().address("signer2")
@@ -142,7 +142,7 @@ def test_cro_bridge_contract(ibc):
 
 def test_swa_transfer_source_tokens(ibc):
     """
-    test sending swac20 tokens originated from swa to crypto-org-chain
+    test sending swac20 tokens originated from swa to swag-eag
     """
     assert_ready(ibc)
     swa_transfer_source_tokens(ibc)
@@ -150,7 +150,7 @@ def test_swa_transfer_source_tokens(ibc):
 
 def test_swa_transfer_source_tokens_with_proxy(ibc):
     """
-    test sending swac20 tokens originated from swa to crypto-org-chain
+    test sending swac20 tokens originated from swa to swag-eag
     """
     assert_ready(ibc)
     swa_transfer_source_tokens_with_proxy(ibc)

@@ -8,7 +8,7 @@ let
     };
   }).defaultNix;
   # v1.1.0-rc3
-  released = (fetchFlake "crypto-org-chain/swa" "b7b261a3652cdf3ee2e224e777a40ce6dbbb0da5").default;
+  released = (fetchFlake "swag-eag/swa" "b7b261a3652cdf3ee2e224e777a40ce6dbbb0da5").default;
   current = pkgs.callPackage ../../. { };
 in
 pkgs.linkFarm "upgrade-test-package" [

@@ -3,12 +3,12 @@
         "branch": "master",
         "description": "Crypto.org Chain⛓: Croeseid Testnet and beyond development",
         "homepage": "https://crypto.org",
-        "owner": "crypto-org-chain",
+        "owner": "swag-eag",
         "repo": "chain-main",
         "rev": "04e8e094b7d51a8cf92b74c789394b7b34987b10",
         "sha256": "1yqd2i8dwphjhdsvl3v7l8gvrjjl6i6pj4nq58lwcf3s6nhwy6d5",
         "type": "tarball",
-        "url": "https://github.com/crypto-org-chain/chain-main/archive/04e8e094b7d51a8cf92b74c789394b7b34987b10.tar.gz",
+        "url": "https://github.com/swag-eag/chain-main/archive/04e8e094b7d51a8cf92b74c789394b7b34987b10.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "cosmos-sdk": {
@@ -76,12 +76,12 @@
         "branch": "v2.0.0-swa",
         "description": "A CosmosSDK application for moving assets on and off of EVM based, POW chains",
         "homepage": "",
-        "owner": "crypto-org-chain",
+        "owner": "swag-eag",
         "repo": "gravity-bridge",
         "rev": "d984b1562242efab5d7595d4108472ed27eba06f",
         "sha256": "0q69yysg3ynq5wz98rvg1p8lav1xcrkkn32rxbqmpmffqqi7yv88",
         "type": "tarball",
-        "url": "https://github.com/crypto-org-chain/gravity-bridge/archive/d984b1562242efab5d7595d4108472ed27eba06f.tar.gz",
+        "url": "https://github.com/swag-eag/gravity-bridge/archive/d984b1562242efab5d7595d4108472ed27eba06f.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "ibc-rs": {
@@ -135,13 +135,13 @@
     "relayer": {
         "branch": "main",
         "description": "An IBC relayer for ibc-go",
-        "homepage": "https://github.com/crypto-org-chain/relayer",
-        "owner": "crypto-org-chain",
+        "homepage": "https://github.com/swag-eag/relayer",
+        "owner": "swag-eag",
         "repo": "relayer",
         "rev": "bd88a2cba9154450924837ecda915688ff8f9e04",
         "sha256": "106mf4mc2ag4a5d21lcqpsq7ixvq70097jglw862jz4g9lbxyv8f",
         "type": "tarball",
-        "url": "https://github.com/crypto-org-chain/relayer/archive/bd88a2cba9154450924837ecda915688ff8f9e04.tar.gz",
+        "url": "https://github.com/swag-eag/relayer/archive/bd88a2cba9154450924837ecda915688ff8f9e04.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

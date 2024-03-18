@@ -16,7 +16,7 @@ You can use a nodes as a service provider as discussed [here](https://ethereum.o
 
 ### Binaries
 
-- `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/crypto-org-chain/gravity-bridge/releases/tag/v2.0.0-swa-alpha0)
+- `gorc`, the gravity bridge orchestrator cli, build instructions can be found [here](gorc-build.md). Alternatively, you can download Linux x86_64 binary from [here](https://github.com/swag-eag/gravity-bridge/releases/tag/v2.0.0-swa-alpha0)
 
 - Above binaries setup in `PATH`.
 
@@ -56,7 +56,7 @@ The relayer is running now.
 To set up the Relayer as a service, you can run:
 
 ```bash
-bash <(curl -s -L https://raw.githubusercontent.com/crypto-org-chain/swa/main/docs/gravity-bridge/systemd/setup-gorc-service.sh) -t relayer
+bash <(curl -s -L https://raw.githubusercontent.com/swag-eag/swa/main/docs/gravity-bridge/systemd/setup-gorc-service.sh) -t relayer
 ```
 
 You will be prompted for your ethereum key name set up earlier. After the service is created, you can run:
@@ -94,10 +94,10 @@ Here are the deployed token mappings:
 ### Code
 
 1. SwaGravity :
-   - https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-swa-alpha0/solidity/contracts/SwaGravity.sol
+   - https://github.com/swag-eag/gravity-bridge/blob/v2.0.0-swa-alpha0/solidity/contracts/SwaGravity.sol
 
 2. Eth Gravity Wrapper :
-   -  https://github.com/crypto-org-chain/gravity-bridge/blob/v2.0.0-swa-alpha0/solidity/contracts/EthGravityWrapper.sol
+   -  https://github.com/swag-eag/gravity-bridge/blob/v2.0.0-swa-alpha0/solidity/contracts/EthGravityWrapper.sol
 
 3. CroBridge :
    - https://github.com/swag-eag/swa/blob/v0.8.0-gravity-alpha0/integration_tests/contracts/contracts/CroBridge.sol
