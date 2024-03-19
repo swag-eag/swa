@@ -47,7 +47,7 @@ import (
 	// this line is used by starport scaffolding # stargate/root/import
 )
 
-const EnvPrefix = "CRONOS"
+const EnvPrefix = "SWA"
 
 var ChainID string
 
